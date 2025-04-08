@@ -39,6 +39,7 @@ const Login = () => {
     */
   }
 
+  console.log("hola");
   console.log("email");
   console.log(email);
   console.log("validacion");
