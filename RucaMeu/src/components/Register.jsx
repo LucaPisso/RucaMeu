@@ -1,132 +1,77 @@
 import React, { useState } from "react";
 
 const Register = () => {
-  //ESTADOS
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [button, setButton] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    password: "",
+  });
 
-  //REGEX
-  const phoneRegex = /^[0-9]{9,12}$/;
-  const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-
-  //ESTADOS DE VALIDACIONES
-  const [nameValido, setNameValido] = useState(false);
-  const [lastNameValido, setLastNameValido] = useState(false);
-  const [phoneValido, setPhoneValido] = useState(false);
-  const [emailValido, setEmailValido] = useState(false);
-  const [passwordValido, setPasswordValido] = useState(false);
-
-  //HANDLERS
-
-  function nameHandler(event) {
-    setName(event.target.value);
-    if (name === "") {
-      setNameValido(false);
-    } else {
-      setNameValido(true);
-    }
+  function changeHandler(event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  function lastNameHandler(event) {
-    setLastName(event.target.value);
-    setName(event.target.value);
-    if (!lastName) {
-      setLastNameValido(false);
-    } else {
-      setLastNameValido(true);
-    }
-  }
-
-  function phoneHandler(event) {
-    setPhone(event.target.value);
-    if (!phoneRegex.test(phone)) {
-      setPhoneValido(false);
-    } else {
-      setPhoneValido(true);
-    }
-  }
-
-  function emailHandler(event) {
-    setEmail(event.target.value);
-    if (!emailRegex.test(email)) {
-      setEmailValido(false);
-    } else {
-      setEmailValido(true);
-    }
-  }
-
-  function passwordHandler(event) {
-    setPassword(event.target.value);
-    if (password === "") {
-      setPasswordValido(false);
-    } else if (password.length < 8) {
-      setPasswordValido(false);
-    } else {
-      setPasswordValido(true);
-    }
-  }
-
-  function buttonHandler(event) {
-    /*
-
-      //chequear que el email y la password existan y sean correctos en la base de datos
-      if () {
-        setButton(true);
-      }
-    setButton(false);
-    setPassword("");
-    setEmail("");
-    */
+  function submitHandler(event) {
     event.preventDefault();
-    if (
-      emailValido &&
-      passwordValido &&
-      phoneValido &&
-      nameValido &&
-      lastNameValido
-    ) {
-      console.log("Se envió la info");
-      //formulario.submit()
-    } else {
-      console.log("Error");
-    }
+    onSubmit(formData);
   }
 
   return (
     <div>
-      <form action="POST">
+      <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>
         <br />
-        <input type="text" name="name" onChange={nameHandler} />
+        <input
+          type="text"
+          name="name"
+          onChange={changeHandler}
+          value={formData.name}
+        />
         <br />
         <br />
         <label htmlFor="lastName">Apellido:</label>
         <br />
-        <input type="text" name="lastName" onChange={lastNameHandler} />
+        <input
+          type="text"
+          name="lastName"
+          onChange={changeHandler}
+          value={formData.lastName}
+        />
         <br />
         <br />
         <label htmlFor="phone">Teléfono:</label>
         <br />
-        <input type="text" name="phone" onChange={phoneHandler} />
+        <input
+          type="text"
+          name="phone"
+          onChange={changeHandler}
+          value={formData.phone}
+        />
         <br />
         <br />
         <label htmlFor="email">E-mail:</label>
         <br />
-        <input type="email" name="email" onChange={emailHandler} />
+        <input
+          type="email"
+          name="email"
+          onChange={changeHandler}
+          value={formData.email}
+        />
         <br />
         <br />
         <label htmlFor="password">Contraseña:</label>
         <br />
-        <input type="password" name="password" onChange={passwordHandler} />
+        <input
+          type="password"
+          name="password"
+          onChange={changeHandler}
+          value={formData.password}
+        />
         <br />
         <br />
-        <button type="submit" onClick={buttonHandler}>
-          Ingresar
-        </button>
+        <button type="submit">Registrar</button>
       </form>
     </div>
   );
