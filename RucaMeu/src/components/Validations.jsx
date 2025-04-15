@@ -3,16 +3,25 @@ import React from "react";
 const Validations = ({ datos }) => {
   const errores = {};
   //REGEXS
+  const fullNameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
   const phoneRegex = /^[0-9]{9,12}$/;
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
   if (!datos.name.trim()) {
     errores.name = "El nombre es obligatorio";
+  } else if (datos.name.trim().length < 3) {
+    errores.name = "El nombre debe tener minimo 3 letras";
+  } else if (!fullNameRegex.test(datos.name)) {
+    errores.name = "No se permiten caracteres especiales ni numeros";
   }
 
   if (!datos.lastName.trim()) {
-    errores.lastName = "El nombre es obligatorio";
+    errores.lastName = "El apellido es obligatorio";
+  } else if (datos.lastName.trim().length < 3) {
+    errores.lastName = "El apellido debe tener minimo 3 letras";
+  } else if (!fullNameRegex.test(datos.lastName)) {
+    errores.lastName = "No se permiten caracteres especiales ni numeros";
   }
 
   if (!datos.phone.trim()) {
