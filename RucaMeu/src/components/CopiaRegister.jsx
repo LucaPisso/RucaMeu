@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Register = () => {
+const CopiaRegister = () => {
   //ESTADOS
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -132,4 +132,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default CopiaRegister;
