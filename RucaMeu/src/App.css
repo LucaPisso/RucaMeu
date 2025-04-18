@@ -1,1 +1,82 @@
+/* Estilos generales */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0e4d7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #000; /* 🔥 Color negro para todo el texto */
+}
 
+/* Contenedor del formulario */
+.register-form {
+  background-color: transparent;
+  padding: 40px;
+  border-radius: 8px;
+  width: 350px;
+  text-align: center;
+  color: #000; /* Aseguramos el color de texto dentro del formulario */
+  margin-top: 50px;
+}
+
+/* Título */
+.register-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+/* Etiquetas */
+.register-form label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: left;
+  color: #000;
+}
+
+/* Inputs */
+.register-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #000; /* 👀 Texto negro dentro del input */
+}
+
+/* Botón */
+.register-button {
+  background-color: #815a34;
+  color: white;
+  border: none;
+  padding: 14px;
+  width: 107%;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: lowercase;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #6c4529;
+}
+
+/* Errores */
+.register-form p {
+  position: absolute;
+  color: red;
+  font-size: 17px;
+}
+
+/* Elimina el fondo gris del autocompletado */
+.register-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+}
