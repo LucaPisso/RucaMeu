@@ -13,10 +13,9 @@ function App() {
   const passwordRef = useRef(null);
 
   const checkErrors = (formData) => {
-    const errors = Validations({ datos: formData }); //probar sacando datos:
+    const errors = Validations({ datos: formData });
 
     if (Object.keys(errors).length > 0) {
-      //probar errors.length o error.keys.length
       if (errors.name && nameRef.current) {
         nameRef.current.focus();
       } else if (errors.lastName && lastNameRef.current) {
@@ -49,36 +48,3 @@ function App() {
 }
 
 export default App;
-
-// const [errors, setErrors] = useState({});
-// const manejarEnvio = (FormData) => {
-//   const errores = Validations({ datos: FormData });
-
-//   if (Object.keys(errores).length > 0) {
-//     if (errores.name && nameRef.current) {
-//       nameRef.current.focus();
-//     } else if (errores.email && emailRef.current) {
-//       emailRef.current.focus();
-//     } else if (errores.password && passwordRef.current) {
-//       passwordRef.current.focus();
-//     }
-
-//     setErrors(errors);
-//   } else {
-//     alert("Formulario enviado con éxito");
-//     setErrors({});
-//   }
-// };
-
-// return (
-//   <>
-//     <div>
-//       <h1>Formuario</h1>
-//       <Register
-//         onSubmit={manejarEnvio}
-//         errores={errors}
-//         refs={{ nameRef, emailRef, passwordRef }}
-//       />
-//     </div>
-//   </>
-// );

@@ -20,7 +20,7 @@ const Register = ({ submit, errors, refs }) => {
 
   return (
     <div className="register-form">
-      <h2 className="register-title">Formulario de Registro</h2>
+      <h2 className="register-title">Crea una nueva cuenta</h2>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>
         <br />
@@ -28,6 +28,7 @@ const Register = ({ submit, errors, refs }) => {
           className="register-input"
           type="text"
           name="name"
+          placeholder="Nombre"
           onChange={changeHandler}
           value={formData.name}
           ref={refs.nameRef}
@@ -41,6 +42,7 @@ const Register = ({ submit, errors, refs }) => {
           className="register-input"
           type="text"
           name="lastName"
+          placeholder="Apellido"
           onChange={changeHandler}
           value={formData.lastName}
           ref={refs.lastNameRef}
@@ -54,6 +56,7 @@ const Register = ({ submit, errors, refs }) => {
           className="register-input"
           type="text"
           name="phone"
+          placeholder="Número de teléfono"
           onChange={changeHandler}
           value={formData.phone}
           ref={refs.phoneRef}
@@ -67,6 +70,7 @@ const Register = ({ submit, errors, refs }) => {
           className="register-input"
           type="email"
           name="email"
+          placeholder="tuemail@ejemplo.com"
           onChange={changeHandler}
           value={formData.email}
           ref={refs.emailRef}
