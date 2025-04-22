@@ -2,18 +2,19 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0e4d7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
   color: #000;
+  margin: 0;
 }
 
 /* Contenedor del formulario */
 .register-form {
+  display: flex;
+  flex-direction: column;
   background-color: transparent;
   padding: 40px;
   border-radius: 8px;
+  justify-content: center;
+  align-items: center;
   width: 350px;
   text-align: center;
   color: #000;
