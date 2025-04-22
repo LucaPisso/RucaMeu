@@ -1,0 +1,39 @@
+.navbar {
+  background-color: #a0a381; /* Verde grisáceo */
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-family: "Georgia", serif;
+  gap: 26rem;
+}
+
+.navbar .logo {
+  font-size: 1.8rem;
+  color: #ffffff;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.navbar .menu {
+  font-size: 1.8rem;
+  display: flex;
+  gap: 7rem;
+}
+
+.navbar .menu a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+}
+
+.navbar .menu a.active {
+  text-decoration: underline;
+}
+
+.navbar .menu a:hover {
+  color: #ffffff;
+}
