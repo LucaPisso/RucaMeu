@@ -1,13 +1,18 @@
 import React from "react";
-import imagen1 from "../assets/fanal-gris.jpg";
+import imagen1 from "../assets/fanal-madera.jpg";
 
 const Card = () => {
   return (
-    <div>
-      <img src={imagen1} alt="imagen" style={{ height: "200px" }} />
-      <h3>Nombre</h3>
-      <p>precio</p>
-      <button>Agregar al carrito</button>
+    <div className="card" style={{ width: "18rem" }}>
+      <img src={imagen1} className="card-img-top img-card" alt="imagen" />
+      {/*img-card esta en app.css, pude sobreescribir la de bootstrap*/}
+      <div className="card-body">
+        <h5 className="card-title">Card title</h5>
+        <p className="card-text">Precio</p>
+        <a href="#" className="btn">
+          Comprar
+        </a>
+      </div>
     </div>
   );
 };

@@ -89,3 +89,23 @@ body {
   box-shadow: 0 0 0px 1000px white inset !important;
   -webkit-text-fill-color: #000 !important;
 }
+
+/* Card */
+.img-card {
+  height: 200px;
+  width: 100%;
+}
+
+/* botones en genereal (clase de bootstrap sobrescrita)*/
+.btn {
+  background-color: #815a34;
+  border-color: #815a34;
+  color: white;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-color: #6c4529;
+  border-color: #6c4529;
+  color: white;
+}

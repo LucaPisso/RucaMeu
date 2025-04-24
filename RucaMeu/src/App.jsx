@@ -8,14 +8,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <>
+    <div>
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         {/* <Route path="/login" element={<LoginPage />} /> */}
       </Routes>
-    </>
+    </div>
   );
 }
 
