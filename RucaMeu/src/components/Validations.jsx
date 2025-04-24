@@ -42,6 +42,12 @@ const Validations = ({ datos }) => {
     errores.password = "Mínimo 8 caracteres, incluyendo letras y números";
   }
 
+  if (!datos.confirmPassword.trim()) {
+    errores.confirmPassword = "Este campo es obligatorio";
+  } else if (datos.password !== datos.confirmPassword) {
+    errores.confirmPassword = "Las contraseñas no coinciden";
+  }
+
   return errores;
 };
 
