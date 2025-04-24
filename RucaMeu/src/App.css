@@ -96,16 +96,22 @@ body {
   width: 100%;
 }
 
-/* botones en genereal (clase de bootstrap sobrescrita)*/
+/* botones en genereal (clase de bootstrap sobrescrita, los !important son por las dudas no se sobrescriba)*/
 .btn {
-  background-color: #815a34;
-  border-color: #815a34;
-  color: white;
-  font-weight: bold;
+  background-color: #815a34 !important;
+  border-color: #815a34 !important;
+  color: white !important;
+  font-weight: bold !important;
 }
 
 .btn:hover {
-  background-color: #6c4529;
-  border-color: #6c4529;
-  color: white;
+  background-color: #6c4529 !important;
+  border-color: #6c4529 !important;
+  color: white !important;
+}
+
+.btn:active {
+  background-color: #a0a381 !important;
+  border-color: #a0a381 !important;
+  color: #6c4529 !important;
 }
