@@ -11,7 +11,7 @@ const app = express();
 
 try {
   app.listen(PORT);
-  app.use(express.json());
+  app.use(express.json()); //línea agregada de ChatGPT
   app.use(productRoutes);
   app.use(userRoutes);
   await sequelize.sync();
