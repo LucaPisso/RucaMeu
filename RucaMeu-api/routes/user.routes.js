@@ -19,15 +19,8 @@ router.get("/users/:id", async (req, res) => {
 });
 
 router.post("/users", async (req, res) => {
-  const newUser = req.body;
-  await User.create({
-    name: newUser.name,
-    lastName: newUser.lastName,
-    phone: newUser.phone,
-    email: newUser.email,
-    password: newUser.password,
-  });
-  res.send(`Usuario creado: ${newUser.name}`);
+  await User.create(req.body); // req.body = { name:"value", lastName:"value", ...}
+  res.status(200).json(`Usuario creado: ${req.body.name}`);
 });
 
 router.put("/users/:id", async (req, res) => {
@@ -38,8 +31,8 @@ router.put("/users/:id", async (req, res) => {
     return res.status(404).json({ error: "Usuario no encontrado" });
   }
 
-  //Modificar los datos del usuario.
-  res.send(`Actualizando usuario con id: ${id}`);
+  await user.update(req.body);
+  res.status(200).json(`Actualizando usuario con id: ${id}`);
 });
 
 router.delete("/users/:id", async (req, res) => {

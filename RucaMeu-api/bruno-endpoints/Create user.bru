@@ -1,0 +1,21 @@
+meta {
+  name: Create user
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Esteban",
+    "lastName": "Quito",
+    "phone": "3412707429",
+    "email": "ssasd@gmail.com",
+    "password": "123asddsds"
+  }
+}
