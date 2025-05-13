@@ -1,0 +1,21 @@
+meta {
+  name: Update user by id
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:3000/users/2
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Lucas",
+    "lastName": "Quito",
+    "phone": "3412707429",
+    "email": "ssasd@gmail.com",
+    "password": "123asddsds"
+  }
+}
