@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
+import { UserRoles } from "../enums/enums.js";
 
 export const User = sequelize.define(
   "user",
@@ -28,6 +29,11 @@ export const User = sequelize.define(
     password: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    role: {
+      type: DataTypes.ENUM(Object.values(UserRoles)),
+      allowNull: false,
+      defaultValue: UserRoles.USER,
     },
   },
   { timestamps: false }

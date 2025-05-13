@@ -14,10 +14,36 @@ const Register = ({ submit, errors, refs }) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  function submitHandler(event) {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    submit(formData);
-  }
+
+    const isValid = submit(formData);
+    if (isValid) {
+      console.warn("Formulario inválido. No se enviará.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Falló crear usuario");
+      await res.json();
+      setFormData({
+        name: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="register-form">
