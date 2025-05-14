@@ -5,6 +5,7 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  loginUser,
 } from "../services/user.services.js";
 
 const router = Router();
@@ -18,5 +19,7 @@ router.post("/users", createUser);
 router.put("/users/:id", updateUser);
 
 router.delete("/users/:id", deleteUser);
+
+router.post("/login", loginUser);
 
 export default router;

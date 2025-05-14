@@ -2,7 +2,6 @@ import Register from "../components/Register";
 import Validations from "../components/Validations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import "../App.css";
 
 function RegisterPage() {
   //ESTADOS Y USEREF

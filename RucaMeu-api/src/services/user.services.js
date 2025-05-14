@@ -43,3 +43,33 @@ export const deleteUser = async (req, res) => {
     res.json({ message: `Usuario con id ${id} eliminado correctamente.` });
   }
 };
+
+export const loginUser = async (req, res) => {
+  // Extrae email y password del body de la request
+  const { email, password } = req.body;
+
+  // Busca el usuario por email
+  const user = await User.findOne({
+    where: { email },
+  });
+
+  // Si no existe, devuelve error 401 (No autorizado)
+  if (!user) return res.status(401).send({ message: "Usuario no existente" });
+
+  // Compara la contraseña ingresada con el hash almacenado
+  const comparison = await bcrypt.compare(password, user.password);
+
+  // Si no coinciden, devuelve error 401
+  if (!comparison)
+    return res.status(401).send({ message: "Email y/o contraseña incorrecta" });
+
+  // Clave secreta para firmar el token (debería estar en variables de entorno)
+  const secretKey = "RucaMeu-2025";
+
+  // Genera un token JWT que expira en 1 hora
+  const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
+
+  // Devuelve el token al cliente
+  console.log(token);
+  return res.json(token);
+};
