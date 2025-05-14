@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-const Login = () => {
+const Login = (setIsLogged) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [button, setButton] = useState(false);
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const [emailValido, setEmailValido] = useState(true);
   const [passwordValido, setPasswordValido] = useState(true);
@@ -27,27 +26,34 @@ const Login = () => {
   }
 
   function buttonHandler(event) {
-    /*
     event.preventDefault();
-      //chequear que el email y la password existan y sean correctos en la base de datos
-      if () {
-        setButton(true);
-      }
-    setButton(false);
-    setPassword("");
-    setEmail("");
-    */
-  }
 
-  console.log("hola");
-  console.log("email");
-  console.log(email);
-  console.log("validacion");
-  console.log(emailValido);
-  console.log("contraseña");
-  console.log(password);
-  console.log("boton");
-  console.log(button);
+    if (emailValido && passwordValido) {
+      fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          //"Authorization": `Bearer ${localStorage.getItem("RucaMeu-token")}`
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then((token) => {
+          localStorage.setItem("RucaMeu-token", token);
+          //successToast("Inicio de sesión exitoso.");
+          setIsLogged(true);
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          //errorToast("Error al iniciar sesión.");
+          return;
+        });
+
+      setPassword("");
+      setEmail("");
+    }
+  }
 
   return (
     <div>
