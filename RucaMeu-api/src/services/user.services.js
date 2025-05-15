@@ -16,7 +16,29 @@ export const getUserById = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  await User.create(req.body); // req.body = { name:"value", lastName:"value", ...}
+  //Comprobamos si el usuario ya existe por el email
+  const { email } = req.body;
+  const user = await User.findOne({
+    where: {
+      email,
+      //email: req.body.email es lo mismo
+    },
+  });
+  if (user) {
+    return res.status(400).send({ message: "Usuario existente" });
+  }
+
+  //Hasheamos el password
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  //y creamos el nuevo usuario y llo insertamos
+  const newUser = await User.create({
+    ...req.body, // req.body = { name:"value", lastName:"value", ...}
+    password: hashedPassword,
+  });
+
+  //res.json(newUser.id);
   res.status(200).json(`Usuario creado: ${req.body.name}`);
 };
 
