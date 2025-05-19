@@ -17,7 +17,7 @@ export const getUserById = async (req, res) => {
 
 export const createUser = async (req, res) => {
   //Comprobamos si el usuario ya existe por el email
-  const { email } = req.body;
+  const { email } = req.body; //es mejor desglosarlo todo porque confirmPassword no es necesario y en ciertos ORM lo incluiría en la tabla. No en sequelize
   const user = await User.findOne({
     where: {
       email,
@@ -32,7 +32,7 @@ export const createUser = async (req, res) => {
   const saltRounds = 10;
   const salt = await bcrypt.genSalt(saltRounds);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
-  //y creamos el nuevo usuario y llo insertamos
+  //y creamos el nuevo usuario y lo insertamos
   const newUser = await User.create({
     ...req.body, // req.body = { name:"value", lastName:"value", ...}
     password: hashedPassword,
