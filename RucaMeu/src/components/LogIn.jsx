@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Login = (setIsLogged) => {
+const Login = (setIsLogged, submit, errors, refs) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
@@ -25,35 +25,40 @@ const Login = (setIsLogged) => {
     }
   }
 
-  function buttonHandler(event) {
+  const buttonHandler = async (event) => {
     event.preventDefault();
 
-    if (emailValido && passwordValido) {
-      fetch("http://localhost:3000/login", {
+    if (!emailValido || !passwordValido) return;
+
+    try {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          //"Authorization": `Bearer ${localStorage.getItem("RucaMeu-token")}`
         },
         body: JSON.stringify({ email, password }),
-      })
-        .then((res) => res.json())
-        .then((token) => {
-          localStorage.setItem("RucaMeu-token", token);
-          //successToast("Inicio de sesión exitoso.");
-          setIsLogged(true);
-          navigate("/");
-        })
-        .catch((err) => {
-          console.log(err);
-          //errorToast("Error al iniciar sesión.");
-          return;
-        });
+      });
 
-      setPassword("");
-      setEmail("");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error desconocido");
+      }
+
+      // Guardar el token en localStorage
+      localStorage.setItem("RucaMeu-token", data.token);
+
+      // Guardar estado de login y redirigir
+      setIsLogged(true);
+      navigate("/");
+    } catch (err) {
+      console.error("❌ Error de login:", err.message);
+      alert("Error: " + err.message);
     }
-  }
+
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <div>

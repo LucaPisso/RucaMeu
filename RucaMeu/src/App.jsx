@@ -2,7 +2,8 @@
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
-import "../App.css";
+import LoginPage from "./pages/LoginPage";
+import "./App.css";
 
 //HOOKS
 import { Routes, Route } from "react-router-dom";

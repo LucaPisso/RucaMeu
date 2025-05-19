@@ -31,7 +31,9 @@ const Register = ({ submit, errors, refs }) => {
       });
 
       if (!res.ok) throw new Error("Falló crear usuario");
-      await res.json();
+      const data = await res.json();
+      console.log(data);
+
       setFormData({
         name: "",
         lastName: "",
