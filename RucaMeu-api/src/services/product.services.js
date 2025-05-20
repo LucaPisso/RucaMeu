@@ -19,10 +19,12 @@ export const getByID = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   if (!req.body.name || !req.body.price) {
-    return res.status(400).send({ message: "Nombre y precio son requeridos" });
+    return res
+      .status(400)
+      .json({ succes: false, message: "Nombre y precio son requeridos" });
   }
   const newProduct = await Product.create(req.body);
-  res.json(newProduct);
+  res.json({ data: newProduct });
 };
 
 export const updateProduct = async (req, res) => {

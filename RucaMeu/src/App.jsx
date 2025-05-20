@@ -3,6 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import LoginPage from "./pages/LoginPage";
+import AddProductPage from "./pages/AddProductPage";
 import "./App.css";
 
 //HOOKS
@@ -21,6 +22,7 @@ function App() {
           path="/login"
           element={<LoginPage setIsLogged={setIsLogged} />}
         />
+        <Route path="/addProduct" element={<AddProductPage />} />
       </Routes>
     </div>
   );
