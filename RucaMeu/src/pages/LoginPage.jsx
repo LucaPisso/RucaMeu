@@ -3,7 +3,7 @@ import Validations from "../components/Validations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-function LoginPage() {
+function LoginPage(setIsLogged) {
   //ESTADOS Y USEREF
   const [errors, setErrors] = useState({});
   const emailRef = useRef(null);
@@ -28,6 +28,7 @@ function LoginPage() {
   return (
     <>
       <Login
+        setIsLogged={setIsLogged}
         submit={checkErrors}
         errors={errors}
         refs={{
@@ -39,4 +40,4 @@ function LoginPage() {
   );
 }
 
-export default RegisterPage;
+export default LoginPage;

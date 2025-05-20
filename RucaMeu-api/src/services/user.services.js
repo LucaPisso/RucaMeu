@@ -1,8 +1,10 @@
 import { User } from "../models/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
   const users = await User.findAll();
-  res.json(users);
+  res.json({ succes: true, data: users });
 };
 
 export const getUserById = async (req, res) => {
@@ -10,9 +12,11 @@ export const getUserById = async (req, res) => {
   const user = await User.findByPk(id);
 
   if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado" });
+    return res
+      .status(404)
+      .json({ succes: false, message: "Usuario no encontrado" });
   }
-  res.json(user);
+  res.json({ succes: true, data: user });
 };
 
 export const createUser = async (req, res) => {
@@ -25,7 +29,9 @@ export const createUser = async (req, res) => {
     },
   });
   if (user) {
-    return res.status(400).send({ message: "Usuario existente" });
+    return res
+      .status(400)
+      .send({ succes: false, message: "Usuario existente" });
   }
 
   //Hasheamos el password
@@ -39,7 +45,9 @@ export const createUser = async (req, res) => {
   });
 
   //res.json(newUser.id);
-  res.status(200).json(`Usuario creado: ${req.body.name}`);
+  res
+    .status(200)
+    .json({ succes: true, message: `Usuario creado: ${req.body.name}` });
 };
 
 export const updateUser = async (req, res) => {
@@ -47,10 +55,14 @@ export const updateUser = async (req, res) => {
   const user = await User.findByPk(id);
 
   if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado" });
+    return res
+      .status(404)
+      .json({ succes: false, message: "Usuario no encontrado" });
   } else {
     await User.update(req.body, { where: { id } });
-    res.status(200).json("Datos modificados correctamente.");
+    res
+      .status(200)
+      .json({ succes: true, message: "Datos modificados correctamente." });
   }
 };
 
@@ -59,10 +71,46 @@ export const deleteUser = async (req, res) => {
   const user = await User.findByPk(id);
 
   if (!user) {
-    return res.status(404).json({ error: "Usuario no encontrado." });
+    return res
+      .status(404)
+      .json({ succes: false, message: "Usuario no encontrado." });
   } else {
     await user.destroy();
-    res.json({ message: `Usuario con id ${id} eliminado correctamente.` });
+    res.json({
+      succes: true,
+      message: `Usuario con id ${id} eliminado correctamente.`,
+    });
+  }
+};
+
+export const verifyToken = (req, res, next) => {
+  // Obtiene el valor del header "Authorization" de la solicitud (si no existe, usa cadena vacía)
+  const header = req.header("Authorization") || "";
+
+  // Extrae el token desde el header
+  const token = header.split(" ")[1];
+
+  // Si no hay token, devuelve error 401 (no autorizado)
+  if (!token) {
+    return res
+      .status(401)
+      .json({ succes: false, message: "No posee autorización requerida" });
+  }
+
+  try {
+    // Verifica que el token sea válido usando la clave secreta
+    const payload = jwt.verify(token, "RucaMeu-2025");
+
+    // Si el token es válido, se puede acceder a su contenido (payload)
+    console.log(payload);
+
+    // Llama al siguiente middleware o controlador en la cadena
+    next();
+  } catch (error) {
+    // Si el token no es válido o ha expirado, devuelve error 403 (prohibido)
+    return res
+      .status(403)
+      .json({ succes: false, message: "No posee permisos correctos" });
   }
 };
 
@@ -76,14 +124,19 @@ export const loginUser = async (req, res) => {
   });
 
   // Si no existe, devuelve error 401 (No autorizado)
-  if (!user) return res.status(401).send({ message: "Usuario no existente" });
+  if (!user)
+    return res
+      .status(401)
+      .json({ succes: false, message: "Usuario no existente" });
 
   // Compara la contraseña ingresada con el hash almacenado
   const comparison = await bcrypt.compare(password, user.password);
 
   // Si no coinciden, devuelve error 401
   if (!comparison)
-    return res.status(401).send({ message: "Email y/o contraseña incorrecta" });
+    return res
+      .status(401)
+      .json({ succes: false, message: "Email y/o contraseña incorrecta" });
 
   // Clave secreta para firmar el token (debería estar en variables de entorno)
   const secretKey = "RucaMeu-2025";
@@ -93,5 +146,14 @@ export const loginUser = async (req, res) => {
 
   // Devuelve el token al cliente
   console.log(token);
-  return res.json(token);
+  return res.json({
+    succes: true,
+    message: "Login exitoso",
+    token,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    },
+  });
 };
