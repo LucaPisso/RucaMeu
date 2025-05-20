@@ -129,11 +129,14 @@ export const loginUser = async (req, res) => {
       .status(401)
       .json({ succes: false, message: "Usuario no existente" });
 
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hashedPassword = await bcrypt.hash(password, salt);
   // Compara la contraseña ingresada con el hash almacenado
-  const comparison = await bcrypt.compare(password, user.password);
+  // const comparison = await bcrypt.compare(hashedPassword, user.password);
 
   // Si no coinciden, devuelve error 401
-  if (!comparison)
+  if (!hashedPassword === user.password)
     return res
       .status(401)
       .json({ succes: false, message: "Email y/o contraseña incorrecta" });

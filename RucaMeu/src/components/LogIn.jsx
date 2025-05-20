@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 const Login = (setIsLogged, submit, errors, refs) => {
   const [email, setEmail] = useState("");
@@ -6,6 +7,8 @@ const Login = (setIsLogged, submit, errors, refs) => {
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const [emailValido, setEmailValido] = useState(true);
   const [passwordValido, setPasswordValido] = useState(true);
+
+  const navigate = useNavigate();
 
   function emailHandler(event) {
     setEmail(event.target.value);
@@ -47,9 +50,10 @@ const Login = (setIsLogged, submit, errors, refs) => {
 
       // Guardar el token en localStorage
       localStorage.setItem("RucaMeu-token", data.token);
+      console.log(localStorage);
 
       // Guardar estado de login y redirigir
-      setIsLogged(true);
+      //setIsLogged(true);
       navigate("/");
     } catch (err) {
       console.error("❌ Error de login:", err.message);
