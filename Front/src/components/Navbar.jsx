@@ -1,5 +1,5 @@
 import React from "react";
-import "./NavBar.css";
+import "./Navbar.css";
 import imagen1 from "../assets/fanal-gris.jpg";
 import { Link } from "react-router-dom";
 
