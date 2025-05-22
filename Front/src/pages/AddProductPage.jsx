@@ -1,4 +1,4 @@
-// import AddProduct from "../components/AddProduct";
+import AddProduct from "../components/AddProduct";
 import Validations from "../components/Validations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
@@ -36,7 +36,7 @@ function AddProductPage() {
   };
   return (
     <>
-      <Register
+      <AddProduct
         submit={checkErrors}
         errors={errors}
         refs={{

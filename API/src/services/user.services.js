@@ -160,3 +160,32 @@ export const loginUser = async (req, res) => {
     },
   });
 };
+
+export const makeUserAdmin = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.params;
+
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ succes: false, message: "Usuario no encontrado" });
+    }
+
+    user.role = "admin";
+    await user.save();
+
+    res.json({
+      succes: true,
+      message: `${name} con ID ${id} ahora es administrador.`,
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ succes: false, message: "Error al asignar rol de admin." });
+  }
+};

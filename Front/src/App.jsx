@@ -10,6 +10,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Protected from "./components/Protected";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
   const [user, setUser] = useState({
@@ -30,6 +31,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route element={<Protected user={user} allowedRoles={["user"]} />}>
+          <Route path="/products" element={<ProductsPage />} />
+
           {/* Rutas sólo user */}
         </Route>
         <Route element={<Protected user={user} allowedRoles={["admin"]} />}>
