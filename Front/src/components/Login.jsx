@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
-const Login = ({setIsLogged, submit, errors, refs}) => {
+const Login = ({ setUser, submit, errors, refs }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
@@ -53,7 +53,7 @@ const Login = ({setIsLogged, submit, errors, refs}) => {
       console.log(localStorage);
 
       // Guardar estado de login y redirigir
-      setIsLogged(true);
+      //setUser();
       navigate("/");
     } catch (err) {
       console.error("❌ Error de login:", err.message);
