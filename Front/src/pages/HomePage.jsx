@@ -1,12 +1,17 @@
 import React from "react";
 import Card from "../components/Card";
 
-const HomePage = () => {
+const HomePage = ({ user, allowedRoles }) => {
   return (
-    <div>
+    <>
       HomePage
       <Card />
-    </div>
+      {user?.role === "admin" && (
+        <button onClick={() => console.log("Agregar producto")}>
+          ➕ Agregar producto
+        </button>
+      )}
+    </>
   );
 };
 
