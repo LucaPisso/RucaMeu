@@ -13,15 +13,6 @@ import Protected from "./components/Protected";
 import ProductsPage from "./pages/ProductsPage";
 
 function App() {
-  const [user, setUser] = useState({
-    id: "",
-    name: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    role: "",
-  });
-
   return (
     <>
       <NavBar />
@@ -29,13 +20,13 @@ function App() {
         {/* Rutas comunes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage setUser={setUser} />} />
-        <Route element={<Protected user={user} allowedRoles={["user"]} />}>
-          <Route path="/products" element={<ProductsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/products" element={<ProductsPage />} />
 
+        <Route element={<Protected allowedRoles={["user", "admin"]} />}>
           {/* Rutas sólo user */}
         </Route>
-        <Route element={<Protected user={user} allowedRoles={["admin"]} />}>
+        <Route element={<Protected allowedRoles={["admin"]} />}>
           {/* Rutas sólo admin */}
           <Route path="/addProduct" element={<AddProductPage />} />
         </Route>

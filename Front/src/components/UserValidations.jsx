@@ -1,6 +1,6 @@
 import React from "react";
 
-const Validations = ({ datos }) => {
+const UserValidations = ({ datos }) => {
   const errores = {};
   //REGEXS
   const fullNameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
@@ -51,4 +51,4 @@ const Validations = ({ datos }) => {
   return errores;
 };
 
-export default Validations;
+export default UserValidations;

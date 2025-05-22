@@ -1,7 +1,8 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router";
 
-const Protected = ({ user, allowedRoles }) => {
+const Protected = ({ allowedRoles }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
     {
       alert("Es necesario iniciar sesión primero.");

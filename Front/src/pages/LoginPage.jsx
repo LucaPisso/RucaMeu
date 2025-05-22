@@ -1,9 +1,9 @@
 import Login from "../components/Login";
-import Validations from "../components/Validations";
+import UserValidations from "../components/UserValidations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-function LoginPage(setIsLogged) {
+function LoginPage() {
   //ESTADOS Y USEREF
   const [errors, setErrors] = useState({});
   const emailRef = useRef(null);
@@ -11,7 +11,7 @@ function LoginPage(setIsLogged) {
   const navigate = useNavigate();
 
   const checkErrors = (formData) => {
-    const errors = Validations({ datos: formData });
+    const errors = UserValidations({ datos: formData });
 
     if (Object.keys(errors).length > 0) {
       if (errors.email && emailRef.current) {
@@ -28,7 +28,6 @@ function LoginPage(setIsLogged) {
   return (
     <>
       <Login
-        setIsLogged={setIsLogged}
         submit={checkErrors}
         errors={errors}
         refs={{

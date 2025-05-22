@@ -69,7 +69,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
     <div className="register-form">
       <h2 className="register-title">Añade un Nuevo Producto</h2>
       <form onSubmit={submitHandler} action="POST">
-        <label htmlFor="name">Imagen</label>
+        <label htmlFor="imageUrl">Imagen</label>
 
         <input
           className="register-input"
