@@ -1,5 +1,5 @@
 import AddProduct from "../components/AddProduct";
-import Validations from "../components/Validations";
+import ProductValidations from "../components/ProductValidations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -13,7 +13,7 @@ function AddProductPage() {
   const navigate = useNavigate();
 
   const checkErrors = (formData) => {
-    const errors = Validations({ datos: formData });
+    const errors = ProductValidations({ datos: formData });
 
     if (Object.keys(errors).length > 0) {
       if (errors.name && nameRef.current) {
