@@ -11,6 +11,7 @@ export const Product = sequelize.define(
     },
     imageUrl: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -21,6 +22,10 @@ export const Product = sequelize.define(
     },
     price: {
       type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    categories: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     stock: {
