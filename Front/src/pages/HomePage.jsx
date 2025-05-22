@@ -6,11 +6,6 @@ const HomePage = ({ user, allowedRoles }) => {
     <>
       HomePage
       <Card />
-      {user?.role === "admin" && (
-        <button onClick={() => console.log("Agregar producto")}>
-          ➕ Agregar producto
-        </button>
-      )}
     </>
   );
 };

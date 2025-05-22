@@ -1,7 +1,7 @@
 import { Product } from "../models/Product.js";
 
 export const getAllProducts = async (req, res) => {
-  const products = await Book.findAll();
+  const products = await Product.findAll();
   if (!products) {
     return res.status(404).send({ message: "No se encontraron productos" });
   }

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import React, { useState } from "react";
 
 export const AddProduct = ({ submit, errors, refs }) => {
   const [formData, setFormData] = useState({
@@ -142,3 +143,5 @@ export const AddProduct = ({ submit, errors, refs }) => {
     </div>
   );
 };
+
+export default AddProduct;
