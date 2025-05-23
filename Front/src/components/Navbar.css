@@ -1,39 +1,76 @@
+/* Contenedor del navbar */
 .navbar {
-  background-color: #a0a381; /* Verde grisáceo */
-  padding: 1rem 2rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-around;
+  background-color: #8c8e6d; /* Color de fondo según la imagen */
+  padding: 0.5rem 2rem;
+  font-family: "Segoe UI", sans-serif;
   flex-wrap: wrap;
-  font-family: "Georgia", serif;
-  gap: 26rem;
 }
 
-.navbar .logo {
-  font-size: 1.8rem;
-  color: #ffffff;
-  font-weight: bold;
-  letter-spacing: 2px;
+/* Logo */
+.logo img {
+  height: auto;
+  max-height: 100px;
+  width: auto;
 }
 
-.navbar .menu {
-  font-size: 1.8rem;
+/* Contenedor del menú */
+.menu {
   display: flex;
-  gap: 7rem;
+  gap: 2rem;
 }
 
-.navbar .menu a {
-  color: #000;
+/* Enlaces */
+.link-navbar {
   text-decoration: none;
+  color: black;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  transition: color 0.2s ease;
+}
+
+.link-navbar p {
+  margin: 0;
+  padding: 10px;
+  font-weight: normal;
+}
+
+.link-navbar:hover p {
   font-weight: bold;
-  font-size: 1rem;
-  position: relative;
+  font-size: 1.22rem;
+  color: #333;
 }
 
-.navbar .menu a:active {
-  text-decoration: underline;
+/* Activo (puedes aplicarlo dinámicamente con React Router) */
+.link-navbar.active p {
+  font-weight: bold;
 }
 
-.navbar .menu a:hover {
-  color: #ffffff;
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo img {
+    max-height: 50px;
+  }
 }

@@ -7,72 +7,62 @@ body {
 }
 
 /* Contenedor del formulario */
+/* Estilos generales del contenedor */
 .register-form {
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  padding: 40px;
+  max-width: 50%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f0e3d3;
   border-radius: 8px;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-  text-align: center;
-  color: #000;
-  margin-top: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* Título */
+/* Título centrado y estilizado */
 .register-title {
-  font-size: 45px;
-  font-weight: bold;
-  margin-bottom: 12px;
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
   color: #000;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  display: flex;
 }
 
-/* Etiquetas */
+/* Etiquetas en mayúsculas */
 .register-form label {
   display: block;
-  font-weight: 600;
-  margin-bottom: -13px;
-  font-size: 17px;
-  text-align: left;
-  color: #000;
-  font-family: "DM sans", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  margin-top: 1.2rem;
+  font-weight: bold;
   text-transform: uppercase;
+  font-size: 0.85rem;
 }
 
-/* Inputs */
+/* Campos de entrada */
 .register-input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #000;
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: white;
-  color: #000;
+  padding: 0.7rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 /* Botón */
 .register-button {
-  background-color: #815a34;
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #80552f;
   color: white;
-  border: none;
-  padding: 14px;
-  width: 107%;
-  border-radius: 2px;
   font-weight: bold;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .register-button:hover {
-  background-color: #6c4529;
+  background-color: #6b4525;
 }
 
 /* Errores */
