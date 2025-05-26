@@ -7,6 +7,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
     name: "",
     description: "",
     price: "",
+    category: "",
     stock: "",
   });
 
@@ -109,6 +110,19 @@ export const AddProduct = ({ submit, errors, refs }) => {
         {errors.description && (
           <p style={{ color: "red" }}>{errors.description}</p>
         )}
+
+        <label htmlFor="category">Categoria:</label>
+
+        <input
+          className="register-input"
+          type="text"
+          name="category"
+          placeholder="Categoría"
+          onChange={changeHandler}
+          value={formData.category}
+          ref={refs.categoryRef}
+        />
+        {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
 
         <label htmlFor="price">Precio:</label>
 

@@ -7,6 +7,10 @@ const ProductValidations = ({ datos }) => {
     errores.name = "El nombre es obligatorio";
   }
 
+  if (!datos.category.trim()) {
+    errores.category = "La categoría es obligatoria";
+  }
+
   if (!datos.price) {
     errores.price = "el precio es obligatorio";
   }

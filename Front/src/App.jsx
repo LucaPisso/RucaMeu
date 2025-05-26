@@ -8,7 +8,6 @@ import "./App.css";
 
 //HOOKS
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
 import Protected from "./components/Protected";
 import ProductsPage from "./pages/ProductsPage";
 
