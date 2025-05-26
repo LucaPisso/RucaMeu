@@ -3,18 +3,22 @@ import { Product } from "../models/Product.js";
 export const getAllProducts = async (req, res) => {
   const products = await Product.findAll();
   if (!products) {
-    return res.status(404).send({ message: "No se encontraron productos" });
+    return res
+      .status(404)
+      .json({ succes: false, message: "No se encontraron productos" });
   }
-  res.json(products);
+  res.json({ succes: true, data: products });
 };
 
 export const getByID = async (req, res) => {
   const { id } = req.params;
   const product = await Product.findByPk(id);
   if (!product) {
-    return res.status(404).send({ message: "Producto no encontrado" });
+    return res
+      .status(404)
+      .json({ succes: false, message: "Producto no encontrado" });
   }
-  res.json(product);
+  res.json({ succes: true, data: product });
 };
 
 export const createProduct = async (req, res) => {
@@ -31,19 +35,26 @@ export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const product = await Product.findByPk(id);
   if (!product) {
-    return res.status(404).send({ message: "Producto no encontrado" });
+    return res
+      .status(404)
+      .json({ succes: false, message: "Producto no encontrado" });
   }
   await product.update(req.body);
 
-  res.json(product);
+  res.json({ succes: true, data: product });
 };
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const product = await Product.findByPk(id);
   if (!product) {
-    return res.status(404).send({ message: "Producto no encontrado" });
+    return res
+      .status(404)
+      .json({ succes: false, message: "Producto no encontrado" });
   }
   await product.destroy();
-  res.send(`El Producto ${product.name} ha sido eliminado correctamente`);
+  res.json({
+    succes: true,
+    message: `El Producto ${product.name} ha sido eliminado correctamente`,
+  });
 };

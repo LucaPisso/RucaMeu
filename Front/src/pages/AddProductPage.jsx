@@ -10,6 +10,7 @@ function AddProductPage() {
   const descriptionRef = useRef(null);
   const priceRef = useRef(null);
   const stockRef = useRef(null);
+  const categoryRef = useRef(null);
   const navigate = useNavigate();
 
   const checkErrors = (formData) => {
@@ -20,6 +21,8 @@ function AddProductPage() {
         nameRef.current.focus();
       } else if (errors.description && descriptionRef.current) {
         descriptionRef.current.focus();
+      } else if (errors.category && categoryRef.current) {
+        categoryRef.current.focus();
       } else if (errors.price && priceRef.current) {
         priceRef.current.focus();
       } else if (errors.stock && stockRef.current) {
@@ -27,12 +30,10 @@ function AddProductPage() {
       }
       setErrors(errors);
     } else {
-      alert("Formulario enviado con éxito");
+      alert("Producto agregado correctamente.");
       setErrors({});
       navigate("/");
     }
-    console.log(formData);
-    console.log(nameRef);
   };
   return (
     <>
@@ -42,6 +43,7 @@ function AddProductPage() {
         refs={{
           nameRef,
           descriptionRef,
+          categoryRef,
           priceRef,
           stockRef,
         }}

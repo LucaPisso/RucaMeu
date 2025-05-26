@@ -24,7 +24,7 @@ export const Product = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    categories: {
+    category: {
       type: DataTypes.STRING,
       allowNull: false,
     },

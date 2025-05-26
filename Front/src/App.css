@@ -105,3 +105,10 @@ body {
   border-color: #a0a381 !important;
   color: #6c4529 !important;
 }
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
