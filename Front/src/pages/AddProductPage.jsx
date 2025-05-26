@@ -1,5 +1,5 @@
 import AddProduct from "../components/AddProduct";
-import ProductValidations from "../components/ProductValidations";
+import ProductValidations from "../components/validations/ProductValidations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 

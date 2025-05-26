@@ -11,7 +11,8 @@ const Protected = ({ allowedRoles }) => {
   }
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     //propiedad de user: role
-    // return <Navigate to="/unauthorized" replace />;
+    alert("Usted no posee permisos para ingresar aquí");
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

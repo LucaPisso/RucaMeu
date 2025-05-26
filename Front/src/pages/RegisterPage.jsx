@@ -1,5 +1,5 @@
 import Register from "../components/Register";
-import UserValidations from "../components/UserValidations";
+import UserValidations from "../components/validations/UserValidations";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
