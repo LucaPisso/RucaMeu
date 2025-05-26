@@ -53,7 +53,7 @@ const Login = ({ submit, errors, refs }) => {
       console.log(localStorage);
 
       // Guardar estado de login y redirigir
-      localStorage.setItem("user", data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/");
     } catch (err) {
       console.error("❌ Error de login:", err.message);

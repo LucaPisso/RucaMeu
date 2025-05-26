@@ -4,8 +4,13 @@ import Card from "../components/Card";
 const HomePage = ({ Product, user, allowedRoles }) => {
   return (
     <>
-      HomePage
-      <Card key={Product.id} nombre={Product.name} precio={Product.price} />
+      <h1>HomePage</h1>
+      {/* <Card></Card> key={Product.id} nombre={Product.name} precio={Product.price} /> */}
+      {/* {user?.role === "admin" && (
+        <button onClick={() => console.log("Agregar producto")}>
+          ➕ Agregar producto
+        </button>
+      )} */}
     </>
   );
 };
