@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 
 import ProductValidations from "./validations/ProductValidations";
 
-const UpdateProduct = ({ id }) => {
+const UpdateProduct = () => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const imageUrlRef = useRef(null);
@@ -12,7 +12,8 @@ const UpdateProduct = ({ id }) => {
   const priceRef = useRef(null);
   const stockRef = useRef(null);
   const categoryRef = useRef(null);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   //Get product
   useEffect(() => {

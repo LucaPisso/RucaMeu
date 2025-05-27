@@ -1,7 +1,7 @@
 import Login from "../components/Login";
 import UserValidations from "../components/validations/UserValidations";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   //ESTADOS Y USEREF
