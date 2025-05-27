@@ -1,0 +1,53 @@
+body {
+  overflow-x: hidden;
+}
+.first-watch {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+.home-background {
+  width: 100%;
+  height: 100%;
+  margin-top: -130px;
+  filter: blur(4px) brightness(60%);
+  position: absolute;
+  left: 0;
+  object-fit: cover;
+  z-index: -1;
+  transform: scale(1.1);
+}
+
+.home-background-text {
+  display: block;
+  margin-top: 15vh;
+  font-size: 56px;
+  margin-left: 2%;
+  color: white;
+  line-height: 11vh;
+  letter-spacing: 2px;
+}
+
+.catalogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: white; /* Cambiá según el fondo */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 29px;
+  margin-top: 25vh;
+}
+
+.flecha {
+  width: 104px;
+  height: 104px;
+  border-left: 6px solid white;
+  border-bottom: 6px solid white;
+  transform: rotate(-45deg);
+  margin-top: -20px;
+}
