@@ -1,8 +1,10 @@
-import React from "react";
 import imagen1 from "../assets/fanal-madera.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ product }) => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+  //FETCH EDITAR PRODUCTO
 
   return (
     <div className="card" style={{ width: "18rem" }}>
@@ -19,7 +21,11 @@ const Card = ({ product }) => {
           Comprar
         </button>
         {user?.role === "admin" && (
-          <button onClick={() => console.log("Agregar producto")}>
+          <button
+            onClick={() => {
+              navigate(`/updateProduct/${product.id}`);
+            }}
+          >
             Editar
           </button>
         )}

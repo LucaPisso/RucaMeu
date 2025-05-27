@@ -1,37 +1,59 @@
-import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
+import { useEffect, useState } from "react";
 
 const ProductsPage = () => {
-  const [productos, setProductos] = useState([]);
-  const [error, setError] = useState(null);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProductos = async () => {
+    const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/products");
-        if (!res.ok) throw new Error("Error al cargar los productos");
+        const res = await fetch("http://localhost:3000/products", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
-        const data = await res.json();
-        setProductos(data);
-      } catch (error) {
-        console.error(error);
-        setError("No se pudieron cargar los productos.");
+        if (!res.ok) throw new Error("Falló al obtener productos");
+        const response = await res.json();
+        setProducts(response.products);
+        console.log(response.products);
+        console.log(products);
+      } catch (err) {
+        console.error(err);
       }
     };
 
-    fetchProductos();
+    fetchProducts();
   }, []);
 
   return (
-    <div style={{ padding: "1rem" }}>
+    <>
       <h1>Productos</h1>
-      {error && <p>{error}</p>}
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {productos.map((Product) => (
-          <Card key={Product.id} nombre={Product.name} precio={Product.price} />
-        ))}
+      <div className="card-container">
+        {products.length > 0 ? (
+          products.map((p) => <Card key={p.id} product={p} />)
+        ) : (
+          <p>No hay productos disponibles.</p>
+        )}
       </div>
-    </div>
+
+      {/* const filteredBooks = books
+            .filter(product => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)
+            .map(((product) => (
+              <BookItem
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                rating={book.rating}
+                pages={book.pageCount}
+                imageUrl={book.imageUrl}
+                summary={book.summary}
+                available={book.available}
+                onDeleteBook={handleDeleteBook}
+              />
+            )));
+            </> */}
+    </>
   );
 };
 

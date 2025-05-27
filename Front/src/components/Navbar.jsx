@@ -1,9 +1,10 @@
-import React from "react";
 import "./Navbar.css";
 import imagen1 from "../assets/fanal-gris.jpg";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <div className="navbar">
       <div className="logo">
@@ -22,6 +23,11 @@ const NavBar = () => {
         <Link className="link-navbar" to="/">
           <p>Carrito</p>
         </Link>
+        {user?.role === "admin" && (
+          <Link className="link-navbar" to="/adminPanel">
+            <p>Admin</p>
+          </Link>
+        )}
       </div>
     </div>
   );
