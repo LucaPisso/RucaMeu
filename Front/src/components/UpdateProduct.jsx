@@ -74,8 +74,10 @@ const UpdateProduct = ({ id }) => {
         stockRef.current.focus();
       }
       setErrors(errors);
+      return true;
     } else {
       setErrors({});
+      return false;
     }
   };
 
