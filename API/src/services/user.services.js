@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
   const users = await User.findAll();
-  res.json({ succes: true, data: users });
+  res.json({ succes: true, users });
 };
 
 export const getUserById = async (req, res) => {
@@ -16,7 +16,7 @@ export const getUserById = async (req, res) => {
       .status(404)
       .json({ succes: false, message: "Usuario no encontrado" });
   }
-  res.json({ succes: true, data: user });
+  res.json({ succes: true, user });
 };
 
 export const createUser = async (req, res) => {
@@ -183,7 +183,7 @@ export const makeUserAdmin = async (req, res) => {
     res.json({
       succes: true,
       message: `${name} con ID ${id} ahora es administrador.`,
-      data: user,
+      user,
     });
   } catch (error) {
     console.error(error);

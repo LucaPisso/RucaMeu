@@ -7,7 +7,7 @@ export const getAllProducts = async (req, res) => {
       .status(404)
       .json({ succes: false, message: "No se encontraron productos" });
   }
-  res.json({ succes: true, data: products });
+  res.json({ succes: true, products });
 };
 
 export const getByID = async (req, res) => {
@@ -18,7 +18,7 @@ export const getByID = async (req, res) => {
       .status(404)
       .json({ succes: false, message: "Producto no encontrado" });
   }
-  res.json({ succes: true, data: product });
+  res.json({ succes: true, product });
 };
 
 export const createProduct = async (req, res) => {
@@ -28,7 +28,7 @@ export const createProduct = async (req, res) => {
       .json({ succes: false, message: "Nombre y precio son requeridos" });
   }
   const newProduct = await Product.create(req.body);
-  res.json({ data: newProduct });
+  res.json({ product: newProduct });
 };
 
 export const updateProduct = async (req, res) => {
@@ -41,7 +41,7 @@ export const updateProduct = async (req, res) => {
   }
   await product.update(req.body);
 
-  res.json({ succes: true, data: product });
+  res.json({ succes: true, product });
 };
 
 export const deleteProduct = async (req, res) => {
