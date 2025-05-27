@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import imagen1 from "../assets/fanal-gris.jpg";
+import imagen1 from "../assets/products/fanal-gris.jpg";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {

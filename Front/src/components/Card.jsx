@@ -1,4 +1,3 @@
-import imagen1 from "../assets/fanal-madera.jpg";
 import { useNavigate } from "react-router-dom";
 
 const Card = ({ product }) => {
