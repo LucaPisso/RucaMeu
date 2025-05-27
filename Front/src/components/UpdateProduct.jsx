@@ -86,10 +86,11 @@ const UpdateProduct = () => {
     event.preventDefault();
 
     const isValid = checkErrors(formData);
-    if (isValid) {
+    if (!isValid) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
+
     try {
       const token = localStorage.getItem("RucaMeu-token");
       if (!token) {

@@ -3,7 +3,14 @@ import imagen1 from "../assets/fanal-gris.jpg";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = null;
+  try {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) user = JSON.parse(storedUser);
+  } catch (e) {
+    console.error("Error al parsear el usuario desde localStorage:", e);
+    localStorage.removeItem("user");
+  }
 
   return (
     <div className="navbar">
