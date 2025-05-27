@@ -32,6 +32,10 @@ export const Product = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   },
   { timestamps: false }
 );

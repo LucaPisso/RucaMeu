@@ -35,6 +35,10 @@ export const User = sequelize.define(
       allowNull: false,
       defaultValue: UserRoles.USER,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   },
   { timestamps: false }
 );
