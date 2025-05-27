@@ -18,6 +18,7 @@ function RegisterPage() {
     const errors = UserValidations({ datos: formData });
 
     if (Object.keys(errors).length > 0) {
+      setErrors(errors);
       if (errors.name && nameRef.current) {
         nameRef.current.focus();
       } else if (errors.lastName && lastNameRef.current) {
