@@ -14,7 +14,7 @@ const HomePage = () => {
 
         if (!res.ok) throw new Error("Falló al obtener productos");
         const response = await res.json();
-        setProducts(response.data);
+        setProducts(response.products);
       } catch (err) {
         console.error(err);
       }

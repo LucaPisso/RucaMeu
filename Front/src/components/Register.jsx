@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 const Register = ({ submit, errors, refs }) => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const Register = ({ submit, errors, refs }) => {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
 
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -34,6 +36,9 @@ const Register = ({ submit, errors, refs }) => {
       const data = await res.json();
       console.log(data);
 
+      alert("Usuario creado correctamente");
+      navigate("/");
+
       setFormData({
         name: "",
         lastName: "",
@@ -44,6 +49,7 @@ const Register = ({ submit, errors, refs }) => {
       });
     } catch (err) {
       console.error(err);
+      console.log("error en el registro");
     }
   };
 
