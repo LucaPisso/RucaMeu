@@ -26,12 +26,12 @@ const Card = ({ product }) => {
               navigate(`/updateProduct/${product.id}`);
             }}
           >
-            Editar
+            Editar✎
           </button>
         )}
         {user?.role === "admin" && (
           <button onClick={() => alert(`Usted va a eliminar ${product.name}`)}>
-            Eliminar
+            Eliminar🗑
           </button>
         )}
       </div>

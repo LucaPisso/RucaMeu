@@ -20,7 +20,7 @@ const Register = ({ submit, errors, refs }) => {
     event.preventDefault();
 
     const isValid = submit(formData);
-    if (isValid) {
+    if (!isValid) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
