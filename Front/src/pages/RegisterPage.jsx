@@ -1,7 +1,6 @@
 import Register from "../components/Register";
 import UserValidations from "../components/validations/UserValidations";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   //ESTADOS Y USEREF
@@ -12,7 +11,6 @@ function RegisterPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
-  const navigate = useNavigate();
 
   const checkErrors = (formData) => {
     const errors = UserValidations({ datos: formData });
@@ -32,19 +30,16 @@ function RegisterPage() {
       } else if (errors.confirmPassword && confirmPasswordRef.current) {
         confirmPasswordRef.current.focus();
       }
-      setErrors(errors);
+      return false;
     } else {
-      alert("Formulario enviado con éxito");
       setErrors({});
-      navigate("/");
+      return true;
     }
-    console.log(formData);
-    console.log(nameRef);
   };
   return (
     <>
       <Register
-        submit={checkErrors}
+        checkErrors={checkErrors}
         errors={errors}
         refs={{
           nameRef,

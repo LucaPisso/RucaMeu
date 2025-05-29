@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
-export const AddProduct = ({ submit, errors, refs }) => {
+export const AddProduct = ({ checkErrors, errors, refs }) => {
   const [formData, setFormData] = useState({
     imageUrl: "",
     name: "",
@@ -21,8 +21,8 @@ export const AddProduct = ({ submit, errors, refs }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const isValid = submit(formData); //submit es una prop q recibe del padre
-    if (isValid) {
+    const estaBien = checkErrors(formData); //submit es una prop q recibe del padre
+    if (estaBien) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
@@ -61,6 +61,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
         price: "",
         stock: "",
       });
+      navigate("/products");
     } catch (error) {
       console.log(error.message);
     }
