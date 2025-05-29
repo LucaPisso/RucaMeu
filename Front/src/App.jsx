@@ -3,7 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import LoginPage from "./pages/LoginPage";
-import AddProductPage from "./pages/AddProductPage";
+import AddProduct from "./components/AddProduct";
 import AdminPanel from "./pages/AdminPanel";
 import "./App.css";
 
