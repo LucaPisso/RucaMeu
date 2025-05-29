@@ -19,8 +19,8 @@ const Register = ({ submit, errors, refs }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const isValid = submit(formData);
-    if (!isValid) {
+    const isWrong = submit(formData);
+    if (isWrong) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
