@@ -4,37 +4,27 @@ const ProductValidations = ({ datos, refs }) => {
 
   if (!datos.name?.trim()) {
     errors.name = "El nombre es obligatorio";
+    nameRef.current.focus();
   }
 
   if (!datos.category?.trim()) {
     errors.category = "La categoría es obligatoria";
+    categoryRef.current.focus();
   }
 
-  if (!datos.price && datos.price !== 0) {
-    errors.price = "el precio es obligatorio";
+  const price = parseFloat(datos.price);
+  if (isNaN(price) || price < 0) {
+    errors.price = "El precio debe ser un número válido y no negativo";
+    priceRef.current.focus();
   }
 
-  if (!datos.stock && datos.stock !== 0) {
-    errors.stock = "Este campo es obligatorio";
+  const stock = parseInt(datos.stock);
+  if (isNaN(stock) || stock < 0) {
+    errors.stock = "El stock debe ser un número válido y no negativo";
+    stockRef.current.focus();
   }
 
-  if (Object.keys(errors).length > 0) {
-    if (errors.name && nameRef.current) {
-      nameRef.current.focus();
-    } else if (errors.description && descriptionRef.current) {
-      descriptionRef.current.focus();
-    } else if (errors.category && categoryRef.current) {
-      categoryRef.current.focus();
-    } else if (errors.price && priceRef.current) {
-      priceRef.current.focus();
-    } else if (errors.stock && stockRef.current) {
-      stockRef.current.focus();
-    }
-    return false;
-  } else {
-    //errors = {}; no hace falta
-    return true;
-  }
+  return errors;
 };
 
 export default ProductValidations;
