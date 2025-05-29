@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import imagen1 from "../assets/products/fanal-gris.jpg";
 
 const Card = ({ product }) => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,12 +26,12 @@ const Card = ({ product }) => {
               navigate(`/updateProduct/${product.id}`);
             }}
           >
-            Editar✎
+            ✎
           </button>
         )}
         {user?.role === "admin" && (
           <button onClick={() => alert(`Usted va a eliminar ${product.name}`)}>
-            Eliminar🗑
+            🗑
           </button>
         )}
       </div>

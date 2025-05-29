@@ -3,7 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import LoginPage from "./pages/LoginPage";
-import AddProductPage from "./pages/AddProductPage";
+import AddProduct from "./components/AddProduct";
 import AdminPanel from "./pages/AdminPanel";
 import "./App.css";
 
@@ -30,33 +30,24 @@ function App() {
         <Route element={<Protected allowedRoles={["user", "admin"]} />}>
           {/* Rutas sólo user */}
         </Route>
-        <Route element={<Protected allowedRoles={["admin"]} />}>
-          {/* Rutas sólo admin */}
-          <Route path="/addProduct" element={<AddProductPage />} />
-          <Route path="/adminPanel" element={<AdminPanel />} />
-        </Route>
+        {/* Rutas sólo admin */}
+        <Route
+          path="/addProduct"
+          element={
+            <Protected allowedRoles={["admin"]}>
+              <AddProduct />
+            </Protected>
+          }
+        />
+        <Route
+          path="/adminPanel"
+          element={
+            <Protected allowedRoles={["admin"]}>
+              <AdminPanel />
+            </Protected>
+          }
+        />
       </Routes>
-
-      {/* <BrowserRouter>
-        //{" "}
-        <Routes>
-          //{" "}
-          <Route element={<MainLayout />}>
-            //{" "}
-            <Route element={<Protected isLogged={isLogged} />}>
-              // <Route path="/libros/*" element={<Dashboard />} />
-              //{" "}
-            </Route>
-            //{" "}
-          </Route>
-          //{" "}
-          <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
-          // <Route path="/register" element={<Register></Register>} />
-          // <Route path="*" element={<NotFound />} />
-          //{" "}
-        </Routes>
-        //{" "}
-      </BrowserRouter> */}
     </>
   );
 }

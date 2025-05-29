@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router";
-import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import React, { useState, useRef } from "react";
 
-export const AddProduct = ({ submit, errors, refs }) => {
+import ProductValidations from "./validations/ProductValidations";
+
+const AddProduct = () => {
   const [formData, setFormData] = useState({
     imageUrl: "",
     name: "",
@@ -10,8 +12,22 @@ export const AddProduct = ({ submit, errors, refs }) => {
     category: "",
     stock: "",
   });
-
+  const [errors, setErrors] = useState({});
+  const imageUrlRef = useRef(null);
+  const nameRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const priceRef = useRef(null);
+  const stockRef = useRef(null);
+  const categoryRef = useRef(null);
   const navigate = useNavigate();
+  const refs = {
+    nameRef,
+    imageUrlRef,
+    descriptionRef,
+    priceRef,
+    stockRef,
+    categoryRef,
+  };
 
   //Maneja constantemente los cambios de los inputs
   function changeHandler(event) {
@@ -20,55 +36,54 @@ export const AddProduct = ({ submit, errors, refs }) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-
-    const isValid = submit(formData); //submit es una prop q recibe del padre
-    if (isValid) {
+    setErrors(ProductValidations({ datos: formData, refs }));
+    if (Object.keys(errors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
 
     try {
       const token = localStorage.getItem("RucaMeu-token");
-
       if (!token) {
         navigate("/login");
         throw new Error("Token no encontrado. Inicie sesión primero.");
       }
 
-      const res = await fetch("http://localhost:3000/products", {
-        method: "POST",
+      const res = await fetch(`http://localhost:3000/products/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
-
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(
           errorData.message || "Error desconocido al agregar producto"
         );
       }
-
+      alert("Producto agregado correctamente");
       const data = await res.json();
-      console.log(`Producto creado: ${data}`);
-
+      console.log(`Producto agregado: ${data.product}`);
       setFormData({
         imageUrl: "",
         name: "",
         description: "",
+        category: "",
         price: "",
         stock: "",
       });
+      navigate("/products");
     } catch (error) {
       console.log(error.message);
+      alert("Error: " + error.message);
     }
   };
 
   return (
     <div className="register-form">
-      <h2 className="register-title">Añade un Nuevo Producto</h2>
+      <h2 className="register-title">Editando producto</h2>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="imageUrl">Imagen</label>
 
@@ -76,10 +91,10 @@ export const AddProduct = ({ submit, errors, refs }) => {
           className="register-input"
           type="url"
           name="imageUrl"
-          placeholder="image"
+          placeholder="Imagen"
           onChange={changeHandler}
           value={formData.imageUrl}
-          ref={refs.imageUrlRef}
+          ref={imageUrlRef}
         />
         {errors.imageUrl && <p style={{ color: "red" }}>{errors.imageUrl}</p>}
 
@@ -92,7 +107,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
           placeholder="Nombre del Producto"
           onChange={changeHandler}
           value={formData.name}
-          ref={refs.nameRef}
+          ref={nameRef}
         />
         {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
 
@@ -105,7 +120,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
           placeholder="Descripción"
           onChange={changeHandler}
           value={formData.description}
-          ref={refs.descriptionRef}
+          ref={descriptionRef}
         />
         {errors.description && (
           <p style={{ color: "red" }}>{errors.description}</p>
@@ -120,7 +135,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
           placeholder="Categoría"
           onChange={changeHandler}
           value={formData.category}
-          ref={refs.categoryRef}
+          ref={categoryRef}
         />
         {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
 
@@ -134,7 +149,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
           placeholder="Precio"
           onChange={changeHandler}
           value={formData.price}
-          ref={refs.priceRef}
+          ref={priceRef}
         />
         {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
 
@@ -146,7 +161,7 @@ export const AddProduct = ({ submit, errors, refs }) => {
           name="stock"
           onChange={changeHandler}
           value={formData.stock}
-          ref={refs.stockRef}
+          ref={stockRef}
         />
         {errors.stock && <p style={{ color: "red" }}>{errors.stock}</p>}
 

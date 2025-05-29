@@ -14,6 +14,14 @@ const UpdateProduct = () => {
   const categoryRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
+  const refs = {
+    nameRef,
+    imageUrlRef,
+    descriptionRef,
+    priceRef,
+    stockRef,
+    categoryRef,
+  };
 
   //Get product
   useEffect(() => {
@@ -59,34 +67,10 @@ const UpdateProduct = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  const checkErrors = (formData) => {
-    const errors = ProductValidations({ datos: formData });
-
-    if (Object.keys(errors).length > 0) {
-      if (errors.name && nameRef.current) {
-        nameRef.current.focus();
-      } else if (errors.description && descriptionRef.current) {
-        descriptionRef.current.focus();
-      } else if (errors.category && categoryRef.current) {
-        categoryRef.current.focus();
-      } else if (errors.price && priceRef.current) {
-        priceRef.current.focus();
-      } else if (errors.stock && stockRef.current) {
-        stockRef.current.focus();
-      }
-      setErrors(errors);
-      return true;
-    } else {
-      setErrors({});
-      return false;
-    }
-  };
-
   const submitHandler = async (event) => {
     event.preventDefault();
-
-    const isValid = checkErrors(formData);
-    if (!isValid) {
+    setErrors(ProductValidations({ datos: formData, refs }));
+    if (Object.keys(errors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
@@ -123,7 +107,7 @@ const UpdateProduct = () => {
         price: "",
         stock: "",
       });
-      navigate("/");
+      navigate("/products");
     } catch (error) {
       console.log(error.message);
       alert("Error: " + error.message);

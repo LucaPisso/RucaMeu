@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Register = ({ submit, errors, refs }) => {
+const Register = ({ checkErrors, errors, refs }) => {
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -19,8 +19,8 @@ const Register = ({ submit, errors, refs }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const isWrong = submit(formData);
-    if (isWrong) {
+    const estaBien = submit(formData);
+    if (!estaBien) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }

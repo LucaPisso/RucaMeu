@@ -1,25 +1,38 @@
-import React from "react";
-
-const ProductValidations = ({ datos }) => {
-  const errores = {};
+const ProductValidations = ({ datos, refs }) => {
+  const errors = {}; //para manejar errores al enviar formulario. Si fuese en tiempo real se necesita useState
+  const { nameRef, descriptionRef, categoryRef, priceRef, stockRef } = refs;
 
   if (!datos.name?.trim()) {
-    errores.name = "El nombre es obligatorio";
+    errors.name = "El nombre es obligatorio";
   }
 
   if (!datos.category?.trim()) {
-    errores.category = "La categoría es obligatoria";
+    errors.category = "La categoría es obligatoria";
   }
 
-  if (!datos.price && datos.price !== 0) {
-    errores.price = "el precio es obligatorio";
+  const price = parseFloat(datos.price);
+  if (isNaN(price) || price < 0) {
+    errors.price = "El precio debe ser un número válido y no negativo";
   }
 
-  if (!datos.stock && datos.stock !== 0) {
-    errores.stock = "Este campo es obligatorio";
+  const stock = parseInt(datos.stock);
+  if (isNaN(stock) || stock < 0) {
+    errors.stock = "El stock debe ser un número válido y no negativo";
   }
 
-  return errores;
+  if (errors.name && nameRef.current) {
+    nameRef.current.focus();
+  } else if (errors.description && descriptionRef.current) {
+    descriptionRef.current.focus();
+  } else if (errors.category && categoryRef.current) {
+    categoryRef.current.focus();
+  } else if (errors.price && priceRef.current) {
+    priceRef.current.focus();
+  } else if (errors.stock && stockRef.current) {
+    stockRef.current.focus();
+  }
+
+  return errors;
 };
 
 export default ProductValidations;
