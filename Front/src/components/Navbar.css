@@ -36,13 +36,12 @@
 .link-navbar p {
   margin: 0;
   padding: 10px;
-  font-weight: normal;
+  font-weight: 400;
 }
 
 .link-navbar:hover p {
-  font-weight: bold;
-  font-size: 1.22rem;
-  color: #333;
+  font-weight: 700;
+  color: #000000;
 }
 
 /* Activo (puedes aplicarlo dinámicamente con React Router) */
