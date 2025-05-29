@@ -35,7 +35,7 @@ function App() {
           path="/addProduct"
           element={
             <Protected allowedRoles={["admin"]}>
-              <AddProductPage />
+              <AddProduct />
             </Protected>
           }
         />
