@@ -70,7 +70,7 @@ const UpdateProduct = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     setErrors(ProductValidations({ datos: formData, refs }));
-    if (errors) {
+    if (Object.keys(errors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
