@@ -69,8 +69,8 @@ const UpdateProduct = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-
-    if (!ProductValidations({ datos: formData, refs })) {
+    setErrors(ProductValidations({ datos: formData, refs }));
+    if (errors) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
@@ -107,7 +107,7 @@ const UpdateProduct = () => {
         price: "",
         stock: "",
       });
-      navigate("/products");
+      navigate("/");
     } catch (error) {
       console.log(error.message);
       alert("Error: " + error.message);
