@@ -30,33 +30,24 @@ function App() {
         <Route element={<Protected allowedRoles={["user", "admin"]} />}>
           {/* Rutas sólo user */}
         </Route>
-        <Route element={<Protected allowedRoles={["admin"]} />}>
-          {/* Rutas sólo admin */}
-          <Route path="/addProduct" element={<AddProductPage />} />
-          <Route path="/adminPanel" element={<AdminPanel />} />
-        </Route>
+        {/* Rutas sólo admin */}
+        <Route
+          path="/addProduct"
+          element={
+            <Protected allowedRoles={["admin"]}>
+              <AddProductPage />
+            </Protected>
+          }
+        />
+        <Route
+          path="/adminPanel"
+          element={
+            <Protected allowedRoles={["admin"]}>
+              <AdminPanel />
+            </Protected>
+          }
+        />
       </Routes>
-
-      {/* <BrowserRouter>
-        //{" "}
-        <Routes>
-          //{" "}
-          <Route element={<MainLayout />}>
-            //{" "}
-            <Route element={<Protected isLogged={isLogged} />}>
-              // <Route path="/libros/*" element={<Dashboard />} />
-              //{" "}
-            </Route>
-            //{" "}
-          </Route>
-          //{" "}
-          <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
-          // <Route path="/register" element={<Register></Register>} />
-          // <Route path="*" element={<NotFound />} />
-          //{" "}
-        </Routes>
-        //{" "}
-      </BrowserRouter> */}
     </>
   );
 }

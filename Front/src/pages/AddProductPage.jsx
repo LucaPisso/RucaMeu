@@ -1,7 +1,7 @@
 import AddProduct from "../components/AddProduct";
 import ProductValidations from "../components/validations/ProductValidations";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 
 function AddProductPage() {
   //ESTADOS Y USEREF
@@ -11,7 +11,7 @@ function AddProductPage() {
   const priceRef = useRef(null);
   const stockRef = useRef(null);
   const categoryRef = useRef(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const checkErrors = (formData) => {
     const errors = ProductValidations({ datos: formData });
@@ -28,17 +28,18 @@ function AddProductPage() {
       } else if (errors.stock && stockRef.current) {
         stockRef.current.focus();
       }
-      setErrors(errors);
+      return false;
     } else {
-      alert("Producto agregado correctamente.");
+      // alert("Producto agregado correctamente.");
       setErrors({});
-      navigate("/");
+      // navigate("/");
+      return true;
     }
   };
   return (
     <>
       <AddProduct
-        submit={checkErrors}
+        checkErrors={checkErrors}
         errors={errors}
         refs={{
           nameRef,
