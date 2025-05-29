@@ -107,7 +107,7 @@ const UpdateProduct = () => {
         price: "",
         stock: "",
       });
-      navigate("/");
+      navigate("/products");
     } catch (error) {
       console.log(error.message);
       alert("Error: " + error.message);

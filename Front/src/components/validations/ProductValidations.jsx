@@ -1,3 +1,5 @@
+//Corregir focus a como estaba antes. Así no es funcional
+
 const ProductValidations = ({ datos, refs }) => {
   const errors = {}; //para manejar errores al enviar formulario. Si fuese en tiempo real se necesita useState
   const { nameRef, descriptionRef, categoryRef, priceRef, stockRef } = refs;
