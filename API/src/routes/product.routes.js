@@ -14,7 +14,7 @@ router.get("/products", getAllProducts);
 
 router.get("/products/:id", getByID);
 
-router.post("/products", verifyToken, createProduct);
+router.post("/products", createProduct);
 
 router.put("/products/:id", updateProduct);
 

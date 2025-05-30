@@ -16,7 +16,6 @@ const ProductsPage = () => {
         const response = await res.json();
         setProducts(response.products);
         console.log(response.products);
-        console.log(products);
       } catch (err) {
         console.error(err);
       }
