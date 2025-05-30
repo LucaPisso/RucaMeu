@@ -4,7 +4,14 @@ import React, { useState, useEffect, useRef } from "react";
 import ProductValidations from "./validations/ProductValidations";
 
 const UpdateProduct = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    imageUrl: "",
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    stock: "",
+  });
   const [errors, setErrors] = useState({});
   const imageUrlRef = useRef(null);
   const nameRef = useRef(null);
@@ -69,8 +76,10 @@ const UpdateProduct = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    setErrors(ProductValidations({ datos: formData, refs }));
-    if (Object.keys(errors).length !== 0) {
+
+    const newErrors = ProductValidations({ datos: formData, refs }); // Hay que crear una variable extra, ya que el estado no se actualiza instantáneamente
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
