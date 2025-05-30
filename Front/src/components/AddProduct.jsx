@@ -36,8 +36,10 @@ const AddProduct = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    setErrors(ProductValidations({ datos: formData, refs }));
-    if (Object.keys(errors).length !== 0) {
+
+    const newErrors = ProductValidations({ datos: formData, refs }); // Hay que crear una variable extra, ya que el estado no se actualiza instantáneamente
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
@@ -49,8 +51,8 @@ const AddProduct = () => {
         throw new Error("Token no encontrado. Inicie sesión primero.");
       }
 
-      const res = await fetch(`http://localhost:3000/products/${id}`, {
-        method: "PUT",
+      const res = await fetch(`http://localhost:3000/products`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -83,7 +85,7 @@ const AddProduct = () => {
 
   return (
     <div className="register-form">
-      <h2 className="register-title">Editando producto</h2>
+      <h2 className="register-title">Agregar producto</h2>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="imageUrl">Imagen</label>
 
