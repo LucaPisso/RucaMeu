@@ -26,27 +26,28 @@ function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/updateProduct/:id" element={<UpdateProduct />} />
+        <Route path="/addProduct" element={<AddProduct />} />
 
-        <Route element={<Protected allowedRoles={["user", "admin"]} />}>
-          {/* Rutas sólo user */}
-        </Route>
+        {/* <Route element={<Protected allowedRoles={["user", "admin"]} />}> */}
+        {/* Rutas sólo user */}
+        {/* </Route> */}
         {/* Rutas sólo admin */}
-        <Route
+        {/* <Route
           path="/addProduct"
           element={
             <Protected allowedRoles={["admin"]}>
               <AddProduct />
             </Protected>
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/adminPanel"
           element={
             <Protected allowedRoles={["admin"]}>
               <AdminPanel />
             </Protected>
           }
-        />
+        /> */}
       </Routes>
     </>
   );
