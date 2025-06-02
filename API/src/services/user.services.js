@@ -101,6 +101,8 @@ export const verifyToken = (req, res, next) => {
     // Verifica que el token sea válido usando la clave secreta
     const payload = jwt.verify(token, "RucaMeu-2025");
 
+    req.userId = payload.id;
+
     // Si el token es válido, se puede acceder a su contenido (payload)
     console.log(payload);
 
@@ -115,42 +117,37 @@ export const verifyToken = (req, res, next) => {
 };
 
 export const loginUser = async (req, res) => {
-  // Extrae email y password del body de la request
   const { email, password } = req.body;
 
-  // Busca el usuario por email
   const user = await User.findOne({
     where: { email },
   });
 
-  // Si no existe, devuelve error 401 (No autorizado)
-  if (!user)
+  if (!user) {
     return res
       .status(401)
-      .json({ succes: false, message: "Usuario no existente" });
+      .json({ success: false, message: "Usuario no existente" });
+  }
 
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  // Compara la contraseña ingresada con el hash almacenado
-  // const comparison = await bcrypt.compare(hashedPassword, user.password);
+  // Compara la contraseña ingresada (texto plano) con el hash guardado
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
-  // Si no coinciden, devuelve error 401
-  if (!hashedPassword === user.password)
+  if (!isPasswordValid) {
     return res
       .status(401)
-      .json({ succes: false, message: "Email y/o contraseña incorrecta" });
+      .json({ success: false, message: "Email y/o contraseña incorrecta" });
+  }
 
-  // Clave secreta para firmar el token (debería estar en variables de entorno)
-  const secretKey = "RucaMeu-2025";
+  const secretKey = process.env.JWT_SECRET || "RucaMeu-2025";
 
-  // Genera un token JWT que expira en 1 hora
-  const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
+  const token = jwt.sign({ email, id: user.id }, secretKey, {
+    expiresIn: "1h",
+  });
 
-  // Devuelve el token al cliente
   console.log(token);
+
   return res.json({
-    succes: true,
+    success: true,
     message: "Login exitoso",
     token,
     user: {
