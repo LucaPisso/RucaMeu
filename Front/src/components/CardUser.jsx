@@ -1,8 +1,9 @@
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import DeleteUser from "./DeleteUser";
 
-const CardUser = ({ user }) => {
+const CardUser = ({ user, setDeleteUser }) => {
   const userLocalStorage = JSON.parse(localStorage.getItem("user"));
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="card" style={{ width: "18rem" }}>
@@ -17,15 +18,18 @@ const CardUser = ({ user }) => {
         {userLocalStorage?.role === "admin" && (
           <button
             onClick={() => {
-              //   navigate(`/updateProduct/${user.id}`);
-              alert(`Usted va a editar a ${user.name}`);
+              navigate(`/updateUser/${user.id}`);
             }}
           >
-            Borrar
+            Editar
           </button>
         )}
         {userLocalStorage?.role === "admin" && (
-          <button onClick={() => alert(`Usted va a eliminar ${user.name}`)}>
+          <button
+            onClick={() => {
+              setDeleteUser(DeleteUser({ id: user.id, navigate }));
+            }}
+          >
             Eliminar
           </button>
         )}

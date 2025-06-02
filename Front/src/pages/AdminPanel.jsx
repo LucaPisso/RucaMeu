@@ -4,6 +4,7 @@ import CardUser from "../components/CardUser";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
+  const [deleteUser, setDeleteUser] = useState(false);
   const navigate = useNavigate();
 
   //GET USER
@@ -37,15 +38,18 @@ const AdminPanel = () => {
       }
     };
     fetchUsers();
-  }, []);
+    setDeleteUser(false);
+  }, [deleteUser]);
   return (
     <>
       <h3>AdminPanel</h3>
       <div className="card-container">
         {users.length > 0 ? (
-          users.map((u) => <CardUser key={u.id} user={u} />)
+          users.map((u) => (
+            <CardUser key={u.id} user={u} setDeleteUser={setDeleteUser} />
+          ))
         ) : (
-          <p>No hay productos disponibles.</p>
+          <p>No existen usuarios</p>
         )}
       </div>
     </>
