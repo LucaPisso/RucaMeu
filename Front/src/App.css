@@ -27,6 +27,13 @@ body {
   color: #000;
 }
 
+/* ya tienes una cuenta?*/
+.link-to-login {
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+}
+
 /* Etiquetas en mayúsculas */
 .register-form label {
   display: block;

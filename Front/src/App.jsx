@@ -1,10 +1,11 @@
 //COMPONENTES
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import AddProduct from "./components/AddProduct";
 import AdminPanel from "./pages/AdminPanel";
+import CarritoPage from "./pages/CarritoPage";
 import "./App.css";
 
 //HOOKS
@@ -27,6 +28,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/updateProduct/:id" element={<UpdateProduct />} />
         <Route path="/addProduct" element={<AddProduct />} />
+        <Route path="/carrito" element={<CarritoPage />} />
 
         {/* <Route element={<Protected allowedRoles={["user", "admin"]} />}> */}
         {/* Rutas sólo user */}

@@ -66,10 +66,16 @@ const Login = ({ submit, errors, refs }) => {
 
   return (
     <div>
-      <form action="POST">
+      <form action="POST" className="register-form">
+        <h2>Iniciar Sesión</h2>
         <label htmlFor="mail">E-mail:</label>
         <br />
-        <input type="email" name="mail" onChange={emailHandler} />
+        <input
+          className="register-input"
+          type="email"
+          name="mail"
+          onChange={emailHandler}
+        />
         {!emailValido && (
           <p style={{ color: "red" }}>El formato del email no es válido</p>
         )}
@@ -77,13 +83,22 @@ const Login = ({ submit, errors, refs }) => {
         <br />
         <label htmlFor="password">Contraseña:</label>
         <br />
-        <input type="password" name="password" onChange={passwordHandler} />
+        <input
+          className="register-input"
+          type="password"
+          name="password"
+          onChange={passwordHandler}
+        />
         {!passwordValido && (
           <p style={{ color: "red" }}>No ha ingresado una contraseña</p>
         )}
         <br />
         <br />
-        <button type="submit" onClick={buttonHandler}>
+        <button
+          className="register-button"
+          type="submit"
+          onClick={buttonHandler}
+        >
           Ingresar
         </button>
       </form>

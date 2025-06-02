@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = ({ checkErrors, errors, refs }) => {
   const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ const Register = ({ checkErrors, errors, refs }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const estaBien = submit(formData);
+    const estaBien = checkErrors(formData);
     if (!estaBien) {
       console.warn("Formulario inválido. No se enviará.");
       return;
@@ -56,6 +56,9 @@ const Register = ({ checkErrors, errors, refs }) => {
   return (
     <div className="register-form">
       <h2 className="register-title">Crea una nueva cuenta</h2>
+      <Link className="link-to-login" to="/login">
+        Ya tienes una cuenta en RucaMeu?
+      </Link>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>
 
