@@ -1,17 +1,36 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 
-const Register = ({ checkErrors, errors, refs }) => {
+import UserValidations from "./validations/UserValidations";
+
+const Register = () => {
   const [formData, setFormData] = useState({
-    name: "",
     lastName: "",
+    name: "",
     phone: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({});
+  const lastNameRef = useRef(null);
+  const nameRef = useRef(null);
+  const phoneRef = useRef(null);
+  const emailRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+  const passwordRef = useRef(null);
   const navigate = useNavigate();
+  const { id } = useParams();
+  const refs = {
+    nameRef,
+    lastNameRef,
+    phoneRef,
+    emailRef,
+    confirmPasswordRef,
+    passwordRef,
+  };
 
+  //Maneja constantemente los cambios de los inputs
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
@@ -19,46 +38,59 @@ const Register = ({ checkErrors, errors, refs }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const estaBien = checkErrors(formData);
-    if (!estaBien) {
+    const newErrors = UserValidations({ datos: formData, refs }); // Hay que crear una variable extra, ya que el estado no se actualiza instantáneamente
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
 
+    if (!confirm("¿Estás seguro de que desea crear este usuario?")) {
+      return;
+    }
+
     try {
-      const res = await fetch("http://localhost:3000/users", {
+      const token = localStorage.getItem("RucaMeu-token");
+      if (!token) {
+        navigate("/login");
+        throw new Error("Token no encontrado. Inicie sesión primero.");
+      }
+
+      const res = await fetch(`http://localhost:3000/users`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(formData),
       });
-
-      if (!res.ok) throw new Error("Falló crear usuario");
-      const data = await res.json();
-      console.log(data);
-
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          errorData.message || "Error desconocido al crear usuario"
+        );
+      }
       alert("Usuario creado correctamente");
-      navigate("/");
-
+      const data = await res.json();
+      console.log(`Usuario creado: ${data.user}`);
       setFormData({
-        name: "",
         lastName: "",
+        name: "",
         phone: "",
-        email: "",
         password: "",
+        email: "",
         confirmPassword: "",
       });
-    } catch (err) {
-      console.error(err);
-      console.log("error en el registro");
+      navigate("/adminPanel");
+    } catch (error) {
+      console.log(error.message);
+      alert("Error: " + error.message);
     }
   };
 
   return (
     <div className="register-form">
-      <h2 className="register-title">Crea una nueva cuenta</h2>
-      <Link className="link-to-login" to="/login">
-        ¿Ya tienes una cuenta en RucaMeu?
-      </Link>
+      <h2 className="register-title">Crear usuario</h2>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>
 
@@ -69,7 +101,7 @@ const Register = ({ checkErrors, errors, refs }) => {
           placeholder="Nombre"
           onChange={changeHandler}
           value={formData.name}
-          ref={refs.nameRef}
+          ref={nameRef}
         />
         {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
 
@@ -82,11 +114,11 @@ const Register = ({ checkErrors, errors, refs }) => {
           placeholder="Apellido"
           onChange={changeHandler}
           value={formData.lastName}
-          ref={refs.lastNameRef}
+          ref={lastNameRef}
         />
         {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
 
-        <label htmlFor="phone">Teléfono:</label>
+        <label htmlFor="phone">Número de teléfono:</label>
 
         <input
           className="register-input"
@@ -95,20 +127,20 @@ const Register = ({ checkErrors, errors, refs }) => {
           placeholder="Número de teléfono"
           onChange={changeHandler}
           value={formData.phone}
-          ref={refs.phoneRef}
+          ref={phoneRef}
         />
         {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
 
-        <label htmlFor="email">E-mail:</label>
+        <label htmlFor="email">Email:</label>
 
         <input
           className="register-input"
           type="email"
           name="email"
-          placeholder="tuemail@ejemplo.com"
+          placeholder="Email"
           onChange={changeHandler}
           value={formData.email}
-          ref={refs.emailRef}
+          ref={emailRef}
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
 
@@ -118,13 +150,14 @@ const Register = ({ checkErrors, errors, refs }) => {
           className="register-input"
           type="password"
           name="password"
+          placeholder="Contraseña"
           onChange={changeHandler}
           value={formData.password}
-          ref={refs.passwordRef}
+          ref={passwordRef}
         />
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
-        <label htmlFor="confirmPassword">Repite la contraseña:</label>
+        <label htmlFor="confirmPassword">Repita la contraseña:</label>
 
         <input
           className="register-input"
@@ -132,13 +165,14 @@ const Register = ({ checkErrors, errors, refs }) => {
           name="confirmPassword"
           onChange={changeHandler}
           value={formData.confirmPassword}
-          ref={refs.confirmPasswordRef}
+          ref={confirmPasswordRef}
         />
         {errors.confirmPassword && (
           <p style={{ color: "red" }}>{errors.confirmPassword}</p>
         )}
+
         <button type="submit" className="register-button">
-          Registrar
+          Registrarse
         </button>
       </form>
     </div>

@@ -1,54 +1,74 @@
-import React from "react";
-
-const UserValidations = ({ datos }) => {
-  const errores = {};
+const UserValidations = ({ datos, refs }) => {
+  const errors = {};
+  const {
+    nameRef,
+    lastNameRef,
+    phoneRef,
+    emailRef,
+    passwordRef,
+    confirmPasswordRef,
+  } = refs;
   //REGEXS
   const fullNameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
   const phoneRegex = /^[0-9]{9,12}$/;
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-  if (!datos.name.trim()) {
-    errores.name = "El nombre es obligatorio";
+  if (!datos.name?.trim()) {
+    errors.name = "El nombre es obligatorio";
   } else if (datos.name.trim().length < 3) {
-    errores.name = "El nombre debe tener minimo 3 letras";
+    errors.name = "El nombre debe tener minimo 3 letras";
   } else if (!fullNameRegex.test(datos.name)) {
-    errores.name = "No se permiten caracteres especiales ni numeros";
+    errors.name = "No se permiten caracteres especiales ni números";
   }
 
-  if (!datos.lastName.trim()) {
-    errores.lastName = "El apellido es obligatorio";
+  if (!datos.lastName?.trim()) {
+    errors.lastName = "El apellido es obligatorio";
   } else if (datos.lastName.trim().length < 3) {
-    errores.lastName = "El apellido debe tener minimo 3 letras";
+    errors.lastName = "El apellido debe tener minimo 3 letras";
   } else if (!fullNameRegex.test(datos.lastName)) {
-    errores.lastName = "No se permiten caracteres especiales ni numeros";
+    errors.lastName = "No se permiten caracteres especiales ni números";
   }
 
-  if (!datos.phone.trim()) {
-    errores.phone = "El teléfono es obligatorio";
+  if (!datos.phone?.trim()) {
+    errors.phone = "El teléfono es obligatorio";
   } else if (!phoneRegex.test(datos.phone)) {
-    errores.phone = "El teléfono no es válido";
+    errors.phone = "El teléfono no es válido";
   }
 
-  if (!datos.email.trim()) {
-    errores.email = "El email es obligatorio";
+  if (!datos.email?.trim()) {
+    errors.email = "El email es obligatorio";
   } else if (!emailRegex.test(datos.email)) {
-    errores.email = "El email no es válido";
+    errors.email = "El email no es válido";
   }
 
-  if (!datos.password.trim()) {
-    errores.password = "La contraseña es obligatoria";
+  if (!datos.password?.trim()) {
+    errors.password = "La contraseña es obligatoria";
   } else if (!passwordRegex.test(datos.password)) {
-    errores.password = "Mínimo 8 caracteres, incluyendo letras y números";
+    errors.password = "Mínimo 8 caracteres, incluyendo letras y números";
   }
 
   if (!datos.confirmPassword.trim()) {
-    errores.confirmPassword = "Este campo es obligatorio";
+    errors.confirmPassword = "Este campo es obligatorio";
   } else if (datos.password !== datos.confirmPassword) {
-    errores.confirmPassword = "Las contraseñas no coinciden";
+    errors.confirmPassword = "Las contraseñas no coinciden";
   }
 
-  return errores;
+  if (errors.name && nameRef.current) {
+    nameRef.current.focus();
+  } else if (errors.lastName && lastNameRef.current) {
+    lastNameRef.current.focus();
+  } else if (errors.phone && phoneRef.current) {
+    phoneRef.current.focus();
+  } else if (errors.email && emailRef.current) {
+    emailRef.current.focus();
+  } else if (errors.password && passwordRef.current) {
+    passwordRef.current.focus();
+  } else if (errors.confirmPassword && confirmPasswordRef.current) {
+    confirmPasswordRef.current.focus();
+  }
+
+  return errors;
 };
 
 export default UserValidations;
