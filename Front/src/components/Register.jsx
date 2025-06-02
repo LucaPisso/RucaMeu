@@ -57,7 +57,7 @@ const Register = ({ checkErrors, errors, refs }) => {
     <div className="register-form">
       <h2 className="register-title">Crea una nueva cuenta</h2>
       <Link className="link-to-login" to="/login">
-        Ya tienes una cuenta en RucaMeu?
+        ¿Ya tienes una cuenta en RucaMeu?
       </Link>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>

@@ -5,6 +5,7 @@ import NavBar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import AddProduct from "./components/AddProduct";
 import AdminPanel from "./pages/AdminPanel";
+import UpdateUser from "./components/UpdateUser";
 import CarritoPage from "./pages/CarritoPage";
 import "./App.css";
 
@@ -26,9 +27,13 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
+
+        {/* Rutas que debemos proteger */}
         <Route path="/updateProduct/:id" element={<UpdateProduct />} />
         <Route path="/addProduct" element={<AddProduct />} />
         <Route path="/carrito" element={<CarritoPage />} />
+        <Route path="/adminPanel" element={<AdminPanel />} />
+        <Route path="/updateUser/:id" element={<UpdateUser />} />
 
         {/* <Route element={<Protected allowedRoles={["user", "admin"]} />}> */}
         {/* Rutas sólo user */}

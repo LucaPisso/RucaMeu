@@ -1,47 +1,81 @@
-import React from 'react'
-import { useEffect } from 'react';
+//A REALIZAR:
+//Deshashear la contraseña al traerla. O directamente no traerla.
+
+import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+
+import UserValidations from "./validations/UserValidations";
 
 const UpdateUser = () => {
-
-    useEffect(async() => {
-        try {
-        const res = await fetch("http://localhost:3000/users/:id", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-
-        const data = await res.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error desconocido");
-      }
-
-    } catch (err) {
-      console.error("❌ Error:", err.message);
-      alert("Error: " + err.message);
-    }
-    }, []);
-
-  return (
-    <></>
-  )
-}
-
-export default UpdateUser;
-
-
-import React, { useState } from "react";
-
-const Register = ({ submit, errors, refs }) => {
   const [formData, setFormData] = useState({
-    name: "",
     lastName: "",
+    name: "",
     phone: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({});
+  const lastNameRef = useRef(null);
+  const nameRef = useRef(null);
+  const phoneRef = useRef(null);
+  const emailRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+  const passwordRef = useRef(null);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const refs = {
+    nameRef,
+    lastNameRef,
+    phoneRef,
+    emailRef,
+    confirmPasswordRef,
+    passwordRef,
+  };
 
+  //Get user
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("RucaMeu-token");
+
+        if (!token) {
+          navigate("/login");
+          throw new Error("Token no encontrado. Inicie sesión primero.");
+        }
+
+        const res = await fetch(`http://localhost:3000/users/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(
+            errorData.message || "Error desconocido al buscar un usuario"
+          );
+        }
+
+        const data = await res.json();
+        console.log(data.user);
+        setFormData({
+          ...data.user,
+          confirmPassword: data.user.password,
+        });
+      } catch (error) {
+        console.log(error.message);
+        alert("Error: " + error.message);
+      }
+    };
+
+    fetchUser();
+  }, []);
+  //
+
+  //Maneja constantemente los cambios de los inputs
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
@@ -49,39 +83,59 @@ const Register = ({ submit, errors, refs }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const isValid = submit(formData);
-    if (isValid) {
+    const newErrors = UserValidations({ datos: formData, refs }); // Hay que crear una variable extra, ya que el estado no se actualiza instantáneamente
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length !== 0) {
       console.warn("Formulario inválido. No se enviará.");
       return;
     }
 
+    if (!confirm("¿Estás seguro de que desea actualizar este usuario?")) {
+      return;
+    }
+
     try {
-      const res = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const token = localStorage.getItem("RucaMeu-token");
+      if (!token) {
+        navigate("/login");
+        throw new Error("Token no encontrado. Inicie sesión primero.");
+      }
+
+      const res = await fetch(`http://localhost:3000/users/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(formData),
       });
-
-      if (!res.ok) throw new Error("Falló crear usuario");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          errorData.message || "Error desconocido al actualizar usuario"
+        );
+      }
+      alert("Usuario actualizado correctamente");
       const data = await res.json();
-      console.log(data);
-
+      console.log(`Usuario actualizado: ${data.user}`);
       setFormData({
-        name: "",
         lastName: "",
+        name: "",
         phone: "",
-        email: "",
         password: "",
+        email: "",
         confirmPassword: "",
       });
-    } catch (err) {
-      console.error(err);
+      navigate("/adminPanel");
+    } catch (error) {
+      console.log(error.message);
+      alert("Error: " + error.message);
     }
   };
 
   return (
     <div className="register-form">
-      <h2 className="register-title">Crea una nueva cuenta</h2>
+      <h2 className="register-title">Editando usuario</h2>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>
 
@@ -89,10 +143,10 @@ const Register = ({ submit, errors, refs }) => {
           className="register-input"
           type="text"
           name="name"
-          placeholder="Nombre"
+          placeholder="Nombre del Producto"
           onChange={changeHandler}
           value={formData.name}
-          ref={refs.nameRef}
+          ref={nameRef}
         />
         {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
 
@@ -105,11 +159,11 @@ const Register = ({ submit, errors, refs }) => {
           placeholder="Apellido"
           onChange={changeHandler}
           value={formData.lastName}
-          ref={refs.lastNameRef}
+          ref={lastNameRef}
         />
         {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
 
-        <label htmlFor="phone">Teléfono:</label>
+        <label htmlFor="phone">Número de teléfono:</label>
 
         <input
           className="register-input"
@@ -118,20 +172,20 @@ const Register = ({ submit, errors, refs }) => {
           placeholder="Número de teléfono"
           onChange={changeHandler}
           value={formData.phone}
-          ref={refs.phoneRef}
+          ref={phoneRef}
         />
         {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
 
-        <label htmlFor="email">E-mail:</label>
+        <label htmlFor="email">Email:</label>
 
         <input
           className="register-input"
           type="email"
           name="email"
-          placeholder="tuemail@ejemplo.com"
+          placeholder="Email"
           onChange={changeHandler}
           value={formData.email}
-          ref={refs.emailRef}
+          ref={emailRef}
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
 
@@ -141,13 +195,14 @@ const Register = ({ submit, errors, refs }) => {
           className="register-input"
           type="password"
           name="password"
+          placeholder="Contraseña"
           onChange={changeHandler}
           value={formData.password}
-          ref={refs.passwordRef}
+          ref={passwordRef}
         />
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
-        <label htmlFor="confirmPassword">Repite la contraseña:</label>
+        <label htmlFor="confirmPassword">Repita la contraseña:</label>
 
         <input
           className="register-input"
@@ -155,17 +210,18 @@ const Register = ({ submit, errors, refs }) => {
           name="confirmPassword"
           onChange={changeHandler}
           value={formData.confirmPassword}
-          ref={refs.confirmPasswordRef}
+          ref={confirmPasswordRef}
         />
         {errors.confirmPassword && (
           <p style={{ color: "red" }}>{errors.confirmPassword}</p>
         )}
+
         <button type="submit" className="register-button">
-          Registrar
+          Actualizar
         </button>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default UpdateUser;
