@@ -1,20 +1,20 @@
 //COMPONENTES
-import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import AddProduct from "./components/AddProduct";
 import AdminPanel from "./pages/AdminPanel";
+import Register from "./components/Register";
 import UpdateUser from "./components/UpdateUser";
 import CarritoPage from "./pages/CarritoPage";
-import "./App.css";
-
-//HOOKS
-import { Routes, Route } from "react-router-dom";
 import Protected from "./components/Protected";
 import ProductsPage from "./pages/ProductsPage";
 import NotFound from "./components/NotFound";
 import UpdateProduct from "./components/UpdateProduct";
+
+import "./App.css";
+
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
       <Routes>
         {/* Rutas comunes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
