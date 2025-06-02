@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import imagen1 from "../assets/products/fanal-gris.jpg";
 import DeleteProduct from "./DeleteProduct";
 
-const Card = ({ product }) => {
+const Card = ({ product, setDeleteProduct }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   //FETCH EDITAR PRODUCTO
@@ -61,7 +61,11 @@ const Card = ({ product }) => {
           </button>
         )}
         {user?.role === "admin" && (
-          <button onClick={() => DeleteProduct({ id: product.id, navigate })}>
+          <button
+            onClick={() => {
+              setDeleteProduct(DeleteProduct({ id: product.id, navigate }));
+            }}
+          >
             🗑
           </button>
         )}

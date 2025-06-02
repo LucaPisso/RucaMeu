@@ -84,6 +84,10 @@ const UpdateProduct = () => {
       return;
     }
 
+    if (!confirm("¿Estás seguro de que desea actualizar este producto?")) {
+      return;
+    }
+
     try {
       const token = localStorage.getItem("RucaMeu-token");
       if (!token) {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
+  const [deleteProduct, setDeleteProduct] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,14 +23,17 @@ const ProductsPage = () => {
     };
 
     fetchProducts();
-  }, []);
+    setDeleteProduct(false);
+  }, [deleteProduct]);
 
   return (
     <>
       <h1>Productos</h1>
       <div className="card-container">
         {products.length > 0 ? (
-          products.map((p) => <Card key={p.id} product={p} />)
+          products.map((p) => (
+            <Card key={p.id} product={p} setDeleteProduct={setDeleteProduct} />
+          ))
         ) : (
           <p>No hay productos disponibles.</p>
         )}

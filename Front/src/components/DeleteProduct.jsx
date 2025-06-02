@@ -1,4 +1,7 @@
 const DeleteProduct = async ({ id, navigate }) => {
+  if (!confirm("¿Estás seguro de que desea eliminar este producto?")) {
+    return false;
+  }
   try {
     const token = localStorage.getItem("RucaMeu-token");
     if (!token) {
@@ -27,7 +30,7 @@ const DeleteProduct = async ({ id, navigate }) => {
     console.log(error.message);
     alert("Error: " + error.message);
   }
-  return;
+  return true;
 };
 
 export default DeleteProduct;

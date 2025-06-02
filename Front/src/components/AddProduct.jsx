@@ -44,6 +44,10 @@ const AddProduct = () => {
       return;
     }
 
+    if (!confirm("¿Estás seguro de que desea agregar este producto?")) {
+      return;
+    }
+
     try {
       const token = localStorage.getItem("RucaMeu-token");
       if (!token) {
