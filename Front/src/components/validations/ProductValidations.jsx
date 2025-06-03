@@ -20,15 +20,15 @@ const ProductValidations = ({ datos, refs }) => {
     errors.stock = "El stock debe ser un número válido y no negativo";
   }
 
-  if (errors.name && nameRef.current) {
+  if (errors.name && nameRef?.current) {
     nameRef.current.focus();
-  } else if (errors.description && descriptionRef.current) {
+  } else if (errors.description && descriptionRef?.current) {
     descriptionRef.current.focus();
-  } else if (errors.category && categoryRef.current) {
+  } else if (errors.category && categoryRef?.current) {
     categoryRef.current.focus();
-  } else if (errors.price && priceRef.current) {
+  } else if (errors.price && priceRef?.current) {
     priceRef.current.focus();
-  } else if (errors.stock && stockRef.current) {
+  } else if (errors.stock && stockRef?.current) {
     stockRef.current.focus();
   }
 

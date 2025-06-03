@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 
 import UserValidations from "./validations/UserValidations";
@@ -91,6 +91,9 @@ const Register = () => {
   return (
     <div className="register-form">
       <h2 className="register-title">Crear usuario</h2>
+      <Link className="link-to-login" to="/login">
+        ¿Ya tienes una cuenta en RucaMeu?
+      </Link>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="name">Nombre:</label>
 
