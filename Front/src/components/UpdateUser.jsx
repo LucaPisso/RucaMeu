@@ -14,6 +14,7 @@ const UpdateUser = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "",
   });
   const [errors, setErrors] = useState({});
   const lastNameRef = useRef(null);
@@ -125,6 +126,7 @@ const UpdateUser = () => {
         password: "",
         email: "",
         confirmPassword: "",
+        role: "user",
       });
       navigate("/adminPanel");
     } catch (error) {
@@ -215,6 +217,17 @@ const UpdateUser = () => {
         {errors.confirmPassword && (
           <p style={{ color: "red" }}>{errors.confirmPassword}</p>
         )}
+
+        <label htmlFor="role">Rol:</label>
+        <select
+          className="register-input"
+          name="role"
+          value={formData.role}
+          onChange={changeHandler}
+        >
+          <option value="user">Usuario</option>
+          <option value="admin">Administrador</option>
+        </select>
 
         <button type="submit" className="register-button">
           Actualizar

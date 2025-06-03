@@ -61,7 +61,18 @@ export const updateUser = async (req, res) => {
       .status(404)
       .json({ succes: false, message: "Usuario no encontrado" });
   } else {
-    await User.update(req.body, { where: { id } });
+    //Hasheamos el password
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    //y actualizamos el usuario
+    await User.update(
+      {
+        ...req.body, // req.body = { name:"value", lastName:"value", ...}
+        password: hashedPassword,
+      },
+      { where: { id } }
+    );
     res
       .status(200)
       .json({ succes: true, message: "Datos modificados correctamente." });
@@ -126,12 +137,10 @@ export const loginUser = async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(401)
-      .json({
-        success: false,
-        message: "No existe usuario registrado con ese email",
-      });
+    return res.status(401).json({
+      success: false,
+      message: "No existe usuario registrado con ese email",
+    });
   }
 
   // Compara la contraseña ingresada (texto plano) con el hash guardado
