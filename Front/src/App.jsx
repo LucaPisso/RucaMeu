@@ -1,7 +1,6 @@
 //COMPONENTES
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/Navbar";
-import LoginPage from "./pages/LoginPage";
 import AddProduct from "./components/AddProduct";
 import AdminPanel from "./pages/AdminPanel";
 import Register from "./components/Register";
@@ -11,6 +10,7 @@ import Protected from "./components/Protected";
 import ProductsPage from "./pages/ProductsPage";
 import NotFound from "./components/NotFound";
 import UpdateProduct from "./components/UpdateProduct";
+import Login from "./components/Login";
 
 import "./App.css";
 
@@ -24,7 +24,7 @@ function App() {
         {/* Rutas comunes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
 

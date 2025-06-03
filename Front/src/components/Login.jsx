@@ -1,106 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import UserValidations from "./validations/UserValidations";
 
-const Login = ({ submit, errors, refs }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-  const [emailValido, setEmailValido] = useState(true);
-  const [passwordValido, setPasswordValido] = useState(true);
-
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const refs = {
+    emailRef,
+    passwordRef,
+  };
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  function emailHandler(event) {
-    setEmail(event.target.value);
-    if (!emailRegex.test(email)) {
-      setEmailValido(false);
-    } else {
-      setEmailValido(true);
-    }
+  //Maneja constantemente los cambios de los inputs
+  function changeHandler(event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  function passwordHandler(event) {
-    setPassword(event.target.value);
-    if (password === "") {
-      setPasswordValido(false);
-    } else {
-      setPasswordValido(true);
-    }
-  }
-
-  const buttonHandler = async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
-    if (!emailValido || !passwordValido) return;
+    const newErrors = UserValidations({ datos: formData, refs }); // Hay que crear una variable extra, ya que el estado no se actualiza instantáneamente
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length !== 0) {
+      console.warn("Formulario inválido. No se enviará.");
+      return;
+    }
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const res = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          errorData.message || "Error desconocido al crear usuario"
+        );
+      }
+      const data = await res.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Error desconocido");
+      if (!data.success) {
+        return;
       }
 
       // Guardar el token en localStorage
       localStorage.setItem("RucaMeu-token", data.token);
-      console.log(localStorage);
 
       // Guardar estado de login y redirigir
       localStorage.setItem("user", JSON.stringify(data.user));
+      setFormData({
+        password: "",
+        email: "",
+      });
       navigate("/");
-    } catch (err) {
-      console.error("❌ Error de login:", err.message);
-      alert("Error: " + err.message);
+    } catch (error) {
+      console.log(error.message);
+      alert("Error: " + error.message);
     }
-
-    setEmail("");
-    setPassword("");
   };
 
   return (
     <div>
-      <form action="POST" className="register-form">
+      <form action="POST" onSubmit={submitHandler} className="register-form">
         <h2>Iniciar Sesión</h2>
         <label htmlFor="mail">E-mail:</label>
-        <br />
         <input
           className="register-input"
           type="email"
-          name="mail"
-          onChange={emailHandler}
+          name="email"
+          onChange={changeHandler}
+          value={formData.email}
+          ref={emailRef}
         />
-        {!emailValido && (
-          <p style={{ color: "red" }}>El formato del email no es válido</p>
-        )}
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+
         <br />
         <br />
         <label htmlFor="password">Contraseña:</label>
-        <br />
         <input
           className="register-input"
           type="password"
           name="password"
-          onChange={passwordHandler}
+          onChange={changeHandler}
+          value={formData.password}
+          ref={passwordRef}
         />
-        {!passwordValido && (
-          <p style={{ color: "red" }}>No ha ingresado una contraseña</p>
-        )}
+        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+
         <br />
         <br />
-        <button
-          className="register-button"
-          type="submit"
-          onClick={buttonHandler}
-        >
+        <button className="register-button" type="submit">
           Ingresar
         </button>
+        {errors.server && <p style={{ color: "red" }}>{errors.server}</p>}
       </form>
     </div>
   );

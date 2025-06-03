@@ -128,7 +128,10 @@ export const loginUser = async (req, res) => {
   if (!user) {
     return res
       .status(401)
-      .json({ success: false, message: "Usuario no existente" });
+      .json({
+        success: false,
+        message: "No existe usuario registrado con ese email",
+      });
   }
 
   // Compara la contraseña ingresada (texto plano) con el hash guardado
@@ -137,7 +140,7 @@ export const loginUser = async (req, res) => {
   if (!isPasswordValid) {
     return res
       .status(401)
-      .json({ success: false, message: "Email y/o contraseña incorrecta" });
+      .json({ success: false, message: "Email y/o contraseña incorrectas" });
   }
 
   const secretKey = process.env.JWT_SECRET || "RucaMeu-2025";
