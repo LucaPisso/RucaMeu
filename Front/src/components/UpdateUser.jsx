@@ -63,7 +63,7 @@ const UpdateUser = () => {
         console.log(data.user);
         setFormData({
           ...data.user,
-          confirmPassword: data.user.password,
+          confirmPassword: "",
         });
       } catch (error) {
         console.log(error.message);

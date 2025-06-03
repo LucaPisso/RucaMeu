@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
   const users = await User.findAll();
+  users.forEach((user) => (user.password = ""));
   res.json({ succes: true, users });
 };
 
@@ -16,6 +17,7 @@ export const getUserById = async (req, res) => {
       .status(404)
       .json({ succes: false, message: "Usuario no encontrado" });
   }
+  user.password = "";
   res.json({ succes: true, user });
 };
 
