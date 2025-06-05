@@ -1,85 +1,83 @@
 import { Carrito } from "../models/Carrito.js";
 import { Product } from "../models/Product.js";
-import { CarritoProduct } from "../models/CarritoProduct.js";
 import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
 const { JsonWebTokenError } = jwt;
 
 export const agregarAlCarrito = async (req, res) => {
-  const userId = req.userId;
+  const userId = req.user.id; // del token
   const productId = req.params.id;
-  console.log("productId:", productId);
   const { cantidad } = req.body;
 
   try {
-    // Buscar o crear el carrito del usuario
-    let carrito = await Carrito.findOne({ where: { userId } });
+    // Verificar que el usuario existe
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    const carrito = await Carrito.findOne({ where: { userId } }); //busca si el usuario tiene carrito asociado al ID
     if (!carrito) {
-      carrito = await Carrito.create({ userId });
+      carrito = await Carrito.create({
+        userId,
+        productos: [{ productId: productId, cantidad: cantidad }],
+      }); //si no tiene carrito, crea uno
+    } else {
+      const productosActuales = carrito.productos;
+      const nuevoProducto = { productId: productId, cantidad: cantidad };
+      productosActuales.push(nuevoProducto);
+      await carrito.update({ productos: productosActuales });
     }
 
-    // Verificar si el producto ya está en el carrito
-    const [registro, creado] = await CarritoProduct.findOrCreate({
-      where: {
-        carritoId: carrito.id,
-        productId,
-      },
-      defaults: {
-        quantity: cantidad || 1,
-      },
-    });
-
-    if (!creado) {
-      registro.quantity += cantidad || 1;
-      await registro.save();
-    }
-
-    res.status(200).json({ message: "Producto agregado al carrito." });
+    res.status(201).json({ message: "Producto agregado al carrito" });
   } catch (error) {
-    console.error("Error en agregarAlCarrito:", error);
-    res.status(500).json({ error: "Error al agregar producto al carrito." });
+    res
+      .status(500)
+      .json({ message: "Error al agregar al carrito", error: error.message });
   }
 };
 
 export const obtenerCarrito = async (req, res) => {
-  const userId = req.userId;
+  const userId = req.user.id;
 
   try {
     const carrito = await Carrito.findOne({
       where: { userId },
-      include: {
-        model: Product,
-        through: { attributes: ["quantity"] },
-      },
+      include: [Product],
     });
 
     if (!carrito)
-      return res.status(404).json({ message: "Carrito no encontrado." });
+      return res.status(404).json({ message: "Carrito vacío o no encontrado" });
 
     res.json(carrito);
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener el carrito." });
+    res
+      .status(500)
+      .json({ message: "Error al obtener el carrito", error: error.message });
   }
 };
 
 export const eliminarDelCarrito = async (req, res) => {
-  const userId = req.userId;
+  const userId = req.user.id;
   const { productId } = req.params;
 
   try {
     const carrito = await Carrito.findOne({ where: { userId } });
     if (!carrito)
-      return res.status(404).json({ message: "Carrito no encontrado." });
+      return res.status(404).json({ message: "Carrito no encontrado" });
 
-    await CarritoProduct.destroy({
-      where: {
-        carritoId: carrito.id,
-        productId,
-      },
+    const eliminado = await Product.destroy({
+      where: { id: productId, carritoId: carrito.id },
     });
 
-    res.json({ message: "Producto eliminado del carrito." });
+    if (!eliminado)
+      return res
+        .status(404)
+        .json({ message: "Producto no encontrado en el carrito" });
+
+    res.json({ message: "Producto eliminado del carrito" });
   } catch (error) {
-    res.status(500).json({ error: "Error al eliminar producto del carrito." });
+    res
+      .status(500)
+      .json({ message: "Error al eliminar producto", error: error.message });
   }
 };

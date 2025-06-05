@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CardUser from "../components/CardUser";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);

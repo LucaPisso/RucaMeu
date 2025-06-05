@@ -1,3 +1,5 @@
+import toast, { Toaster } from "react-hot-toast";
+
 const DeleteProduct = async ({ id, navigate }) => {
   if (!confirm("¿Estás seguro de que desea eliminar este producto?")) {
     return false;
@@ -22,13 +24,15 @@ const DeleteProduct = async ({ id, navigate }) => {
         errorData.message || "Error desconocido al eliminar producto"
       );
     }
-    alert("Producto eliminado correctamente");
+    toast("Producto eliminado correctamente", {
+      icon: "🗑",
+    });
     const data = await res.json();
     console.log(data.message);
     navigate("/products");
   } catch (error) {
     console.log(error.message);
-    alert("Error: " + error.message);
+    toast.error("Error: " + error.message);
   }
   return true;
 };

@@ -1,5 +1,6 @@
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const CarritoPage = () => {
   const [carrito, setCarrito] = useState([]);

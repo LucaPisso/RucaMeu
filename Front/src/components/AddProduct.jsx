@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useRef } from "react";
-
+import toast, { Toaster } from "react-hot-toast";
 import ProductValidations from "./validations/ProductValidations";
 
 const AddProduct = () => {
@@ -69,7 +69,7 @@ const AddProduct = () => {
           errorData.message || "Error desconocido al agregar producto"
         );
       }
-      alert("Producto agregado correctamente");
+      toast.succes("Producto agregado correctamente");
       const data = await res.json();
       console.log(`Producto agregado: ${data.product}`);
       setFormData({
@@ -83,7 +83,7 @@ const AddProduct = () => {
       navigate("/products");
     } catch (error) {
       console.log(error.message);
-      alert("Error: " + error.message);
+      toast.error("Error: " + error.message);
     }
   };
 

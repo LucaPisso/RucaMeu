@@ -1,3 +1,5 @@
+import toast, { Toaster } from "react-hot-toast";
+
 const DeleteUser = async ({ id, navigate }) => {
   if (!confirm("¿Estás seguro de que desea eliminar este usuario?")) {
     return false;
@@ -22,13 +24,13 @@ const DeleteUser = async ({ id, navigate }) => {
         errorData.message || "Error desconocido al eliminar usuario"
       );
     }
-    alert("Usuario eliminado correctamente");
+    toast.success("Usuario eliminado correctamente");
     const data = await res.json();
     console.log(data.message);
     navigate("/adminPanel");
   } catch (error) {
     console.log(error.message);
-    alert("Error: " + error.message);
+    toast.error("Error: " + error.message);
   }
   return true;
 };

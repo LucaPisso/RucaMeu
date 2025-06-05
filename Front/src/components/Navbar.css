@@ -10,10 +10,13 @@
 }
 
 /* Logo */
-.logo img {
+.logo {
   height: auto;
   max-height: 100px;
   width: auto;
+  font-size: 70px;
+  font-family: "Special Elite";
+  color: white;
 }
 
 /* Contenedor del menú */

@@ -17,9 +17,11 @@ const NavBar = () => {
 
   return (
     <div className="navbar">
-      <div className="logo">
-        <img src={imagen1} alt="" style={{ height: "100px", width: "400px" }} />
-      </div>
+      <Link to="/">
+        <div className="logo">
+          <div style={{ height: "100px", width: "400px" }}> RucaMeu </div>
+        </div>
+      </Link>
       <div className="menu">
         <Link className="link-navbar" to="/">
           <p>Home</p>
