@@ -9,8 +9,6 @@ import cors from "cors";
 import "./models/Product.js";
 import "./models/User.js";
 import "./models/Carrito.js";
-import "./models/CarritoProduct.js";
-
 import "./models/Associations.js";
 
 const app = express();

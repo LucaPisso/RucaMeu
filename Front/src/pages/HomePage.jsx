@@ -2,6 +2,7 @@ import homeBackground from "../assets/utils/home-background.jpg";
 import flechaHaciaAbajo from "../assets/utils/flecha-hacia-abajo.png";
 import "./HomePage.css";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const HomePage = () => {
   return (

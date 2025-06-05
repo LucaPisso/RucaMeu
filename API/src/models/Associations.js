@@ -1,21 +1,11 @@
 import { User } from "./User.js";
-import { Product } from "./Product.js";
 import { Carrito } from "./Carrito.js";
-import { CarritoProduct } from "./CarritoProduct.js";
+import { Product } from "./Product.js";
 
-// User - Carrito (1:1)
+// 1:1 entre Usuario y Carrito
 User.hasOne(Carrito, { foreignKey: "userId" });
 Carrito.belongsTo(User, { foreignKey: "userId" });
 
-// Carrito - Product (N:M)
-Carrito.belongsToMany(Product, {
-  through: CarritoProduct,
-  foreignKey: "carritoId", // Debe coincidir con el campo en CarritoProduct
-  otherKey: "productId",
-});
-
-Product.belongsToMany(Carrito, {
-  through: CarritoProduct,
-  foreignKey: "productId", // Debe coincidir con el campo en CarritoProduct
-  otherKey: "carritoId",
-});
+// 1:N entre Carrito y Productos
+Carrito.hasMany(Product, { foreignKey: "carritoId" });
+Product.belongsTo(Carrito, { foreignKey: "carritoId" });

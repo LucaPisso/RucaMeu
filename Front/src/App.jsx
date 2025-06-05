@@ -11,14 +11,15 @@ import ProductsPage from "./pages/ProductsPage";
 import NotFound from "./components/NotFound";
 import UpdateProduct from "./components/UpdateProduct";
 import Login from "./components/Login";
-
 import "./App.css";
+import toast, { Toaster } from "react-hot-toast";
 
 import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
+      <Toaster />
       <NavBar />
       <Routes>
         {/* Rutas comunes */}

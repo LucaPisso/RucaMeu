@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import imagen1 from "../assets/products/fanal-gris.jpg";
 import DeleteProduct from "./DeleteProduct";
+import toast, { Toaster } from "react-hot-toast";
 
 const Card = ({ product, setDeleteProduct }) => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -41,9 +42,9 @@ const Card = ({ product, setDeleteProduct }) => {
                 throw new Error(data.message || "Error al agregar al carrito");
               }
 
-              alert("✅ Producto agregado al carrito");
+              toast.success("✅ Producto agregado al carrito");
             } catch (err) {
-              alert("❌ Tenes que registrarte para comprar.");
+              toast.error("❌ Tenes que registrarte para comprar.");
               navigate("/register");
               console.error(err);
             }

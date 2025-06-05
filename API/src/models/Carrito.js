@@ -9,6 +9,16 @@ export const Carrito = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    productos: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      defaultValue: [],
+    },
   },
   { timestamps: false }
 );

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserValidations from "./validations/UserValidations";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -65,7 +66,7 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.log(error.message);
-      alert("Error: " + error.message);
+      toast.error("Error: " + error.message);
     }
   };
 

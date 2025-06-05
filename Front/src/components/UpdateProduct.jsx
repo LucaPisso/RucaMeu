@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 import ProductValidations from "./validations/ProductValidations";
 
@@ -61,7 +62,7 @@ const UpdateProduct = () => {
         setFormData(data.product);
       } catch (error) {
         console.log(error.message);
-        alert("Error: " + error.message);
+        toast.error("Error: " + error.message);
       }
     };
 
