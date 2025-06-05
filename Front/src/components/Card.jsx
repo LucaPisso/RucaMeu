@@ -43,7 +43,8 @@ const Card = ({ product, setDeleteProduct }) => {
 
               alert("✅ Producto agregado al carrito");
             } catch (err) {
-              alert("❌ No se pudo agregar al carrito");
+              alert("❌ Tenes que registrarte para comprar.");
+              navigate("/register");
               console.error(err);
             }
           }}

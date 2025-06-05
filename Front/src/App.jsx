@@ -29,13 +29,17 @@ function App() {
         <Route path="*" element={<NotFound />} />
 
         {/* Rutas que debemos proteger */}
-        <Route path="/updateProduct/:id" element={<UpdateProduct />} />
-        <Route path="/addProduct" element={<AddProduct />} />
-        <Route path="/carrito" element={<CarritoPage />} />
-        <Route path="/adminPanel" element={<AdminPanel />} />
-        <Route path="/updateUser/:id" element={<UpdateUser />} />
+        <Route element={<Protected allowedRoles={["admin"]} />}>
+          <Route path="/updateProduct/:id" element={<UpdateProduct />} />
+          <Route path="/addProduct" element={<AddProduct />} />
+          <Route path="/adminPanel" element={<AdminPanel />} />
+          <Route path="/updateUser/:id" element={<UpdateUser />} />
+        </Route>
 
-        {/* <Route element={<Protected allowedRoles={["user", "admin"]} />}> */}
+        <Route element={<Protected />}>
+          <Route path="/carrito" element={<CarritoPage />} />
+        </Route>
+
         {/* Rutas sólo user */}
         {/* </Route> */}
         {/* Rutas sólo admin */}

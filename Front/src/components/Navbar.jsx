@@ -1,9 +1,12 @@
 import "./Navbar.css";
 import imagen1 from "../assets/products/fanal-gris.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Logout from "./Logout";
 
 const NavBar = () => {
   let user = null;
+  const navigate = useNavigate();
+
   try {
     const storedUser = localStorage.getItem("user");
     if (storedUser) user = JSON.parse(storedUser);
@@ -27,13 +30,21 @@ const NavBar = () => {
         <Link className="link-navbar" to="/register">
           <p>Cuenta</p>
         </Link>
-        <Link className="link-navbar" to="/">
+        <Link className="link-navbar" to="/carrito">
           <p>Carrito</p>
         </Link>
         {user?.role === "admin" && (
           <Link className="link-navbar" to="/adminPanel">
             <p>Admin</p>
           </Link>
+        )}
+        {user && (
+          <button
+            onClick={() => Logout({ navigate })}
+            className="logout-button"
+          >
+            Cerrar sesión
+          </button>
         )}
       </div>
     </div>

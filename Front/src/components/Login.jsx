@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserValidations from "./validations/UserValidations";
 
 const Login = () => {
@@ -70,35 +70,36 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form action="POST" onSubmit={submitHandler} className="register-form">
-        <h2>Iniciar Sesión</h2>
+    <div className="register-form">
+      <h2 className="register-title">Iniciar Sesión</h2>
+      <form action="POST" onSubmit={submitHandler}>
+        <Link className="link-to-login" to="/register">
+          ¿No tienes una cuenta aún en RucaMeu?
+        </Link>
         <label htmlFor="mail">E-mail:</label>
         <input
           className="register-input"
           type="email"
           name="email"
+          placeholder="Email"
           onChange={changeHandler}
           value={formData.email}
           ref={emailRef}
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
 
-        <br />
-        <br />
         <label htmlFor="password">Contraseña:</label>
         <input
           className="register-input"
           type="password"
           name="password"
+          placeholder="Contraseña"
           onChange={changeHandler}
           value={formData.password}
           ref={passwordRef}
         />
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
-        <br />
-        <br />
         <button className="register-button" type="submit">
           Ingresar
         </button>
