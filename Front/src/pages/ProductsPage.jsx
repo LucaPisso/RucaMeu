@@ -1,10 +1,12 @@
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [deleteProduct, setDeleteProduct] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,6 +41,9 @@ const ProductsPage = () => {
           <p>No hay productos disponibles.</p>
         )}
       </div>
+      <button onClick={() => navigate("/addProduct")} className="btn marron">
+        Agregar producto
+      </button>
 
       {/* const filteredBooks = books
             .filter(product => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)

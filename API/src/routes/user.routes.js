@@ -7,7 +7,6 @@ import {
   deleteUser,
   loginUser,
   verifyToken,
-  makeUserAdmin,
 } from "../services/user.services.js";
 
 const router = Router();
@@ -23,7 +22,5 @@ router.put("/users/:id", updateUser);
 router.delete("/users/:id", deleteUser);
 
 router.post("/login", loginUser);
-
-router.put("/make-admin/:id", verifyToken, makeUserAdmin);
 
 export default router;

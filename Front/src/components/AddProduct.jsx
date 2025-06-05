@@ -69,7 +69,7 @@ const AddProduct = () => {
           errorData.message || "Error desconocido al agregar producto"
         );
       }
-      toast.succes("Producto agregado correctamente");
+      toast.success("Producto agregado correctamente");
       const data = await res.json();
       console.log(`Producto agregado: ${data.product}`);
       setFormData({
