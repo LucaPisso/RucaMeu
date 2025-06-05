@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export const getAllUsers = async (req, res) => {
   const users = await User.findAll();
   users.forEach((user) => (user.password = ""));
-  res.json({ succes: true, users });
+  res.json({ success: true, users });
 };
 
 export const getUserById = async (req, res) => {
@@ -15,10 +15,10 @@ export const getUserById = async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .json({ succes: false, message: "Usuario no encontrado" });
+      .json({ success: false, message: "Usuario no encontrado" });
   }
   user.password = "";
-  res.json({ succes: true, user });
+  res.json({ success: true, user });
 };
 
 export const createUser = async (req, res) => {
@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
   if (user) {
     return res
       .status(400)
-      .send({ succes: false, message: "Usuario existente" });
+      .send({ success: false, message: "Usuario existente" });
   }
 
   //Hasheamos el password
@@ -49,7 +49,7 @@ export const createUser = async (req, res) => {
   //res.json(newUser.id);
   res
     .status(200)
-    .json({ succes: true, message: `Usuario creado: ${req.body.name}` });
+    .json({ success: true, message: `Usuario creado: ${req.body.name}` });
 };
 
 export const updateUser = async (req, res) => {
@@ -59,7 +59,7 @@ export const updateUser = async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .json({ succes: false, message: "Usuario no encontrado" });
+      .json({ success: false, message: "Usuario no encontrado" });
   } else {
     //Hasheamos el password
     const saltRounds = 10;
@@ -75,7 +75,7 @@ export const updateUser = async (req, res) => {
     );
     res
       .status(200)
-      .json({ succes: true, message: "Datos modificados correctamente." });
+      .json({ success: true, message: "Datos modificados correctamente." });
   }
 };
 
@@ -86,11 +86,11 @@ export const deleteUser = async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .json({ succes: false, message: "Usuario no encontrado." });
+      .json({ success: false, message: "Usuario no encontrado." });
   } else {
     await user.destroy();
     res.json({
-      succes: true,
+      success: true,
       message: `Usuario con id ${id} eliminado correctamente.`,
     });
   }
@@ -107,7 +107,7 @@ export const verifyToken = (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ succes: false, message: "No posee autorización requerida" });
+      .json({ success: false, message: "No posee autorización requerida" });
   }
 
   try {
@@ -125,7 +125,7 @@ export const verifyToken = (req, res, next) => {
     // Si el token no es válido o ha expirado, devuelve error 403 (prohibido)
     return res
       .status(403)
-      .json({ succes: false, message: "No posee permisos correctos" });
+      .json({ success: false, message: "No posee permisos correctos" });
   }
 };
 
@@ -185,14 +185,14 @@ export const makeUserAdmin = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ succes: false, message: "Usuario no encontrado" });
+        .json({ success: false, message: "Usuario no encontrado" });
     }
 
     user.role = "admin";
     await user.save();
 
     res.json({
-      succes: true,
+      success: true,
       message: `${name} con ID ${id} ahora es administrador.`,
       user,
     });
@@ -200,6 +200,6 @@ export const makeUserAdmin = async (req, res) => {
     console.error(error);
     res
       .status(500)
-      .json({ succes: false, message: "Error al asignar rol de admin." });
+      .json({ success: false, message: "Error al asignar rol de admin." });
   }
 };

@@ -33,7 +33,7 @@ const CarritoPage = () => {
       <h1>Productos</h1>
       <div className="card-container">
         {carrito.length > 0 ? (
-          carrito.map((p) => <Card key={c.id} carrito={c} />)
+          carrito.map((c) => <Card key={c.id} carrito={c} />)
         ) : (
           <p>No hay productos disponibles.</p>
         )}
