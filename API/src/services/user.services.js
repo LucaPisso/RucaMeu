@@ -174,32 +174,3 @@ export const loginUser = async (req, res) => {
     },
   });
 };
-
-export const makeUserAdmin = async (req, res) => {
-  const { id } = req.params;
-  const { name } = req.params;
-
-  try {
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Usuario no encontrado" });
-    }
-
-    user.role = "admin";
-    await user.save();
-
-    res.json({
-      success: true,
-      message: `${name} con ID ${id} ahora es administrador.`,
-      user,
-    });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ success: false, message: "Error al asignar rol de admin." });
-  }
-};

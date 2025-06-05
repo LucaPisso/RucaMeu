@@ -19,58 +19,66 @@ const Card = ({ product, setDeleteProduct }) => {
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
         <p className="card-text">{product.price}</p>
-        <button
-          onClick={async () => {
-            try {
-              const token = localStorage.getItem("RucaMeu-token");
+        <div className="cards-buttons">
+          <button
+            onClick={async () => {
+              try {
+                const token = localStorage.getItem("RucaMeu-token");
 
-              const res = await fetch(
-                `http://localhost:3000/carrito/${product.id}`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                  },
-                  body: JSON.stringify({ cantidad: 1 }),
+                const res = await fetch(
+                  `http://localhost:3000/carrito/${product.id}`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ cantidad: 1 }),
+                  }
+                );
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                  throw new Error(
+                    data.message || "Error al agregar al carrito"
+                  );
                 }
-              );
 
-              const data = await res.json();
-
-              if (!res.ok) {
-                throw new Error(data.message || "Error al agregar al carrito");
+                toast.success("✅ Producto agregado al carrito");
+              } catch (err) {
+                toast.error("❌ Tenes que registrarte para comprar.");
+                navigate("/register");
+                console.error(err);
               }
-
-              toast.success("✅ Producto agregado al carrito");
-            } catch (err) {
-              toast.error("❌ Tenes que registrarte para comprar.");
-              navigate("/register");
-              console.error(err);
-            }
-          }}
-          className="btn"
-        >
-          Comprar
-        </button>
-        {user?.role === "admin" && (
-          <button
-            onClick={() => {
-              navigate(`/updateProduct/${product.id}`);
             }}
+            className="btn marron"
           >
-            ✎
+            Comprar
           </button>
-        )}
-        {user?.role === "admin" && (
-          <button
-            onClick={() => {
-              setDeleteProduct(DeleteProduct({ id: product.id, navigate }));
-            }}
-          >
-            🗑
-          </button>
-        )}
+          <div className="cards-admin-buttons">
+            {user?.role === "admin" && (
+              <button
+                className="btn update"
+                onClick={() => {
+                  navigate(`/updateProduct/${product.id}`);
+                }}
+              >
+                ✎
+              </button>
+            )}
+            {user?.role === "admin" && (
+              <button
+                className="btn delete"
+                onClick={() => {
+                  setDeleteProduct(DeleteProduct({ id: product.id, navigate }));
+                }}
+              >
+                🗑
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

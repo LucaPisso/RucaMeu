@@ -17,7 +17,7 @@ const Protected = ({ allowedRoles }) => {
     const currentTime = Date.now() / 1000; // jwt exp está en segundos
 
     if (decodedToken.exp < currentTime) {
-      lert("Su sesión ha expirado. Por favor, inicie sesión nuevamente.");
+      alert("Su sesión ha expirado. Por favor, inicie sesión nuevamente.");
       localStorage.removeItem("user");
       localStorage.removeItem("RucaMeu-token");
       return <Navigate to="/login" replace />;

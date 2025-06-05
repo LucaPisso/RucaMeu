@@ -94,16 +94,43 @@ body {
 }
 
 /* botones en genereal (clase de bootstrap sobrescrita, los !important son por las dudas no se sobrescriba)*/
-.btn {
+
+.marron {
   background-color: #815a34 !important;
   border-color: #815a34 !important;
   color: white !important;
   font-weight: bold !important;
 }
 
-.btn:hover {
+.marron:hover {
   background-color: #6c4529 !important;
   border-color: #6c4529 !important;
+  color: white !important;
+}
+
+.update {
+  background-color: #405a72 !important;
+  border-color: #405a72 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.update:hover {
+  background-color: blue !important;
+  border-color: blue !important;
+  color: white !important;
+}
+
+.delete {
+  background-color: rgb(255, 72, 0) !important;
+  border-color: rgb(255, 72, 0) !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.delete:hover {
+  background-color: red !important;
+  border-color: red !important;
   color: white !important;
 }
 
@@ -111,6 +138,18 @@ body {
   background-color: #a0a381 !important;
   border-color: #a0a381 !important;
   color: #6c4529 !important;
+}
+
+.cards-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cards-admin-buttons {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
 }
 
 .card-container {
