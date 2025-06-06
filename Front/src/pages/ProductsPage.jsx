@@ -29,6 +29,11 @@ const ProductsPage = () => {
     setDeleteProduct(false);
   }, [deleteProduct]);
 
+  const user = localStorage.getItem("user");
+  const rawUser = JSON.parse(user);
+  console.log(rawUser);
+  console.log(rawUser.role);
+
   return (
     <>
       <h1>Productos</h1>
@@ -41,9 +46,11 @@ const ProductsPage = () => {
           <p>No hay productos disponibles.</p>
         )}
       </div>
-      <button onClick={() => navigate("/addProduct")} className="btn marron">
-        Agregar producto
-      </button>
+      {rawUser.role === "admin" && (
+        <button onClick={() => navigate("/addProduct")} className="btn marron">
+          Agregar producto
+        </button>
+      )}
 
       {/* const filteredBooks = books
             .filter(product => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)

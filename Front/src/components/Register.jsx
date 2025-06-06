@@ -50,17 +50,17 @@ const Register = () => {
     }
 
     try {
-      const token = localStorage.getItem("RucaMeu-token");
-      if (!token) {
-        navigate("/login");
-        throw new Error("Token no encontrado. Inicie sesión primero.");
-      }
+      // const token = localStorage.getItem("RucaMeu-token");
+      // if (!token) {
+      //   navigate("/login");
+      //   throw new Error("Token no encontrado. Inicie sesión primero.");
+      // }
 
       const res = await fetch(`http://localhost:3000/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -81,7 +81,7 @@ const Register = () => {
         email: "",
         confirmPassword: "",
       });
-      navigate("/adminPanel");
+      navigate("/login");
     } catch (error) {
       console.log(error.message);
       alert("Error: " + error.message);
