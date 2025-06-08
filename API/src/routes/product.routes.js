@@ -14,10 +14,10 @@ router.get("/products", getAllProducts);
 
 router.get("/products/:id", getByID);
 
-router.post("/products", createProduct);
+router.post("/products", verifyToken, createProduct);
 
-router.put("/products/:id", updateProduct);
+router.put("/products/:id", verifyToken, updateProduct);
 
-router.delete("/products/:id", deleteProduct);
+router.delete("/products/:id", verifyToken, deleteProduct);
 
 export default router;

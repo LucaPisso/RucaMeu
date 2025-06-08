@@ -22,35 +22,36 @@ const Card = ({ product, setDeleteProduct }) => {
         <div className="cards-buttons">
           <button
             onClick={async () => {
-              try {
-                const token = localStorage.getItem("RucaMeu-token");
+              toast.error("Servicio no disponible");
+              /*try {
+                  const token = localStorage.getItem("RucaMeu-token");
 
-                const res = await fetch(
-                  `http://localhost:3000/carrito/${product.id}`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ cantidad: 1 }),
-                  }
-                );
-
-                const data = await res.json();
-
-                if (!res.ok) {
-                  throw new Error(
-                    data.message || "Error al agregar al carrito"
+                  const res = await fetch(
+                    `http://localhost:3000/carrito/${product.id}`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                      },
+                      body: JSON.stringify({ cantidad: 1 }),
+                    }
                   );
-                }
 
-                toast.success("✅ Producto agregado al carrito");
-              } catch (err) {
-                toast.error("❌ Tenes que registrarte para comprar.");
-                navigate("/register");
-                console.error(err);
-              }
+                  const data = await res.json();
+
+                  if (!res.ok) {
+                    throw new Error(
+                      data.message || "Error al agregar al carrito"
+                    );
+                  }
+
+                  toast.success("✅ Producto agregado al carrito");
+                } catch (err) {
+                  toast.error("❌ Tenes que registrarte para comprar.");
+                  navigate("/register");
+                  console.error(err);
+                }*/
             }}
             className="btn marron"
           >

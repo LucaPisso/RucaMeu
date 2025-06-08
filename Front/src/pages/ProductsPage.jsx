@@ -30,9 +30,8 @@ const ProductsPage = () => {
   }, [deleteProduct]);
 
   const user = localStorage.getItem("user");
-  const rawUser = JSON.parse(user);
-  console.log(rawUser);
-  console.log(rawUser.role);
+  let rawUser = "";
+  user ? (rawUser = JSON.parse(user)) : (rawUser = "");
 
   return (
     <>

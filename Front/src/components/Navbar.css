@@ -76,3 +76,13 @@
     max-height: 50px;
   }
 }
+
+.logout-button {
+  background: none;
+  border: none;
+  color: rgb(157, 25, 25);
+}
+
+.logout-button:hover {
+  text-decoration: underline;
+}
