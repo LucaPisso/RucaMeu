@@ -29,9 +29,11 @@ const ProductsPage = () => {
     setDeleteProduct(false);
   }, [deleteProduct]);
 
-  const user = localStorage.getItem("user");
-  let rawUser = "";
-  user ? (rawUser = JSON.parse(user)) : (rawUser = "");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // const user = localStorage.getItem("user");
+  // let rawUser = "";
+  // user ? (rawUser = JSON.parse(user)) : (rawUser = "");
 
   return (
     <>
@@ -45,7 +47,7 @@ const ProductsPage = () => {
           <p>No hay productos disponibles.</p>
         )}
       </div>
-      {rawUser.role === "admin" && (
+      {user?.role === "admin" && (
         <button onClick={() => navigate("/addProduct")} className="btn marron">
           Agregar producto
         </button>
