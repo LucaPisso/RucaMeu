@@ -31,10 +31,6 @@ const ProductsPage = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // const user = localStorage.getItem("user");
-  // let rawUser = "";
-  // user ? (rawUser = JSON.parse(user)) : (rawUser = "");
-
   return (
     <>
       <h1>Productos</h1>
