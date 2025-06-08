@@ -1,8 +1,6 @@
-//A REALIZAR:
-//Deshashear la contraseña al traerla. O directamente no traerla.
-
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 import UserValidations from "./validations/UserValidations";
 
@@ -116,7 +114,7 @@ const UpdateUser = () => {
           errorData.message || "Error desconocido al actualizar usuario"
         );
       }
-      alert("Usuario actualizado correctamente");
+      toast.success("Usuario actualizado correctamente");
       const data = await res.json();
       console.log(`Usuario actualizado: ${data.user}`);
       setFormData({

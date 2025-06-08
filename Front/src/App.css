@@ -158,3 +158,18 @@ body {
   gap: 1rem;
   padding: 1rem;
 }
+
+/* Footer*/
+
+.footer {
+  background-color: #8c8e6d;
+  font-family: "Segoe UI", sans-serif;
+  height: min-content;
+  padding-bottom: 0.5rem;
+}
+
+.footer > p {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
