@@ -36,7 +36,7 @@ const CarritoPage = () => {
         {carrito.length > 0 ? (
           carrito.map((c) => <Card key={c.id} carrito={c} />)
         ) : (
-          <p>No hay productos disponibles.</p>
+          <h1>Proximamente...</h1>
         )}
       </div>
 

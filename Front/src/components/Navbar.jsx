@@ -4,16 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Logout from "./Logout";
 
 const NavBar = () => {
-  let user = null;
   const navigate = useNavigate();
 
-  try {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) user = JSON.parse(storedUser);
-  } catch (e) {
-    console.error("Error al parsear el usuario desde localStorage:", e);
-    localStorage.removeItem("user");
-  }
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="navbar">
@@ -24,10 +17,10 @@ const NavBar = () => {
       </Link>
       <div className="menu">
         <Link className="link-navbar" to="/">
-          <p>Home</p>
+          <p>Inicio</p>
         </Link>
         <Link className="link-navbar" to="/products">
-          <p>Products</p>
+          <p>Productos</p>
         </Link>
         <Link className="link-navbar" to="/register">
           <p>Cuenta</p>
@@ -45,7 +38,8 @@ const NavBar = () => {
             onClick={() => Logout({ navigate })}
             className="logout-button"
           >
-            Cerrar sesión
+            Cerrar <br />
+            sesión ↩
           </button>
         )}
       </div>
