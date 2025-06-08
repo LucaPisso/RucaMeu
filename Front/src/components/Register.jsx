@@ -1,5 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 import UserValidations from "./validations/UserValidations";
 
@@ -70,7 +71,7 @@ const Register = () => {
           errorData.message || "Error desconocido al crear usuario"
         );
       }
-      alert("Usuario creado correctamente");
+      toast.success("Usuario creado correctamente");
       const data = await res.json();
       console.log(`Usuario creado: ${data.user}`);
       setFormData({

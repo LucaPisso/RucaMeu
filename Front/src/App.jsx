@@ -11,6 +11,7 @@ import ProductsPage from "./pages/ProductsPage";
 import NotFound from "./components/NotFound";
 import UpdateProduct from "./components/UpdateProduct";
 import Login from "./components/Login";
+import Footer from "./components/Footer";
 import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -40,27 +41,10 @@ function App() {
         <Route element={<Protected />}>
           <Route path="/carrito" element={<CarritoPage />} />
         </Route>
-
-        {/* Rutas sólo user */}
-        {/* </Route> */}
-        {/* Rutas sólo admin */}
-        {/* <Route
-          path="/addProduct"
-          element={
-            <Protected allowedRoles={["admin"]}>
-              <AddProduct />
-            </Protected>
-          }
-        /> */}
-        {/* <Route
-          path="/adminPanel"
-          element={
-            <Protected allowedRoles={["admin"]}>
-              <AdminPanel />
-            </Protected>
-          }
-        /> */}
       </Routes>
+      <br />
+      <br />
+      <Footer />
     </>
   );
 }

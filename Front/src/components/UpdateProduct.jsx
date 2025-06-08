@@ -110,7 +110,7 @@ const UpdateProduct = () => {
           errorData.message || "Error desconocido al actualizar producto"
         );
       }
-      alert("Producto actualizado correctamente");
+      toast.success("Producto actualizado correctamente");
       const data = await res.json();
       console.log(`Producto actualizado: ${data.product}`);
       setFormData({
