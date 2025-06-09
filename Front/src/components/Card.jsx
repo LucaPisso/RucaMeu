@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import imagen1 from "../assets/products/fanal-gris.jpg";
 import DeleteProduct from "./DeleteProduct";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -11,14 +10,14 @@ const Card = ({ product, setDeleteProduct }) => {
   return (
     <div className="card" style={{ width: "18rem" }}>
       <img
-        src={product.imageUrl || imagen1} //imagen1 porque todavía no tenemos imágenes en la bd
+        src={product.imageUrl}
         className="card-img-top img-card"
         alt="imagen"
       />
       {/*img-card esta en app.css, pude sobreescribir la de bootstrap*/}
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
-        <p className="card-text">{product.price}</p>
+        <p className="card-text">${product.price}</p>
         <div className="cards-buttons">
           <button
             onClick={async () => {
