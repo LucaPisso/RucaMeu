@@ -37,7 +37,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      <h1>Productos</h1>
+      <h1 className="title-page">Productos</h1>
       <div className="card-container">
         {products.length > 0 ? (
           products.map((p) => (
