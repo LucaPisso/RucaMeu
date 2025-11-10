@@ -57,7 +57,7 @@ const Register = () => {
       //   throw new Error("Token no encontrado. Inicie sesión primero.");
       // }
 
-      const res = await fetch(`http://localhost:3000/users`, {
+      const res = await fetch(`https://localhost:7121/RegisterClient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

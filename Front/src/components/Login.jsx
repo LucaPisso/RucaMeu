@@ -34,7 +34,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/login", {
+      const res = await fetch("https://localhost:7121/LogIn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,30 +42,23 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
 
+      const responseBodyText = await res.text();
       if (!res.ok) {
-        const errorData = await res.json();
         throw new Error(
-          errorData.message || "Error desconocido al crear usuario"
+          responseBodyText || `Error ${res.status}: Fallo de autenticación.`
         );
       }
-      const data = await res.json();
+      const tokenString = responseBodyText;
 
-      if (!data.success) {
-        return;
-      }
+      localStorage.setItem("RucaMeu-token", tokenString); // Limpiar formulario y redirigir
 
-      // Guardar el token en localStorage
-      localStorage.setItem("RucaMeu-token", data.token);
-
-      // Guardar estado de login y redirigir
-      localStorage.setItem("user", JSON.stringify(data.user));
       setFormData({
         password: "",
         email: "",
       });
       navigate("/");
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message); // El error.message ahora contendrá el mensaje de error del servidor o el mensaje que definiste.
       toast.error("Error: " + error.message);
     }
   };

@@ -29,13 +29,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/updateUser" element={<UpdateUser />} />
 
         {/* Rutas que debemos proteger */}
         <Route element={<Protected allowedRoles={["admin"]} />}>
           <Route path="/updateProduct/:id" element={<UpdateProduct />} />
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/adminPanel" element={<AdminPanel />} />
-          <Route path="/updateUser/:id" element={<UpdateUser />} />
         </Route>
 
         <Route element={<Protected />}>

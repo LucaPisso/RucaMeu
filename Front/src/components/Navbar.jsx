@@ -6,7 +6,7 @@ import Logout from "./Logout";
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("RucaMeu-token");
 
   return (
     <div className="navbar">
@@ -22,9 +22,15 @@ const NavBar = () => {
         <Link className="link-navbar" to="/products">
           <p>Productos</p>
         </Link>
-        <Link className="link-navbar" to="/register">
-          <p>Cuenta</p>
-        </Link>
+        {user ? (
+          <Link className="link-navbar" to="/updateUser">
+            <p>Perfil</p>
+          </Link>
+        ) : (
+          <Link className="link-navbar" to="/register">
+            <p>Registrarse</p>
+          </Link>
+        )}
         <Link className="link-navbar" to="/carrito">
           <p>Carrito</p>
         </Link>

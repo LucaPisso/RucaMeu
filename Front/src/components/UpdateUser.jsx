@@ -1,78 +1,90 @@
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
 
 import UserValidations from "./validations/UserValidations";
 
 const UpdateUser = () => {
   const [formData, setFormData] = useState({
-    lastName: "",
+    id: 0,
     name: "",
-    phone: "",
+    lastName: "",
     email: "",
+    phone: "",
     password: "",
-    confirmPassword: "",
-    role: "",
   });
   const [errors, setErrors] = useState({});
   const lastNameRef = useRef(null);
   const nameRef = useRef(null);
   const phoneRef = useRef(null);
   const emailRef = useRef(null);
-  const confirmPasswordRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
-  const { id } = useParams();
   const refs = {
     nameRef,
     lastNameRef,
-    phoneRef,
     emailRef,
-    confirmPasswordRef,
+    phoneRef,
     passwordRef,
   };
 
   //Get user
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("RucaMeu-token");
+      const token = localStorage.getItem("RucaMeu-token");
 
-        if (!token) {
-          navigate("/login");
-          throw new Error("Token no encontrado. Inicie sesión primero.");
+      if (!token) {
+        toast.error("Token no encontrado. Inicie sesión.");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const decodedToken = jwtDecode(token);
+        const userId = parseInt(decodedToken.sub); // ID del usuario logueado
+
+        if (isNaN(userId)) {
+          throw new Error("El ID de usuario en el token no es numérico.");
         }
 
-        const res = await fetch(`http://localhost:3000/users/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // 1. Almacenar el ID del usuario en el estado
+        setFormData((prev) => ({ ...prev, id: userId }));
+
+        // 2. Realizar la petición GET para obtener los datos actuales
+        const res = await fetch(
+          `https://localhost:7121/GetClientById/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(
-            errorData.message || "Error desconocido al buscar un usuario"
-          );
+          throw new Error(`Error al obtener datos del usuario: ${res.status}`);
         }
 
         const data = await res.json();
-        console.log(data.user);
-        setFormData({
-          ...data.user,
-          confirmPassword: "",
-        });
+        console.log(data);
+
+        // 3. Llenar el formulario con los datos recibidos
+        setFormData((prev) => ({
+          ...prev,
+          name: data.name || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          password: "",
+        }));
       } catch (error) {
-        console.log(error.message);
-        alert("Error: " + error.message);
+        console.error("Error al cargar datos del usuario:", error.message);
+        toast.error("Error al cargar los datos: " + error.message);
       }
     };
 
     fetchUser();
-  }, []);
-  //
+  }, [navigate]);
 
   //Maneja constantemente los cambios de los inputs
   function changeHandler(event) {
@@ -100,7 +112,7 @@ const UpdateUser = () => {
         throw new Error("Token no encontrado. Inicie sesión primero.");
       }
 
-      const res = await fetch(`http://localhost:3000/users/${id}`, {
+      const res = await fetch(`http://localhost:7123/UpdateClient`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -118,15 +130,12 @@ const UpdateUser = () => {
       const data = await res.json();
       console.log(`Usuario actualizado: ${data.user}`);
       setFormData({
-        lastName: "",
         name: "",
-        phone: "",
-        password: "",
+        lastName: "",
         email: "",
-        confirmPassword: "",
-        role: "user",
+        phone: "",
       });
-      navigate("/adminPanel");
+      navigate("/inicio");
     } catch (error) {
       console.log(error.message);
       alert("Error: " + error.message);
@@ -143,7 +152,7 @@ const UpdateUser = () => {
           className="register-input"
           type="text"
           name="name"
-          placeholder="Nombre del Producto"
+          placeholder="Nombre"
           onChange={changeHandler}
           value={formData.name}
           ref={nameRef}
@@ -189,43 +198,18 @@ const UpdateUser = () => {
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
 
-        <label htmlFor="password">Contraseña:</label>
+        <label htmlFor="lastName">Contraseña:</label>
 
         <input
           className="register-input"
           type="password"
           name="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           onChange={changeHandler}
           value={formData.password}
           ref={passwordRef}
         />
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
-
-        <label htmlFor="confirmPassword">Repita la contraseña:</label>
-
-        <input
-          className="register-input"
-          type="password"
-          name="confirmPassword"
-          onChange={changeHandler}
-          value={formData.confirmPassword}
-          ref={confirmPasswordRef}
-        />
-        {errors.confirmPassword && (
-          <p style={{ color: "red" }}>{errors.confirmPassword}</p>
-        )}
-
-        <label htmlFor="role">Rol:</label>
-        <select
-          className="register-input"
-          name="role"
-          value={formData.role}
-          onChange={changeHandler}
-        >
-          <option value="user">Usuario</option>
-          <option value="admin">Administrador</option>
-        </select>
 
         <button type="submit" className="register-button">
           Actualizar

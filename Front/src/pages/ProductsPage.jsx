@@ -11,15 +11,15 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/products", {
+        const res = await fetch("https://localhost:7121/AllEnableProducts", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
 
         if (!res.ok) throw new Error("Falló al obtener productos");
         const response = await res.json();
-        setProducts(response.products);
-        console.log(response.products);
+        setProducts(response);
+        console.log(response);
       } catch (err) {
         console.error(err);
       }
@@ -30,10 +30,6 @@ const ProductsPage = () => {
   }, [deleteProduct]);
 
   const user = JSON.parse(localStorage.getItem("user"));
-
-  // const user = localStorage.getItem("user");
-  // let rawUser = "";
-  // user ? (rawUser = JSON.parse(user)) : (rawUser = "");
 
   return (
     <>
