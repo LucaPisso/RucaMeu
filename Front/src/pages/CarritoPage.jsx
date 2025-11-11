@@ -5,11 +5,12 @@ import toast, { Toaster } from "react-hot-toast";
 const CarritoPage = () => {
   const [carrito, setCarrito] = useState([]);
 
+  const token = localStorage.getItem("RucaMeu-token");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchCarrito = async () => {
       try {
-        const token = localStorage.getItem("RucaMeu-token");
-        const res = await fetch("http://localhost:3000/carrito", {
+        const res = await fetch(`${API_URL}/GetCartByToken`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -19,10 +20,11 @@ const CarritoPage = () => {
 
         if (!res.ok) throw new Error("Falló al obtener productos");
         const response = await res.json();
-        setCarrito(response.carrito);
-        console.log(response.carrito);
+        setCarrito(response);
+        console.log(response);
       } catch (err) {
         console.error(err);
+        toast.error("Error: " + err.message);
       }
     };
 
@@ -31,12 +33,12 @@ const CarritoPage = () => {
 
   return (
     <>
-      <h1>Productos</h1>
+      <h1>Mi carrito</h1>
       <div className="card-container">
         {carrito.length > 0 ? (
           carrito.map((c) => <Card key={c.id} carrito={c} />)
         ) : (
-          <h1>Proximamente...</h1>
+          <h1>No hay productos en el carrito.</h1>
         )}
       </div>
 

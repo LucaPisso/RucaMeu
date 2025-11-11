@@ -9,6 +9,8 @@ const AdminPanel = () => {
   const [roleChange, setRoleChange] = useState(false);
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   //GET USER
   useEffect(() => {
     const fetchUsers = async () => {
@@ -19,23 +21,19 @@ const AdminPanel = () => {
           throw new Error("Inicia sesión primero");
         }
 
-        const res = await fetch(`http://localhost:7121/Admin`, {
+        const res = await fetch(`${API_URL}/GetAllUsers`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Status de respuesta:", res.status);
 
         if (!res.ok) throw new Error("Falló al obtener productos");
 
         const response = await res.json();
-        setUsers(response.users);
-        console.log(response.users);
-        console.log("respuesta del backend:", response);
+        setUsers(response);
       } catch (error) {
-        console.log(error.message);
         alert("Error: " + error.message);
       }
     };
@@ -43,6 +41,7 @@ const AdminPanel = () => {
     setRoleChange(false);
     setDeleteUser(false);
   }, [deleteUser, roleChange]);
+
   return (
     <>
       <h3>AdminPanel</h3>

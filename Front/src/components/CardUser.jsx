@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
-  const userLocalStorage = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState(user.role);
   const [newAdress, setNewAdress] = useState("");
+
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const token = localStorage.getItem("RucaMeu-token");
+  const userRole = localStorage.getItem("user_role");
 
   const isAdressRequired =
     selectedRole === "Admin" || selectedRole === "Employee";
@@ -19,8 +23,6 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
   };
 
   const handleRoleChange = async () => {
-    const token = localStorage.getItem("RucaMeu-token");
-
     if (selectedRole === "" || selectedRole === user.role) {
       // No hacer nada si no se ha seleccionado un rol o es el mismo
       return;
@@ -47,7 +49,7 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/ChangeRole`, {
+      const res = await fetch(`${API_URL}/ChangeRole`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,21 +65,21 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
         );
       }
       setRoleChange(true); // Esto activará el useEffect en AdminPanel
+      toast.success("Rol actualizado correctamente.");
     } catch (error) {
       console.error("Error al cambiar el rol:", error.message);
+      toast.error("Error al cambiar el rol");
     }
   };
 
   return (
     <div className="card" style={{ width: "18rem" }}>
       <div className="card-body">
-        <h5 className="card-title">
-          {user.name} {user.lastName}
-        </h5>
+        <h5 className="card-title">{user.fullName}</h5>
         <p className="card-text">{user.role}</p>
-        <p className="card-text">{user.phone}</p>
+        <p className="card-text">{user.phoneNumber}</p>
         <div className="cards-admin-buttons">
-          {userLocalStorage?.role === "admin" && (
+          {/* {user?.role === "admin" && (
             <button
               className="btn update"
               onClick={() => {
@@ -86,9 +88,9 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
             >
               ✎
             </button>
-          )}
+          )} */}
 
-          {userLocalStorage?.role === "admin" && (
+          {userRole === "Admin" && (
             <button
               className="btn delete"
               onClick={() => {
@@ -99,7 +101,7 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
             </button>
           )}
 
-          {userLocalStorage?.role === "admin" && (
+          {userRole === "Admin" && (
             <>
               <select
                 name="role"
