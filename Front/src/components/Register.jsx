@@ -1,34 +1,34 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { API_URL } from "../config.js";
 
 import UserValidations from "./validations/UserValidations";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    lastName: "",
     name: "",
-    phone: "",
+    lastName: "",
     email: "",
+    phone: "",
     password: "",
-    confirmPassword: "",
+    // confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
-  const lastNameRef = useRef(null);
   const nameRef = useRef(null);
-  const phoneRef = useRef(null);
+  const lastNameRef = useRef(null);
   const emailRef = useRef(null);
-  const confirmPasswordRef = useRef(null);
+  const phoneRef = useRef(null);
   const passwordRef = useRef(null);
+  // const confirmPasswordRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
   const refs = {
-    nameRef,
     lastNameRef,
-    phoneRef,
+    nameRef,
     emailRef,
-    confirmPasswordRef,
+    phoneRef,
     passwordRef,
+    // confirmPasswordRef,
   };
 
   //Maneja constantemente los cambios de los inputs
@@ -75,12 +75,12 @@ const Register = () => {
       const data = await res.json();
       console.log(`Usuario creado: ${data.user}`);
       setFormData({
-        lastName: "",
         name: "",
+        lastName: "",
+        email: "",
         phone: "",
         password: "",
-        email: "",
-        confirmPassword: "",
+        // confirmPassword: "",
       });
       navigate("/login");
     } catch (error) {
@@ -161,7 +161,7 @@ const Register = () => {
         />
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
-        <label htmlFor="confirmPassword">Repita la contraseña:</label>
+        {/* <label htmlFor="confirmPassword">Repita la contraseña:</label>
 
         <input
           className="register-input"
@@ -173,7 +173,7 @@ const Register = () => {
         />
         {errors.confirmPassword && (
           <p style={{ color: "red" }}>{errors.confirmPassword}</p>
-        )}
+        )} */}
 
         <button type="submit" className="register-button">
           Registrarse
