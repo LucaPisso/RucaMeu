@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
   const [deleteUser, setDeleteUser] = useState(false);
+  const [roleChange, setRoleChange] = useState(false);
   const navigate = useNavigate();
 
   //GET USER
@@ -18,7 +19,7 @@ const AdminPanel = () => {
           throw new Error("Inicia sesión primero");
         }
 
-        const res = await fetch(`http://localhost:3000/users`, {
+        const res = await fetch(`http://localhost:7121/api/Admin/`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -39,15 +40,21 @@ const AdminPanel = () => {
       }
     };
     fetchUsers();
+    setRoleChange(false);
     setDeleteUser(false);
-  }, [deleteUser]);
+  }, [deleteUser, roleChange]);
   return (
     <>
       <h3>AdminPanel</h3>
       <div className="card-container">
         {users.length > 0 ? (
           users.map((u) => (
-            <CardUser key={u.id} user={u} setDeleteUser={setDeleteUser} />
+            <CardUser
+              key={u.id}
+              user={u}
+              setDeleteUser={setDeleteUser}
+              setRoleChange={setRoleChange}
+            />
           ))
         ) : (
           <p>No existen usuarios</p>

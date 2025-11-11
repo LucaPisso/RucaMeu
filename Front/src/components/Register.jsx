@@ -57,7 +57,7 @@ const Register = () => {
       //   throw new Error("Token no encontrado. Inicie sesión primero.");
       // }
 
-      const res = await fetch(`${API_URL}/Client/RegisterClient`, {
+      const res = await fetch(`https://localhost:7121/RegisterClient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const Register = () => {
           errorData.message || "Error desconocido al crear usuario"
         );
       }
-      alert("Usuario creado correctamente");
+      toast.success("Usuario creado correctamente");
       const data = await res.json();
       console.log(`Usuario creado: ${data.user}`);
       setFormData({

@@ -11,15 +11,15 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/products", {
+        const res = await fetch("https://localhost:7121/AllEnableProducts", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
 
         if (!res.ok) throw new Error("Falló al obtener productos");
         const response = await res.json();
-        setProducts(response.products);
-        console.log(response.products);
+        setProducts(response);
+        console.log(response);
       } catch (err) {
         console.error(err);
       }
@@ -33,7 +33,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      <h1>Productos</h1>
+      <h1 className="title-page">Productos</h1>
       <div className="card-container">
         {products.length > 0 ? (
           products.map((p) => (

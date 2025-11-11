@@ -11,6 +11,7 @@ import ProductsPage from "./pages/ProductsPage";
 import NotFound from "./components/NotFound";
 import UpdateProduct from "./components/UpdateProduct";
 import Login from "./components/Login";
+import Footer from "./components/Footer";
 import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -28,39 +29,21 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/updateUser" element={<UpdateUser />} />
 
         {/* Rutas que debemos proteger */}
         <Route element={<Protected allowedRoles={["admin"]} />}>
           <Route path="/updateProduct/:id" element={<UpdateProduct />} />
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/adminPanel" element={<AdminPanel />} />
-          <Route path="/updateUser/:id" element={<UpdateUser />} />
         </Route>
 
         <Route element={<Protected />}>
           <Route path="/carrito" element={<CarritoPage />} />
         </Route>
-
-        {/* Rutas sólo user */}
-        {/* </Route> */}
-        {/* Rutas sólo admin */}
-        {/* <Route
-          path="/addProduct"
-          element={
-            <Protected allowedRoles={["admin"]}>
-              <AddProduct />
-            </Protected>
-          }
-        /> */}
-        {/* <Route
-          path="/adminPanel"
-          element={
-            <Protected allowedRoles={["admin"]}>
-              <AdminPanel />
-            </Protected>
-          }
-        /> */}
       </Routes>
+      <br />
+      <br />
     </>
   );
 }
