@@ -19,7 +19,7 @@ const AdminPanel = () => {
           throw new Error("Inicia sesión primero");
         }
 
-        const res = await fetch(`http://localhost:7121/api/Admin/`, {
+        const res = await fetch(`http://localhost:7121/Admin`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

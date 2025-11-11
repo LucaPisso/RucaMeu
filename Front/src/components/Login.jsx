@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserValidations from "./validations/UserValidations";
 import toast, { Toaster } from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +35,8 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch("https://localhost:7121/LogIn", {
+      const API_URL = import.meta.env.VITE_API_BASE_URL;
+      const res = await fetch(`${API_URL}/LogIn`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,8 +52,12 @@ const Login = () => {
       }
       const tokenString = responseBodyText;
 
-      localStorage.setItem("RucaMeu-token", tokenString); // Limpiar formulario y redirigir
+      localStorage.setItem("RucaMeu-token", tokenString);
+      const decodedToken = jwtDecode(tokenString);
+      localStorage.setItem("user_role", decodedToken.role);
+      localStorage.setItem("user_id", decodedToken.sub);
 
+      // Limpiar formulario y redirigir
       setFormData({
         password: "",
         email: "",

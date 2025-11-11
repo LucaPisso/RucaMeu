@@ -1,6 +1,5 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
-import { API_URL } from "../config.js";
 
 import UserValidations from "./validations/UserValidations";
 

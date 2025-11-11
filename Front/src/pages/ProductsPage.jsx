@@ -11,7 +11,9 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://localhost:7121/AllEnableProducts", {
+        //"https://localhost:7121/AllEnableProducts"
+        const API_URL = import.meta.env.VITE_API_BASE_URL;
+        const res = await fetch(`${API_URL}/AllEnableProducts`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -29,7 +31,7 @@ const ProductsPage = () => {
     setDeleteProduct(false);
   }, [deleteProduct]);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const userRole = localStorage.getItem("user_role");
 
   return (
     <>
@@ -43,7 +45,7 @@ const ProductsPage = () => {
           <p>No hay productos disponibles.</p>
         )}
       </div>
-      {user?.role === "admin" && (
+      {userRole === "Admin" && (
         <button onClick={() => navigate("/addProduct")} className="btn marron">
           Agregar producto
         </button>

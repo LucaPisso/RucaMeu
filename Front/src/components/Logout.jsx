@@ -4,7 +4,8 @@ const Logout = ({ navigate }) => {
   }
 
   localStorage.removeItem("RucaMeu-token");
-  localStorage.removeItem("user");
+  localStorage.removeItem("user_role");
+  localStorage.removeItem("user_id");
   navigate("/");
 };
 

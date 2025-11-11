@@ -32,7 +32,7 @@ function App() {
         <Route path="/updateUser" element={<UpdateUser />} />
 
         {/* Rutas que debemos proteger */}
-        <Route element={<Protected allowedRoles={["admin"]} />}>
+        <Route element={<Protected allowedRoles={["Admin"]} />}>
           <Route path="/updateProduct/:id" element={<UpdateProduct />} />
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/adminPanel" element={<AdminPanel />} />
