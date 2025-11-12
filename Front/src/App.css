@@ -237,4 +237,122 @@ body {
 .add-text {
   color: #4a4a4a;
   font-weight: 500;
+/*CardItemCart*/
+/* --- Estilo Base de la Fila del Ítem (Contenedor principal) --- */
+.cart-item-baggy-card {
+  display: flex;
+  align-items: flex-start; /* Alinear arriba */
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Columna 1: Imagen --- */
+.cart-item-image-baggy {
+  flex-shrink: 0;
+  width: 80px;
+  height: 100px; /* Alto de la imagen un poco más grande */
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.cart-item-image-baggy img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Columna 2: Detalles y Acciones --- */
+.cart-item-details-baggy {
+  flex-grow: 1; /* Ocupa el resto del espacio horizontal */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px; /* Misma altura que la imagen para alineación */
+}
+
+/* Fila Superior: Nombre, Precio, Papelera */
+.item-header-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.product-name-baggy {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  line-height: 1.3; /* Para el texto multilinea como en el ejemplo */
+  flex-grow: 1; /* Permite que el nombre ocupe mucho espacio */
+}
+
+.price-delete-group {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.product-price-baggy {
+  font-size: 1em;
+  font-weight: bold;
+  color: #333;
+  margin-right: 15px; /* Espacio antes de la papelera */
+  line-height: 1.3;
+}
+
+.btn-delete-baggy {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 0;
+  line-height: 1.3;
+}
+
+.btn-delete-baggy:hover {
+  color: #c82333;
+}
+
+/* Fila Inferior: Controles de Cantidad */
+.quantity-controls-baggy {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 0; /* Sin bordes redondeados */
+  overflow: hidden;
+  width: 120px; /* Ancho fijo para los controles */
+  font-size: 0.9em;
+}
+
+.quantity-controls-baggy button {
+  background-color: #fff;
+  border: none;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: #333;
+  flex-grow: 1;
+}
+
+.quantity-controls-baggy button:first-child {
+  border-right: 1px solid #ccc;
+}
+
+.quantity-controls-baggy button:last-child {
+  border-left: 1px solid #ccc;
+}
+
+.quantity-value-baggy {
+  padding: 6px 0;
+  font-weight: normal;
+  text-align: center;
+  width: 30px; /* Ancho fijo para el número */
+  flex-shrink: 0;
+  font-size: 1em;
 }

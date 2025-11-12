@@ -156,7 +156,7 @@ const UpdateUser = () => {
           onChange={changeHandler}
           value={formData.name}
           ref={nameRef}
-          disabled={isLoading} // ⬅ Deshabilitado durante la carga
+          disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />
         {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
         <label htmlFor="lastName">Apellido:</label>{" "}
@@ -168,9 +168,9 @@ const UpdateUser = () => {
           onChange={changeHandler}
           value={formData.lastName}
           ref={lastNameRef}
-          disabled={isLoading} // ⬅ Deshabilitado durante la carga
+          disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />{" "}
-        {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
+        {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>} 
         <label htmlFor="phoneNumber">Número de teléfono:</label>{" "}
         <input
           className="register-input"
@@ -180,7 +180,7 @@ const UpdateUser = () => {
           onChange={changeHandler}
           value={formData.phoneNumber}
           ref={phoneRef}
-          disabled={isLoading} // ⬅ Deshabilitado durante la carga
+          disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />
         {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
         <label htmlFor="email">Email:</label>{" "}
@@ -192,13 +192,13 @@ const UpdateUser = () => {
           onChange={changeHandler}
           value={formData.email}
           ref={emailRef}
-          disabled={isLoading} // ⬅ Deshabilitado durante la carga
+          disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}{" "}
         <button
           type="submit"
           className="register-button"
-          disabled={isLoading} // ⬅ Deshabilitado mientras carga
+          disabled={isLoading} // ⬅️ Deshabilitado mientras carga
         >
           {isLoading ? "Cargando..." : "Actualizar"}{" "}
         </button>{" "}
