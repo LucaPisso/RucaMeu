@@ -5,7 +5,9 @@ import toast, { Toaster } from "react-hot-toast";
 import ProductValidations from "./validations/ProductValidations";
 
 const UpdateProduct = () => {
+  const { id } = useParams();
   const [formData, setFormData] = useState({
+    Id: id,
     imageUrl: "",
     name: "",
     description: "",
@@ -21,7 +23,6 @@ const UpdateProduct = () => {
   const stockRef = useRef(null);
   const categoryRef = useRef(null);
   const navigate = useNavigate();
-  const { id } = useParams();
   const refs = {
     nameRef,
     imageUrlRef,
@@ -31,18 +32,18 @@ const UpdateProduct = () => {
     categoryRef,
   };
 
+  const token = localStorage.getItem("RucaMeu-token");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   //Get product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const token = localStorage.getItem("RucaMeu-token");
-
         if (!token) {
           navigate("/login");
           throw new Error("Token no encontrado. Inicie sesión primero.");
         }
 
-        const res = await fetch(`http://localhost:3000/products/${id}`, {
+        const res = await fetch(`${API_URL}/GetById/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -58,8 +59,16 @@ const UpdateProduct = () => {
         }
 
         const data = await res.json();
-        console.log(data.product);
-        setFormData(data.product);
+        console.log(data);
+        setFormData((prev) => ({
+          ...prev,
+          imageUrl: data.imgUrl || "",
+          name: data.name || "",
+          description: data.description || "",
+          price: data.price || "",
+          category: data.categoryDTO.id || "",
+          stock: data.stock || "",
+        }));
       } catch (error) {
         console.log(error.message);
         toast.error("Error: " + error.message);
@@ -89,30 +98,39 @@ const UpdateProduct = () => {
       return;
     }
 
+    // Convertimos strings de input a números ANTES de enviar
+    const finalData = {
+      Id: parseInt(formData.Id, 10),
+      Name: formData.name,
+      Description: formData.description,
+      Price: parseFloat(formData.price),
+      Stock: parseInt(formData.stock, 10),
+      CategoryId: parseInt(formData.category, 10),
+      ImgUrl: formData.imageUrl,
+    };
+
     try {
-      const token = localStorage.getItem("RucaMeu-token");
       if (!token) {
         navigate("/login");
         throw new Error("Token no encontrado. Inicie sesión primero.");
       }
 
-      const res = await fetch(`http://localhost:3000/products/${id}`, {
+      const res = await fetch(`${API_URL}/UpdateProduct`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(finalData),
       });
       if (!res.ok) {
-        const errorData = await res.json();
+        const errorData = await res.json(); // 🛑 Si el cuerpo no es JSON, fallará.
         throw new Error(
           errorData.message || "Error desconocido al actualizar producto"
         );
       }
       toast.success("Producto actualizado correctamente");
-      const data = await res.json();
-      console.log(`Producto actualizado: ${data.product}`);
+
       setFormData({
         imageUrl: "",
         name: "",
@@ -136,7 +154,7 @@ const UpdateProduct = () => {
 
         <input
           className="register-input"
-          type="url"
+          type="text"
           name="imageUrl"
           placeholder="Imagen"
           onChange={changeHandler}
@@ -177,7 +195,7 @@ const UpdateProduct = () => {
 
         <input
           className="register-input"
-          type="text"
+          type="number"
           name="category"
           placeholder="Categoría"
           onChange={changeHandler}
