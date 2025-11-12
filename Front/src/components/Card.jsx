@@ -1,85 +1,169 @@
 import { useNavigate } from "react-router-dom";
 import DeleteProduct from "./DeleteProduct";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { jwtDecode } from "jwt-decode"; // ⬅️ Asegúrate de tener la importación correcta
+
 const images = import.meta.glob("../assets/products/*.jpg", { eager: true });
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Card = ({ product, setDeleteProduct }) => {
   const token = localStorage.getItem("RucaMeu-token");
-  const userRole = localStorage.getItem("user_role");
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
-  // const IMG_URL = import.meta.env.VITE_IMG_URL;
-  // const img = `${IMG_URL}${product.imgUrl}.jpg`;
-  // console.log(img);
+  // ⬅️ Decodificación del token para extraer info del usuario
+  let userId = null;
+  let userRole = localStorage.getItem("user_role"); // Mantengo esto por si el rol no viene en el token o lo prefieres así
+
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      // Usamos decodedToken.sub y lo convertimos a número (como ya lo haces)
+      userId = parseInt(decodedToken.sub);
+      // userRole = decodedToken.role; // Puedes usar esto si el rol viene en el token
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      // Si el token no es válido, userId seguirá siendo null
+    }
+  }
+  // Fin de la decodificación
+
+  const increaseQuantity = () =>
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  const decreaseQuantity = () =>
+    setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
+
+  const handleBuy = async () => {
+    // 1. Verificación de autenticación (sin cambios)
+    if (!token || !userId) {
+      toast.error("❌ Tenés que registrarte para comprar.");
+      navigate("/register");
+      return;
+    } // ➡️ 1. APLICAR VALOR MÍNIMO ESTRICTO ANTES DE USAR
+
+    const finalQuantity = Math.max(1, quantity);
+
+    // ➡️ 2. VALIDACIÓN DE CERO: Si por alguna razón quantity es 0, no continuamos.
+    if (finalQuantity === 0) {
+      toast.error("La cantidad a comprar debe ser al menos 1.");
+      // Opcional: setQuantity(1) para restablecer la vista
+      return;
+    }
+
+    try {
+      // 2. Obtener el cartId usando el userId decodificado
+      // Asumo que el endpoint ahora espera el userId en la URL
+      const cartRes = await fetch(`${API_BASE_URL}/GetCartByToken`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!cartRes.ok) {
+        const cartErrorData = await cartRes.json();
+        // Si el usuario existe pero no tiene carrito, el backend debería manejarlo
+        throw new Error(
+          cartErrorData.message || "Error al obtener el carrito."
+        );
+      }
+
+      const cartData = await cartRes.json();
+      const cartId = cartData.id;
+
+      if (!cartId) {
+        throw new Error("No se encontró el ID del carrito para este usuario.");
+      }
+
+      // 3. Preparar y enviar los 3 parámetros (cartId, productId, cantidad)
+      const purchaseData = {
+        cartId: cartId,
+        productId: product.id,
+        quantity: quantity,
+      };
+
+      const res = await fetch(`${API_BASE_URL}/AddItemToCart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(purchaseData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(
+          data.message || "Error al agregar el producto al carrito."
+        );
+      }
+
+      toast.success(`✅ Agregado ${quantity} x ${product.name} al carrito`);
+      setQuantity(1);
+    } catch (err) {
+      toast.error(`❌ Error en la compra: ${err.message}`);
+      console.error(err);
+    }
+  };
+  // ... Código JSX restante ...
+
   const imageKey = `../assets/products/${product.imgUrl}.jpg`;
   const imgModule = images[imageKey];
   const imgPath = imgModule ? imgModule.default : "/placeholder.jpg";
 
   return (
     <div className="card" style={{ width: "18rem" }}>
+      <Toaster />
       <img src={imgPath} className="card-img-top img-card" alt="imagen" />
-      {/*img-card esta en app.css, pude sobreescribir la de bootstrap*/}
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
         <p className="card-text">${product.price}</p>
         <div className="cards-buttons">
-          <button
-            onClick={async () => {
-              toast.error("Servicio no disponible");
-              /*try {
-                  const token = localStorage.getItem("RucaMeu-token");
-
-                  const res = await fetch(
-                    `http://localhost:3000/carrito/${product.id}`,
-                    {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                      },
-                      body: JSON.stringify({ cantidad: 1 }),
-                    }
-                  );
-
-                  const data = await res.json();
-
-                  if (!res.ok) {
-                    throw new Error(
-                      data.message || "Error al agregar al carrito"
-                    );
-                  }
-
-                  toast.success("✅ Producto agregado al carrito");
-                } catch (err) {
-                  toast.error("❌ Tenes que registrarte para comprar.");
-                  navigate("/register");
-                  console.error(err);
-                }*/
-            }}
-            className="btn marron"
-          >
+          {/* Controles de cantidad */}
+          <div className="quantity-controls">
+            <button
+              onClick={decreaseQuantity}
+              className="btn btn-sm btn-outline-secondary quantity-btn"
+              disabled={quantity === 1}
+            >
+              -
+            </button>
+            <span className="quantity-display">{quantity}</span>
+            <button
+              onClick={increaseQuantity}
+              className="btn btn-sm btn-outline-secondary quantity-btn"
+            >
+              +
+            </button>
+          </div>
+          <button onClick={handleBuy} className="btn marron">
             Comprar
           </button>
           <div className="cards-admin-buttons">
+            {/* Usamos el userRole que ya tenías */}
             {userRole === "Admin" && (
-              <button
-                className="btn update"
-                onClick={() => {
-                  navigate(`/updateProduct/${product.id}`);
-                }}
-              >
-                ✎
-              </button>
-            )}
-            {userRole === "Admin" && (
-              <button
-                className="btn delete"
-                onClick={() => {
-                  setDeleteProduct(DeleteProduct({ id: product.id, navigate }));
-                }}
-              >
-                🗑
-              </button>
+              <>
+                <button
+                  className="btn update"
+                  onClick={() => navigate(`/updateProduct/${product.id}`)}
+                >
+                  ✎
+                </button>
+                <button
+                  className="btn delete"
+                  onClick={() =>
+                    setDeleteProduct(
+                      DeleteProduct({ id: product.id, navigate })
+                    )
+                  }
+                >
+                  🗑
+                </button>
+              </>
             )}
           </div>
         </div>
