@@ -1,134 +1,136 @@
 // src/components/Card.jsx
 import { useNavigate } from "react-router-dom";
 import DisableProduct from "./DisableProduct";
-import DeleteProduct from "./ProductDelete";
+import DeleteProduct from "./ProductDelete"; // Se mantiene por si se usa en el futuro, aunque no se usa en el código visible.
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode"; // ⬅️ Asegúrate de tener la importación correcta
+import { jwtDecode } from "jwt-decode";
 
-const images = import.meta.glob("../assets/products/*.jpg", { eager: true });
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const userRole = localStorage.getItem("user_role");
-
-const Card = ({ product, setDeleteProduct }) => {
+// ⬇️ La prop setDeleteProduct se mantiene por consistencia si la Card la usa en otro lugar, pero
+// la lógica de deshabilitar ahora usa setDisableProduct que estaba dentro de la definición duplicada.
+const Card = ({ product, setDisableProduct }) => {
+  // Las props product y setDisableProduct estaban en la definición anidada.
+  // Ahora las juntamos todas en la única definición del componente.
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
   const token = localStorage.getItem("RucaMeu-token");
-  const Card = ({ product, setDisableProduct }) => {
-    const navigate = useNavigate();
-    const [quantity, setQuantity] = useState(1);
 
-    // ⬅️ Decodificación del token para extraer info del usuario
-    let userId = null;
+  // Definiciones globales
+  const images = import.meta.glob("../assets/products/*.jpg", { eager: true });
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const userRole = localStorage.getItem("user_role");
 
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        // Usamos decodedToken.sub y lo convertimos a número (como ya lo haces)
-        userId = parseInt(decodedToken.sub);
-        // userRole = decodedToken.role; // Puedes usar esto si el rol viene en el token
-      } catch (error) {
-        console.error("Error al decodificar el token:", error);
-        // Si el token no es válido, userId seguirá siendo null
-      }
+  // ⬅️ Decodificación del token para extraer info del usuario
+  let userId = null;
+
+  if (token) {
+    try {
+      // Usamos jwtDecode directamente
+      const decodedToken = jwtDecode(token);
+      // Convertimos el 'sub' (subject, típicamente el ID de usuario) a número
+      userId = parseInt(decodedToken.sub);
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      // Si el token no es válido, userId seguirá siendo null
     }
-    // Fin de la decodificación
+  }
+  // Fin de la decodificación
 
-    const increaseQuantity = () =>
-      setQuantity((prevQuantity) => prevQuantity + 1);
-    const decreaseQuantity = () =>
-      setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
+  const increaseQuantity = () =>
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  const decreaseQuantity = () =>
+    setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
 
-    const handleBuy = async () => {
-      // 1. Verificación de autenticación (sin cambios)
-      if (!token || !userId) {
-        toast.error("❌ Tenés que registrarte para comprar.");
-        navigate("/register");
-        return;
-      } // ➡️ 1. APLICAR VALOR MÍNIMO ESTRICTO ANTES DE USAR
+  const handleBuy = async () => {
+    // 1. Verificación de autenticación
+    if (!token || !userId) {
+      toast.error("❌ Tenés que registrarte para comprar.");
+      navigate("/register");
+      return;
+    }
 
-      const finalQuantity = Math.max(1, quantity);
+    // Asegurar que la cantidad sea al menos 1
+    const finalQuantity = Math.max(1, quantity);
 
-      // ➡️ 2. VALIDACIÓN DE CERO: Si por alguna razón quantity es 0, no continuamos.
-      if (finalQuantity === 0) {
-        toast.error("La cantidad a comprar debe ser al menos 1.");
-        // Opcional: setQuantity(1) para restablecer la vista
-        return;
+    // 2. VALIDACIÓN DE CERO
+    if (finalQuantity === 0) {
+      toast.error("La cantidad a comprar debe ser al menos 1.");
+      return;
+    }
+
+    try {
+      // 2. Obtener el cartId usando el token
+      const cartRes = await fetch(`${API_BASE_URL}/GetCartByToken`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!cartRes.ok) {
+        const cartErrorData = await cartRes.json();
+        throw new Error(
+          cartErrorData.message || "Error al obtener el carrito."
+        );
       }
 
-      try {
-        // 2. Obtener el cartId usando el userId decodificado
-        // Asumo que el endpoint ahora espera el userId en la URL
-        const cartRes = await fetch(`${API_BASE_URL}/GetCartByToken`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const cartData = await cartRes.json();
+      const cartId = cartData.id;
 
-        if (!cartRes.ok) {
-          const cartErrorData = await cartRes.json();
-          // Si el usuario existe pero no tiene carrito, el backend debería manejarlo
-          throw new Error(
-            cartErrorData.message || "Error al obtener el carrito."
-          );
-        }
-
-        const cartData = await cartRes.json();
-        const cartId = cartData.id;
-
-        if (!cartId) {
-          throw new Error(
-            "No se encontró el ID del carrito para este usuario."
-          );
-        }
-
-        // 3. Preparar y enviar los 3 parámetros (cartId, productId, cantidad)
-        const purchaseData = {
-          cartId: cartId,
-          productId: product.id,
-          quantity: quantity,
-        };
-
-        const res = await fetch(`${API_BASE_URL}/AddItemToCart`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(purchaseData),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(
-            data.message || "Error al agregar el producto al carrito."
-          );
-        }
-
-        toast.success(`✅ Agregado ${quantity} x ${product.name} al carrito`);
-        setQuantity(1);
-      } catch (err) {
-        toast.error(`❌ Error en la compra: ${err.message}`);
-        console.error(err);
+      if (!cartId) {
+        throw new Error("No se encontró el ID del carrito para este usuario.");
       }
-    };
-    // ... Código JSX restante ...
 
-    const imageKey = `../assets/products/${product.imgUrl}.jpg`;
-    const imgModule = images[imageKey];
-    const imgPath = imgModule ? imgModule.default : "/placeholder.jpg";
+      // 3. Preparar y enviar los 3 parámetros (cartId, productId, quantity)
+      const purchaseData = {
+        cartId: cartId,
+        productId: product.id,
+        quantity: finalQuantity, // Usamos finalQuantity
+      };
 
-    return (
-      <div className="card" style={{ width: "18rem" }}>
-        <Toaster />
-        <img src={imgPath} className="card-img-top img-card" alt="imagen" />
-        <div className="card-body">
-          <h5 className="card-title">{product.name}</h5>
-          <p className="card-text">${product.price}</p>
-          <div className="cards-buttons">
-            {/* Controles de cantidad */}
+      const res = await fetch(`${API_BASE_URL}/AddItemToCart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(purchaseData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(
+          data.message || "Error al agregar el producto al carrito."
+        );
+      }
+
+      toast.success(
+        `✅ Agregado ${finalQuantity} x ${product.name} al carrito`
+      );
+      setQuantity(1); // Restablecer la cantidad a 1 después de la compra
+    } catch (err) {
+      toast.error(`❌ Error en la compra: ${err.message}`);
+      console.error(err);
+    }
+  };
+
+  // Obtención de la ruta de la imagen
+  const imageKey = `../assets/products/${product.imgUrl}.jpg`;
+  const imgModule = images[imageKey];
+  const imgPath = imgModule ? imgModule.default : "/placeholder.jpg";
+
+  return (
+    <div className="card" style={{ width: "18rem" }}>
+      <Toaster />
+      <img src={imgPath} className="card-img-top img-card" alt="imagen" />
+      <div className="card-body">
+        <h5 className="card-title">{product.name}</h5>
+        <p className="card-text">${product.price}</p>
+        <div className="cards-buttons">
+          {/* Controles de cantidad */}
+          {userRole !== "Admin" && (
             <div className="quantity-controls">
               <button
                 onClick={decreaseQuantity}
@@ -145,39 +147,43 @@ const Card = ({ product, setDeleteProduct }) => {
                 +
               </button>
             </div>
+          )}
+          {userRole !== "Admin" && ( // Mostrar 'Comprar' si NO es Admin
             <button onClick={handleBuy} className="btn marron">
               Comprar
             </button>
-            <div className="cards-admin-buttons">
-              {/* Usamos el userRole que ya tenías */}
-              {userRole === "Admin" && (
-                <button
-                  className="btn update"
-                  onClick={() => navigate(`/updateProduct/${product.id}`)}
-                >
-                  ✎
-                </button>
-              )}
+          )}
+          <div className="cards-admin-buttons">
+            {/* Botones de Admin */}
+            {userRole === "Admin" && (
+              <button
+                className="btn update"
+                onClick={() => navigate(`/updateProduct/${product.id}`)}
+              >
+                ✎
+              </button>
+            )}
 
-              {userRole === "Admin" && (
-                <button
-                  className="btn btn-secondary"
-                  onClick={async () => {
-                    const success = await DisableProduct({
-                      id: product.id,
-                      navigate,
-                    });
-                    setDisableProduct(success);
-                  }}
-                >
-                  🔒
-                </button>
-              )}
-            </div>
+            {userRole === "Admin" && (
+              <button
+                className="btn btn-secondary"
+                onClick={async () => {
+                  const success = await DisableProduct({
+                    id: product.id,
+                    navigate,
+                  });
+                  // Usamos la prop setDisableProduct que ahora recibimos
+                  setDisableProduct(success);
+                }}
+              >
+                🔒
+              </button>
+            )}
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 };
+
 export default Card;
