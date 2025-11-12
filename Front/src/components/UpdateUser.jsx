@@ -28,11 +28,16 @@ const UpdateUser = () => {
     phoneRef,
     passwordRef,
   };
+  // const decodedToken = jwtDecode(token);
+  const userId = parseInt(decodedToken.sub);
+  const token = localStorage.getItem("RucaMeu-token");
+
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
   //Get user
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("RucaMeu-token");
+      // const token = localStorage.getItem("RucaMeu-token");
 
       if (!token) {
         toast.error("Token no encontrado. Inicie sesión.");
@@ -41,8 +46,10 @@ const UpdateUser = () => {
       }
 
       try {
-        const decodedToken = jwtDecode(token);
-        const userId = parseInt(decodedToken.sub); // ID del usuario logueado
+        // const decodedToken = jwtDecode(token);
+        // const userId = parseInt(decodedToken.sub);
+        // const token = localStorage.getItem("RucaMeu-token");
+        // const userRole = localStorage.getItem("user_role");
 
         if (isNaN(userId)) {
           throw new Error("El ID de usuario en el token no es numérico.");
@@ -52,14 +59,11 @@ const UpdateUser = () => {
         setFormData((prev) => ({ ...prev, id: userId }));
 
         // 2. Realizar la petición GET para obtener los datos actuales
-        const res = await fetch(
-          `https://localhost:7121/GetClientById/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await fetch(`${API_URL}/GetClientById/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!res.ok) {
           throw new Error(`Error al obtener datos del usuario: ${res.status}`);
@@ -106,13 +110,13 @@ const UpdateUser = () => {
     }
 
     try {
-      const token = localStorage.getItem("RucaMeu-token");
+      // const token = localStorage.getItem("RucaMeu-token");
       if (!token) {
         navigate("/login");
         throw new Error("Token no encontrado. Inicie sesión primero.");
       }
 
-      const res = await fetch(`http://localhost:7123/UpdateClient`, {
+      const res = await fetch(`${API_URL}/UpdateClient`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

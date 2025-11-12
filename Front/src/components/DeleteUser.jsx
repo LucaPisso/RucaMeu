@@ -1,17 +1,19 @@
 import toast, { Toaster } from "react-hot-toast";
 
 const DeleteUser = async ({ id, navigate }) => {
+  const token = localStorage.getItem("RucaMeu-token");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   if (!confirm("¿Estás seguro de que desea eliminar este usuario?")) {
     return false;
   }
   try {
-    const token = localStorage.getItem("RucaMeu-token");
     if (!token) {
       navigate("/login");
       throw new Error("Token no encontrado. Inicie sesión primero.");
     }
 
-    const res = await fetch(`http://localhost:3000/users/${id}`, {
+    const res = await fetch(`${API_URL}/DeleteUser/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

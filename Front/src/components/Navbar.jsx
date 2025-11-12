@@ -6,7 +6,8 @@ import Logout from "./Logout";
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const user = localStorage.getItem("RucaMeu-token");
+  const token = localStorage.getItem("RucaMeu-token");
+  const userRole = localStorage.getItem("user_role");
 
   return (
     <div className="navbar">
@@ -22,7 +23,7 @@ const NavBar = () => {
         <Link className="link-navbar" to="/products">
           <p>Productos</p>
         </Link>
-        {user ? (
+        {token ? (
           <Link className="link-navbar" to="/updateUser">
             <p>Perfil</p>
           </Link>
@@ -31,15 +32,17 @@ const NavBar = () => {
             <p>Registrarse</p>
           </Link>
         )}
-        <Link className="link-navbar" to="/carrito">
-          <p>Carrito</p>
-        </Link>
-        {user?.role === "admin" && (
+        {userRole !== "Admin" && (
+          <Link className="link-navbar" to="/carrito">
+            <p>Carrito</p>
+          </Link>
+        )}
+        {userRole === "Admin" && (
           <Link className="link-navbar" to="/adminPanel">
             <p>Admin</p>
           </Link>
         )}
-        {user && (
+        {token && (
           <button
             onClick={() => Logout({ navigate })}
             className="logout-button"
