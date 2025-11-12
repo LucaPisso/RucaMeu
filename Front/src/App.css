@@ -181,3 +181,60 @@ body {
   flex-direction: column;
   margin: 5px;
 }
+
+/* Estilo base para la tarjeta de agregar producto (placeholder) */
+.add-card-placeholder {
+  /* 💡 Fondo ligeramente más oscuro/opaco que el blanco puro */
+  background-color: #d1d1d1;
+  border: none;
+  /* opacity: 0.5; */
+  /* Agregamos una transición para que el efecto hover sea suave */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Efecto al pasar el mouse */
+.add-card-placeholder:hover {
+  /* 💡 Efecto 1: Levanta la tarjeta ligeramente */
+  transform: translateY(-3px);
+  /* 💡 Efecto 2: Hacemos la sombra más pronunciada (asumiendo que tiene una sombra base de Bootstrap) */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* 💡 Efecto 3: Se puede hacer un poco más claro al pasar el mouse (opcional) */
+  background-color: #bdb9b9;
+}
+
+/* Estilo para el contenedor de la tarjeta (para centrar el contenido) */
+.add-card-placeholder .card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Asegura que ocupe todo el cuerpo de la tarjeta */
+  text-align: center;
+}
+
+.add-card-content {
+  /* Opcional: Estilos para el círculo grande y el color de fondo */
+  padding: 20px;
+}
+
+/* Estilo para el contenedor del SVG que reemplazó el ➕ */
+.add-icon-svg-wrapper {
+  /* Para controlar el tamaño y color del SVG */
+  width: 80px;
+  height: 80px;
+  color: #000000; /* Púrpura */
+  margin: 0 auto 10px;
+}
+
+/* El estilo original del ➕ ya no se usa, pero lo mantengo por si acaso */
+.add-icon-plus {
+  display: inline-block;
+  font-size: 5rem;
+  color: #a39c93;
+  margin-bottom: 10px;
+}
+
+.add-text {
+  color: #4a4a4a;
+  font-weight: 500;
+}

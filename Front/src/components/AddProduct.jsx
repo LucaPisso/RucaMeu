@@ -9,7 +9,7 @@ const AddProduct = () => {
     name: "",
     description: "",
     price: "",
-    category: "",
+    category: 0,
     stock: "",
   });
   const [errors, setErrors] = useState({});
@@ -29,7 +29,9 @@ const AddProduct = () => {
     categoryRef,
   };
 
-  //Maneja constantemente los cambios de los inputs
+  const token = localStorage.getItem("RucaMeu-token");
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
@@ -47,21 +49,28 @@ const AddProduct = () => {
     if (!confirm("¿Estás seguro de que desea agregar este producto?")) {
       return;
     }
+    const finalData = {
+      Name: formData.name,
+      Description: formData.description,
+      Price: parseFloat(formData.price),
+      Stock: parseInt(formData.stock, 10),
+      CategoryId: parseInt(formData.category, 10),
+      ImgUrl: formData.imageUrl,
+    };
 
     try {
-      const token = localStorage.getItem("RucaMeu-token");
       if (!token) {
         navigate("/login");
         throw new Error("Token no encontrado. Inicie sesión primero.");
       }
 
-      const res = await fetch(`http://localhost:3000/products`, {
+      const res = await fetch(`${API_URL}/CreateProduct`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(finalData),
       });
       if (!res.ok) {
         const errorData = await res.json();
@@ -70,8 +79,6 @@ const AddProduct = () => {
         );
       }
       toast.success("Producto agregado correctamente");
-      const data = await res.json();
-      console.log(`Producto agregado: ${data.product}`);
       setFormData({
         imageUrl: "",
         name: "",
@@ -95,7 +102,7 @@ const AddProduct = () => {
 
         <input
           className="register-input"
-          type="url"
+          type="text"
           name="imageUrl"
           placeholder="Imagen"
           onChange={changeHandler}
@@ -136,7 +143,7 @@ const AddProduct = () => {
 
         <input
           className="register-input"
-          type="text"
+          type="number"
           name="category"
           placeholder="Categoría"
           onChange={changeHandler}

@@ -2,17 +2,19 @@ import Card from "../components/Card";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import CardAddProduct from "../components/CardAddProduct";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
-  const [deleteProduct, setDeleteProduct] = useState(false);
+  const [disableProduct, setDisableProduct] = useState(false);
   const navigate = useNavigate();
+
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const userRole = localStorage.getItem("user_role");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        //"https://localhost:7121/AllEnableProducts"
-        const API_URL = import.meta.env.VITE_API_BASE_URL;
         const res = await fetch(`${API_URL}/AllEnableProducts`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -28,10 +30,8 @@ const ProductsPage = () => {
     };
 
     fetchProducts();
-    setDeleteProduct(false);
-  }, [deleteProduct]);
-
-  const userRole = localStorage.getItem("user_role");
+    setDisableProduct(false);
+  }, [disableProduct]);
 
   return (
     <>
@@ -39,35 +39,17 @@ const ProductsPage = () => {
       <div className="card-container">
         {products.length > 0 ? (
           products.map((p) => (
-            <Card key={p.id} product={p} setDeleteProduct={setDeleteProduct} />
+            <Card
+              key={p.id}
+              product={p}
+              setDisableProduct={setDisableProduct}
+            />
           ))
         ) : (
           <p>No hay productos disponibles.</p>
         )}
+        {userRole === "Admin" && <CardAddProduct />}
       </div>
-      {userRole === "Admin" && (
-        <button onClick={() => navigate("/addProduct")} className="btn marron">
-          Agregar producto
-        </button>
-      )}
-
-      {/* const filteredBooks = books
-            .filter(product => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)
-            .map(((product) => (
-              <BookItem
-                key={book.id}
-                id={book.id}
-                title={book.title}
-                author={book.author}
-                rating={book.rating}
-                pages={book.pageCount}
-                imageUrl={book.imageUrl}
-                summary={book.summary}
-                available={book.available}
-                onDeleteBook={handleDeleteBook}
-              />
-            )));
-            </> */}
     </>
   );
 };

@@ -10,6 +10,7 @@ import Protected from "./components/Protected";
 import ProductsPage from "./pages/ProductsPage";
 import NotFound from "./components/NotFound";
 import UpdateProduct from "./components/UpdateProduct";
+import DeleteProduct from "./components/ProductDelete";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import "./App.css";
