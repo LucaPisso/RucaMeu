@@ -1,19 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import DeleteProduct from "./DeleteProduct";
 import toast, { Toaster } from "react-hot-toast";
+const images = import.meta.glob("../assets/products/*.jpg", { eager: true });
 
 const Card = ({ product, setDeleteProduct }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("RucaMeu-token");
+  const userRole = localStorage.getItem("user_role");
   const navigate = useNavigate();
-  //FETCH EDITAR PRODUCTO
+
+  // const IMG_URL = import.meta.env.VITE_IMG_URL;
+  // const img = `${IMG_URL}${product.imgUrl}.jpg`;
+  // console.log(img);
+  const imageKey = `../assets/products/${product.imgUrl}.jpg`;
+  const imgModule = images[imageKey];
+  const imgPath = imgModule ? imgModule.default : "/placeholder.jpg";
 
   return (
     <div className="card" style={{ width: "18rem" }}>
-      <img
-        src={product.imageUrl}
-        className="card-img-top img-card"
-        alt="imagen"
-      />
+      <img src={imgPath} className="card-img-top img-card" alt="imagen" />
       {/*img-card esta en app.css, pude sobreescribir la de bootstrap*/}
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
@@ -57,7 +61,7 @@ const Card = ({ product, setDeleteProduct }) => {
             Comprar
           </button>
           <div className="cards-admin-buttons">
-            {user?.role === "admin" && (
+            {userRole === "Admin" && (
               <button
                 className="btn update"
                 onClick={() => {
@@ -67,7 +71,7 @@ const Card = ({ product, setDeleteProduct }) => {
                 ✎
               </button>
             )}
-            {user?.role === "admin" && (
+            {userRole === "Admin" && (
               <button
                 className="btn delete"
                 onClick={() => {

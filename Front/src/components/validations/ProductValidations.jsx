@@ -9,8 +9,13 @@ const ProductValidations = ({ datos, refs }) => {
   }
 
   if ("category" in datos) {
-    if (!datos.category?.trim()) {
-      errors.category = "La categoría es obligatoria";
+    // ✅ CORRECCIÓN FINAL: Forzar a string para el trim/chequeo de vacío.
+    // Esto funciona si datos.category es el número 2 ("2") o la cadena vacía ("").
+    if (
+      !String(datos.category).trim() ||
+      String(datos.category).trim() === "0"
+    ) {
+      errors.category = "La categoría es obligatoria y debe ser válida.";
     }
   }
 
