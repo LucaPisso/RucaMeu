@@ -145,9 +145,9 @@ const UpdateUser = () => {
 
   return (
     <div className="register-form">
-            <h2 className="register-title">Editando usuario</h2>     {" "}
+      <h2 className="register-title">Editando usuario</h2>{" "}
       <form onSubmit={submitHandler} action="POST">
-                <label htmlFor="name">Nombre:</label>       {" "}
+        <label htmlFor="name">Nombre:</label>{" "}
         <input
           className="register-input"
           type="text"
@@ -158,8 +158,8 @@ const UpdateUser = () => {
           ref={nameRef}
           disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />
-                {errors.name && <p style={{ color: "red" }}>{errors.name}</p>} 
-              <label htmlFor="lastName">Apellido:</label>       {" "}
+        {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+        <label htmlFor="lastName">Apellido:</label>{" "}
         <input
           className="register-input"
           type="text"
@@ -169,10 +169,9 @@ const UpdateUser = () => {
           value={formData.lastName}
           ref={lastNameRef}
           disabled={isLoading} // ⬅️ Deshabilitado durante la carga
-        />
-               {" "}
+        />{" "}
         {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>} 
-              <label htmlFor="phoneNumber">Número de teléfono:</label>       {" "}
+        <label htmlFor="phoneNumber">Número de teléfono:</label>{" "}
         <input
           className="register-input"
           type="text"
@@ -183,8 +182,8 @@ const UpdateUser = () => {
           ref={phoneRef}
           disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />
-                {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
-                <label htmlFor="email">Email:</label>       {" "}
+        {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
+        <label htmlFor="email">Email:</label>{" "}
         <input
           className="register-input"
           type="email"
@@ -195,18 +194,15 @@ const UpdateUser = () => {
           ref={emailRef}
           disabled={isLoading} // ⬅️ Deshabilitado durante la carga
         />
-                {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-                       {" "}
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}{" "}
         <button
           type="submit"
           className="register-button"
           disabled={isLoading} // ⬅️ Deshabilitado mientras carga
         >
-                    {isLoading ? "Cargando..." : "Actualizar"}       {" "}
-        </button>
-             {" "}
-      </form>
-         {" "}
+          {isLoading ? "Cargando..." : "Actualizar"}{" "}
+        </button>{" "}
+      </form>{" "}
     </div>
   );
 };

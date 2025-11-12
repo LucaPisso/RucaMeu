@@ -50,24 +50,6 @@ const ProductsPage = () => {
           Agregar producto
         </button>
       )}
-
-      {/* const filteredBooks = books
-            .filter(product => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)
-            .map(((product) => (
-              <BookItem
-                key={book.id}
-                id={book.id}
-                title={book.title}
-                author={book.author}
-                rating={book.rating}
-                pages={book.pageCount}
-                imageUrl={book.imageUrl}
-                summary={book.summary}
-                available={book.available}
-                onDeleteBook={handleDeleteBook}
-              />
-            )));
-            </> */}
     </>
   );
 };
