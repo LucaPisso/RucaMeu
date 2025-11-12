@@ -56,15 +56,219 @@ a {
   transform: translateY(13px);
 }
 
-.map {
-  width: 100%;
-  height: 100%;
-  border: 2px solid black;
-  display: flex;
-  align-items: end;
+/* ------------------------------------------------------------------- */
+/* --- SECCIÓN PUNTOS DE VENTA (sell-point-section) - CONTENEDOR --- */
+/* ------------------------------------------------------------------- */
+
+.sell-point-wrapper {
+  /*max-width: 1200px;*/
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.map-container {
-  width: 40%;
-  height: 40vh;
+.sell-point-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0;
 }
+
+/* ------------------------------------------------------------------- */
+/* --- ESTILO DE TARJETA (sell-point-card-big) --- */
+/* ------------------------------------------------------------------- */
+.sell-point-section {
+  position: relative;
+  padding: 6rem 2rem;
+  background: linear-gradient(180deg, #f9f4ee 0%, #fffaf6 100%);
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* textura tipo lino/papel */
+.sell-point-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/white-linen.png");
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.sell-point-section h2 {
+  position: relative;
+  text-align: center;
+  font-size: 2rem;
+  color: #6b4b35;
+  letter-spacing: 1px;
+  margin-bottom: 3rem;
+  z-index: 1;
+}
+
+.sell-point-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.sell-point-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+.sell-point-card-big {
+  display: flex;
+  flex-wrap: wrap;
+  width: 85%;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sell-point-card-big:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.map-column-half,
+.details-column-half {
+  flex: 1 1 50%;
+  min-height: 300px;
+}
+
+.details-column-half {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  background: #fdf9f5;
+  color: #6b4b35;
+}
+
+.details-column-half h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.detail-date-home {
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+/* 🌿 Líneas orgánicas decorativas */
+.sell-point-bg-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+}
+
+.organic-lines {
+  width: 100%;
+  height: 100%;
+  filter: blur(0.5px);
+  transform: translateY(20px);
+}
+
+/* 📱 Adaptación mobile */
+@media (max-width: 768px) {
+  .sell-point-card-big {
+    flex-direction: column;
+  }
+  .map-column-half,
+  .details-column-half {
+    flex: 1 1 100%;
+  }
+}
+
+.sell-point-card-big {
+  display: flex;
+
+  /* La tarjeta ahora es 100% responsive, pero puede ser más pequeña que 800px si la pantalla lo requiere */
+  max-width: 1150px;
+  width: 100%;
+
+  /* 🛑 Altura fija para mantener la proporción, ya que no se apila */
+  height: 400px;
+
+  border: 1px solid #c0b0a0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s ease;
+}
+
+/* --- ZIGZAG DE CONTENIDO Y ALINEACIÓN (50/50 FIJO) --- */
+
+/* Columna de Mapa (50% FIJO) */
+.map-column-half {
+  flex-basis: 50%; /* ⬅️ Forzamos el 50% */
+  flex-shrink: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map-column-half iframe,
+.map-placeholder {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Columna de Detalles (50% FIJO) */
+.details-column-half {
+  flex-basis: 50%; /* ⬅️ Forzamos el 50% */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Tarjetas Impares (odd): Mapa a la izquierda */
+.sell-point-card-big:nth-child(odd) {
+  flex-direction: row; /* Mapa 50% | Detalles 50% */
+}
+
+/* Tarjetas Pares (even): Mapa a la derecha */
+.sell-point-card-big:nth-child(even) {
+  flex-direction: row-reverse; /* Detalles 50% | Mapa 50% */
+}
+
+/* Alineación de texto y contenido sin cambios */
+.sell-point-card-big:nth-child(odd) .details-column-half {
+  text-align: center;
+  align-items: center;
+}
+
+.sell-point-card-big:nth-child(even) .details-column-half {
+  text-align: center;
+  align-items: center;
+}
+.sell-point-card-big:nth-child(even) .detail-address {
+  text-align: right;
+}
+
+/* --- ZIGZAG DE POSICIÓN (IZQUIERDA / DERECHA) --- */
+
+.sell-point-grid .sell-point-card-big:nth-child(odd) {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.sell-point-grid .sell-point-card-big:nth-child(even) {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* 🛑 MEDIA QUERY ELIMINADA: Ya no se apilará. */

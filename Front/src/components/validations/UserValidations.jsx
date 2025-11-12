@@ -34,11 +34,18 @@ const UserValidations = ({ datos, refs }) => {
     }
   }
 
-  if ("phone" in datos) {
-    if (!datos.phone?.trim()) {
+  if ("phoneNumber" in datos) {
+    if (!datos.phoneNumber?.trim()) {
       errors.phone = "El teléfono es obligatorio";
-    } else if (!phoneRegex.test(datos.phone)) {
-      errors.phone = "El teléfono no es válido";
+    } else {
+      // 💡 CORRECCIÓN 1: Limpiamos el string de todo lo que no sea dígito
+      const cleanPhone = datos.phoneNumber.replace(/\D/g, "");
+
+      if (!phoneRegex.test(cleanPhone)) {
+        // 💡 CORRECCIÓN 2: Usar errors.phone para que se muestre el mensaje en el JSX
+        errors.phone =
+          "El teléfono no es válido (debe tener entre 9 y 12 dígitos)";
+      }
     }
   }
 
@@ -52,8 +59,10 @@ const UserValidations = ({ datos, refs }) => {
 
   if ("password" in datos) {
     if (!datos.password?.trim()) {
+      // ⬅️ AHORA: Si existe, pero está vacío, el error ES OBLIGATORIO.
       errors.password = "La contraseña es obligatoria";
     } else if (!passwordRegex.test(datos.password)) {
+      // ⬅️ Si tiene algo, se valida el formato.
       errors.password = "Mínimo 8 caracteres, incluyendo letras y números";
     }
   }

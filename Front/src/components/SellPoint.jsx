@@ -1,95 +1,76 @@
-import React, { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
-// Si deseas estilos, recuerda crear y enlazar un archivo CSS:
-// import './SellPoint.css';
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-const SellPoint = ({ Adress, Date, Location_link, Images }) => {
-  const imageArray = Images ? Images.split(",").map((url) => url.trim()) : [];
+const SellPointListPage = () => {
+  const [sellPoints, setSellPoints] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const carouselContent = [
-    ...imageArray.map((url) => ({ type: "image", src: url })),
-    ...(Location_link ? [{ type: "map", src: Location_link }] : []),
-  ].filter((item) => item.src);
+  // El token no es necesario para esta función pública
+  const fetchSellPoints = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      // Este endpoint es [AllowAnonymous]
+      const res = await fetch(`${API_URL}/GettAllSellPoints`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+      if (!res.ok) throw new Error("Falló al cargar los puntos de venta.");
 
-  if (carouselContent.length === 0 && !Adress && !Date) {
-    return null;
+      const data = await res.json();
+      setSellPoints(data);
+    } catch (err) {
+      console.error("Error fetching sell points:", err);
+      toast.error("Error al cargar los datos: " + err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchSellPoints();
+  }, [fetchSellPoints]);
+
+  if (isLoading) {
+    return <div>Cargando puntos de venta...</div>;
   }
 
-  const currentItem = carouselContent[currentIndex];
-  const dateFormatted = Date
-    ? new window.Date(Date).toLocaleDateString()
-    : "Fecha no disponible";
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselContent.length);
-  };
-
-  const goToPrev = () => {
-    setCurrentIndex(
-      (prevIndex) =>
-        (prevIndex - 1 + carouselContent.length) % carouselContent.length
-    );
-  };
-
   return (
-    <div className="sell-point-container">
-      {/* Columna Izquierda: Información de Texto */}
-      <div className="sell-point-info">
-        <p className="sell-point-address">
-          **ADRESS***: {Adress || "Dirección no disponible"}
-        </p>
-        <p className="sell-point-date">**DATE***: {dateFormatted}</p>
+    <div className="sell-point-list-page">
+      <Toaster />
+      <h1>📍 Nuestros Puntos de Venta</h1>
 
-        <div className="sell-point-details">
-          <hr />
-          {/* Sección de detalles (simulando las líneas de la imagen) */}
-          <div className="detail-item">
-            <p>Horario: Lunes a Viernes (9:00 - 18:00)</p>
-          </div>
-          <div className="detail-item">
-            <p>Teléfono: +54 11 5555-5555</p>
-          </div>
-        </div>
-      </div>
+      {/* Aquí podrías añadir un campo de búsqueda */}
 
-      {/* Columna Derecha: Carrusel de Contenido (Imágenes y Mapa) */}
-      <div className="sell-point-carousel">
-        {/* 3. Renderizado Condicional del Contenido */}
-        {currentItem && currentItem.type === "image" && (
-          <img
-            src={currentItem.src}
-            alt={`Punto de Venta Imagen ${currentIndex + 1}`}
-            className="carousel-image"
-          />
-        )}
-
-        {currentItem && currentItem.type === "map" && (
-          <iframe
-            title="Ubicación del Punto de Venta"
-            className="carousel-map"
-            // Nota: El src debe ser una URL de incrustación de Google Maps
-            src={currentItem.src}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        )}
-
-        {/* Controles de Navegación */}
-        {carouselContent.length > 1 && (
-          <div className="carousel-controls">
-            <button onClick={goToPrev}>← Anterior</button>
-            <span>
-              {currentIndex + 1} / {carouselContent.length}
-            </span>
-            <button onClick={goToNext}>Siguiente →</button>
-          </div>
+      <div className="sell-point-grid">
+        {sellPoints.length === 0 ? (
+          <p>No hay puntos de venta disponibles en este momento.</p>
+        ) : (
+          sellPoints.map((point) => (
+            <div key={point.id} className="sell-point-card">
+              <h3>{point.adress}</h3>
+              <p>Fecha: {new Date(point.date).toLocaleDateString()}</p>
+              <p>
+                <a
+                  href={point.location_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ver en Mapa 🗺️
+                </a>
+              </p>
+              {/* Mostrar imagen si existe */}
+              {point.images && <p>Imágenes disponibles</p>}
+            </div>
+          ))
         )}
       </div>
     </div>
   );
 };
 
-export default SellPoint;
+export default SellPointListPage;
