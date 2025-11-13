@@ -38,12 +38,12 @@ const NavBar = () => {
             <p>Registrarse</p>
           </Link>
         )}
-        {userRole === "Client" && (
+        {(userRole === "Client" || userRole === null) && (
           <Link className="link-navbar" to="/carrito">
             <p>Carrito</p>
           </Link>
         )}
-        {userRole !== "Client" && (
+        {(userRole === "Admin" || userRole === "Employee") && (
           <Link className="link-navbar" to="/adminPanel">
             <p>Admin</p>
           </Link>
