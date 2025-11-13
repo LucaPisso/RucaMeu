@@ -90,62 +90,64 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
             </button>
           )} */}
 
-          {userRole === "Admin" && (
-            <button
-              className="btn delete"
-              onClick={() => {
-                setDeleteUser(DeleteUser({ id: user.id, navigate }));
-              }}
-            >
-              🗑
-            </button>
-          )}
-
-          {userRole === "Admin" && (
-            <>
-              <select
-                name="role"
-                // id={`role-select-${user.id}`}
-                onChange={handleSelectChange}
-                // value={selectedRole}
+          {userRole === "Admin" ||
+            (userRole === "Employee" && (
+              <button
+                className="btn delete"
+                onClick={() => {
+                  setDeleteUser(DeleteUser({ id: user.id, navigate }));
+                }}
               >
-                <option value="" selected disabled>
-                  Cambiar rol
-                </option>
-                <option value="Admin">Admin</option>
-                <option value="Employee">Empleado</option>
-                <option value="Client">Cliente</option>
-              </select>
+                🗑
+              </button>
+            ))}
 
-              {isAdressRequired && (
-                <>
-                  <input
-                    type="text"
-                    placeholder="Nueva Dirección (requerido)"
-                    value={newAdress}
-                    onChange={(e) => setNewAdress(e.target.value)}
-                    className="form-control mt-2"
-                  />
-                  <button
-                    className="btn btn-success mt-2"
-                    onClick={handleRoleChange}
-                    disabled={user.role === selectedRole}
-                  >
-                    Confirmar Rol
-                  </button>
-                </>
-              )}
-              {(!isAdressRequired || selectedRole === "Client") &&
-                user.role !== selectedRole && (
-                  <button
-                    className="btn btn-primary mt-2"
-                    onClick={handleRoleChange}
-                  >
-                    Cambiar Rol
-                  </button>
+          {userRole === "Admin" ||
+            (userRole === "Employee" && (
+              <>
+                <select
+                  name="role"
+                  // id={`role-select-${user.id}`}
+                  onChange={handleSelectChange}
+                  // value={selectedRole}
+                >
+                  <option value="" selected disabled>
+                    Cambiar rol
+                  </option>
+                  <option value="Admin">Admin</option>
+                  <option value="Employee">Empleado</option>
+                  <option value="Client">Cliente</option>
+                </select>
+
+                {isAdressRequired && (
+                  <>
+                    <input
+                      type="text"
+                      placeholder="Nueva Dirección (requerido)"
+                      value={newAdress}
+                      onChange={(e) => setNewAdress(e.target.value)}
+                      className="form-control mt-2"
+                    />
+                    <button
+                      className="btn btn-success mt-2"
+                      onClick={handleRoleChange}
+                      disabled={user.role === selectedRole}
+                    >
+                      Confirmar Rol
+                    </button>
+                  </>
                 )}
-            </>
-          )}
+                {(!isAdressRequired || selectedRole === "Client") &&
+                  user.role !== selectedRole && (
+                    <button
+                      className="btn btn-primary mt-2"
+                      onClick={handleRoleChange}
+                    >
+                      Cambiar Rol
+                    </button>
+                  )}
+              </>
+            ))}
         </div>
       </div>
     </div>
