@@ -94,9 +94,19 @@ const AddProduct = () => {
     }
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="register-form">
       <h2 className="register-title">Agregar producto</h2>
+      <button
+        type="buttonback"
+        onClick={handleGoBack}
+        className="btn btn-secondary back-button"
+      >
+        ← Volver
+      </button>
       <form onSubmit={submitHandler} action="POST">
         <label htmlFor="imageUrl">Imagen</label>
 

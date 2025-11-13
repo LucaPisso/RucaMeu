@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
+import CreateCategory from "./components/CreateCategory";
 
 import { Routes, Route } from "react-router-dom";
 import UpdateEmployeeAdmin from "./components/UpdateEmployeeAdmin";
@@ -40,6 +41,7 @@ function App() {
           <Route path="/updateProduct/:id" element={<UpdateProduct />} />
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/adminPanel" element={<AdminPanel />} />
+          <Route path="/createCategory" element={<CreateCategory />} />
           <Route
             path="/updateEmployeeAdmin"
             element={<UpdateEmployeeAdmin />}
