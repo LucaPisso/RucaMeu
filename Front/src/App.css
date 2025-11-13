@@ -631,6 +631,7 @@ body {
 
 .browse-products-button:hover {
   background-color: #6a5a4a;
-#img-card-product:hover {
-  cursor: pointer;
+  #img-card-product:hover {
+    cursor: pointer;
+  }
 }
