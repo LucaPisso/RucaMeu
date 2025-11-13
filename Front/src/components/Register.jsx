@@ -1,6 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
-
+import toast, { Toaster } from "react-hot-toast";
 import UserValidations from "./validations/UserValidations";
 
 const Register = () => {
@@ -8,7 +8,7 @@ const Register = () => {
     name: "",
     lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     // confirmPassword: "",
   });
@@ -16,7 +16,7 @@ const Register = () => {
   const nameRef = useRef(null);
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
-  const phoneRef = useRef(null);
+  const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
   // const confirmPasswordRef = useRef(null);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Register = () => {
     lastNameRef,
     nameRef,
     emailRef,
-    phoneRef,
+    phoneNumberRef,
     passwordRef,
     // confirmPasswordRef,
   };
@@ -77,7 +77,7 @@ const Register = () => {
         name: "",
         lastName: "",
         email: "",
-        phone: "",
+        phoneNumber: "",
         password: "",
         // confirmPassword: "",
       });
@@ -121,18 +121,20 @@ const Register = () => {
         />
         {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
 
-        <label htmlFor="phone">Número de teléfono:</label>
+        <label htmlFor="phoneNumber">Número de teléfono:</label>
 
         <input
           className="register-input"
           type="text"
-          name="phone"
+          name="phoneNumber"
           placeholder="Número de teléfono"
           onChange={changeHandler}
-          value={formData.phone}
-          ref={phoneRef}
+          value={formData.phoneNumber}
+          ref={phoneNumberRef}
         />
-        {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
+        {errors.phoneNumber && (
+          <p style={{ color: "red" }}>{errors.phoneNumber}</p>
+        )}
 
         <label htmlFor="email">Email:</label>
 
