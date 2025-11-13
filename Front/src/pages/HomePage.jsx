@@ -4,20 +4,24 @@ import "./HomePage.css";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState, useCallback } from "react";
-import { FaMapMarkerAlt } from "react-icons/fa"; // Usamos la importación estándar
+import { FaMapMarkerAlt } from "react-icons/fa";
+import CreateSellPointPage from "../components/CreateSellPointPage";
+import Modal from "../components/Modal";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
+const token = localStorage.getItem("RucaMeu-token");
+const userRole = localStorage.getItem("user_role");
 
 const HomePage = () => {
   // 💡 Estado para los puntos de venta
   const [sellPoints, setSellPoints] = useState([]);
   const [isLoadingSellPoints, setIsLoadingSellPoints] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Función para obtener todos los puntos de venta
   const fetchSellPoints = useCallback(async () => {
     setIsLoadingSellPoints(true);
     try {
-      // Llama al endpoint [AllowAnonymous]
       const res = await fetch(`${API_URL}/GettAllSellPoints`, {
         method: "GET",
         headers: {
@@ -37,6 +41,55 @@ const HomePage = () => {
       setIsLoadingSellPoints(false);
     }
   }, [API_URL]);
+
+  const handleDeleteSellPoint = async (sellPointId, sellPointAdress) => {
+    // 💡 Confirmación antes de eliminar
+    if (
+      !window.confirm(
+        `¿Estás seguro de que quieres eliminar el punto de venta: "${sellPointAdress}"?`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/DeleteSellPoint/${sellPointId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // Asumiendo que este endpoint requiere el token de autorización
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errorDetail = await res.text();
+        throw new Error(
+          `Fallo al eliminar el punto de venta: ${
+            res.status
+          }. Detalle: ${errorDetail.substring(0, 50)}...`
+        );
+      }
+
+      // Si es exitoso
+      toast.success(
+        `❌ Punto de Venta '${sellPointAdress}' eliminado con éxito.`
+      );
+
+      // 💡 Recargar la lista para que el punto eliminado desaparezca
+      fetchSellPoints();
+    } catch (err) {
+      console.error("Error deleting sell point:", err);
+      toast.error(
+        err.message ||
+          "Error desconocido al intentar eliminar el punto de venta."
+      );
+    }
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    fetchSellPoints();
+  };
 
   useEffect(() => {
     fetchSellPoints();
@@ -70,10 +123,6 @@ const HomePage = () => {
       {/* ------------------------------------------------------------- */}
       {/* 💡 NUEVA SECCIÓN: PUNTOS DE VENTA */}
       {/* ------------------------------------------------------------- */}
-      <br />
-      <br />
-      <br />
-      <br />
       <br />
       <br />
       <br />
@@ -128,6 +177,16 @@ const HomePage = () => {
                     )}
                   </div>
                   <div className="details-column-half">
+                    {(userRole === "Admin" || userRole === "Employee") && (
+                      <button
+                        className="delete-sell-point-button"
+                        onClick={() =>
+                          handleDeleteSellPoint(point.id, point.adress)
+                        }
+                      >
+                        Eliminar
+                      </button>
+                    )}
                     <h3>{point.adress}</h3>
                     <p className="detail-date-home">
                       Fecha: {new Date(point.date).toLocaleDateString()}
@@ -139,6 +198,23 @@ const HomePage = () => {
           </div>
         )}
       </section>
+      {/* 💡 BOTÓN PARA ABRIR EL MODAL */}
+      {(userRole === "Admin" || userRole === "Employee") && (
+        <button
+          className="add-sell-point-button"
+          onClick={() => setIsModalOpen(true)}
+        >
+          📍 Agregar Punto de Venta
+        </button>
+      )}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal} // Cierra al hacer clic en el fondo o botón X
+        title="Crear Nuevo Punto de Venta"
+      >
+        {/* Le pasamos la función de cierre/recarga como prop de éxito al formulario */}
+        <CreateSellPointPage onCreationSuccess={handleCloseModal} />
+      </Modal>
       <Link to={"/products"} className="home-product-link">
         {" "}
         Ver Todos Nuestros Productos
