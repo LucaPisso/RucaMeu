@@ -6,21 +6,16 @@ import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
-// ⬇️ La prop setDeleteProduct se mantiene por consistencia si la Card la usa en otro lugar, pero
-// la lógica de deshabilitar ahora usa setDisableProduct que estaba dentro de la definición duplicada.
 const Card = ({ product, setDisableProduct }) => {
-  // Las props product y setDisableProduct estaban en la definición anidada.
-  // Ahora las juntamos todas en la única definición del componente.
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const token = localStorage.getItem("RucaMeu-token");
-
-  // Definiciones globales
+  const { id, name, description, price, imgUrl, stock, categoryDTO } = product;
+  const categoryName = categoryDTO ? categoryDTO.name : "Sin Categoría";
   const images = import.meta.glob("../assets/products/*.jpg", { eager: true });
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const userRole = localStorage.getItem("user_role");
 
-  // ⬅️ Decodificación del token para extraer info del usuario
   let userId = null;
 
   if (token) {
@@ -127,6 +122,7 @@ const Card = ({ product, setDisableProduct }) => {
       <img src={imgPath} className="card-img-top img-card" alt="imagen" />
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
+        <p className="product-category">{categoryName}</p>
         <p className="card-text">${product.price}</p>
         <div className="cards-buttons">
           {/* Controles de cantidad */}
@@ -155,32 +151,30 @@ const Card = ({ product, setDisableProduct }) => {
           )}
           <div className="cards-admin-buttons">
             {/* Botones de Admin */}
-            {userRole === "Admin" ||
-              (userRole === "Employee" && (
-                <button
-                  className="btn update"
-                  onClick={() => navigate(`/updateProduct/${product.id}`)}
-                >
-                  ✎
-                </button>
-              ))}
+            {(userRole === "Admin" || userRole === "Employee") && (
+              <button
+                className="btn update"
+                onClick={() => navigate(`/updateProduct/${product.id}`)}
+              >
+                ✎
+              </button>
+            )}
 
-            {userRole === "Admin" ||
-              (userRole === "Employee" && (
-                <button
-                  className="btn btn-secondary"
-                  onClick={async () => {
-                    const success = await DisableProduct({
-                      id: product.id,
-                      navigate,
-                    });
-                    // Usamos la prop setDisableProduct que ahora recibimos
-                    setDisableProduct(success);
-                  }}
-                >
-                  🔒
-                </button>
-              ))}
+            {(userRole === "Admin" || userRole === "Employee") && (
+              <button
+                className="btn btn-secondary"
+                onClick={async () => {
+                  const success = await DisableProduct({
+                    id: product.id,
+                    navigate,
+                  });
+                  // Usamos la prop setDisableProduct que ahora recibimos
+                  setDisableProduct(success);
+                }}
+              >
+                🔒
+              </button>
+            )}
           </div>
         </div>
       </div>

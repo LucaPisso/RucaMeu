@@ -3,19 +3,62 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import CardAddProduct from "../components/CardAddProduct";
+import "./ProductsPage.css";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [disableProduct, setDisableProduct] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const userRole = localStorage.getItem("user_role");
 
+  const handleCategoryChange = (categoryId) => {
+    setSearchTerm("");
+    setSelectedCategory(categoryId);
+  };
+  const handleSearchChange = (event) => {
+    // Si se ingresa una búsqueda, reseteamos el filtro de categoría (a 0)
+    setSelectedCategory(0);
+    setSearchTerm(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${API_URL}/GetAllCategories`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!res.ok) throw new Error("Falló al obtener categorías");
+        const response = await res.json();
+
+        // Añadir la opción "Todas" (id: 0) al inicio de la lista
+        setCategories([{ id: 0, name: "Todos los Productos" }, ...response]);
+      } catch (err) {
+        console.error("Error al cargar categorías:", err);
+        toast.error("Error al cargar las categorías.");
+      }
+    };
+    fetchCategories();
+  }, [API_URL]);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_URL}/AllEnableProducts`, {
+        let urlres = `${API_URL}/AllEnableProducts`;
+
+        if (searchTerm.trim() !== "") {
+          urlres = `${API_URL}/GetByNameEnable/${searchTerm.trim()}`;
+        } else if (selectedCategory !== 0) {
+          urlres = `${API_URL}/AllEnableProductByCategory/${selectedCategory}`;
+        }
+
+        const res = await fetch(urlres, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -28,28 +71,63 @@ const ProductsPage = () => {
         console.error(err);
       }
     };
+    if (API_URL) {
+      fetchProducts();
+    }
 
-    fetchProducts();
     setDisableProduct(false);
-  }, [disableProduct]);
+  }, [disableProduct, selectedCategory, API_URL, searchTerm]);
 
   return (
     <>
-      <h1 className="title-page">Productos</h1>
-      <div className="card-container">
-        {products.length > 0 ? (
-          products.map((p) => (
-            <Card
-              key={p.id}
-              product={p}
-              setDisableProduct={setDisableProduct}
-            />
-          ))
-        ) : (
-          <p>No hay productos disponibles.</p>
-        )}
-        {userRole === "Admin" ||
-          (userRole === "Employee" && <CardAddProduct />)}
+      <div className="page-header-wrapper">
+        <input
+          type="search"
+          name="searchProduct"
+          id="searchProduct"
+          className="search-input"
+          placeholder="Buscar Producto"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
+      <div className="main-container">
+        <div className="filters-sidebar">
+          <h2>FILTROS</h2>
+          {categories.length > 0 ? (
+            <ul className="category-list">
+              {categories.map((cat) => (
+                <li
+                  key={cat.id}
+                  onClick={() => handleCategoryChange(cat.id)}
+                  className={
+                    cat.id === selectedCategory ? "active-category" : ""
+                  }
+                >
+                  {cat.name}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Cargando categorías...</p>
+          )}
+        </div>
+        <div className="card-container">
+          {products.length > 0 ? (
+            products.map((p) => (
+              <Card
+                key={p.id}
+                product={p}
+                setDisableProduct={setDisableProduct}
+              />
+            ))
+          ) : (
+            <p>No hay productos disponibles.</p>
+          )}
+          {(userRole === "Admin" || userRole === "Employee") && (
+            <CardAddProduct />
+          )}
+        </div>
       </div>
     </>
   );
