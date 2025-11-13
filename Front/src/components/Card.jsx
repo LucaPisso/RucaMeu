@@ -130,7 +130,7 @@ const Card = ({ product, setDisableProduct }) => {
         <p className="card-text">${product.price}</p>
         <div className="cards-buttons">
           {/* Controles de cantidad */}
-          {userRole !== "Admin" && (
+          {userRole === "Client" && (
             <div className="quantity-controls">
               <button
                 onClick={decreaseQuantity}
@@ -148,37 +148,39 @@ const Card = ({ product, setDisableProduct }) => {
               </button>
             </div>
           )}
-          {userRole !== "Admin" && ( // Mostrar 'Comprar' si NO es Admin
+          {userRole === "Client" && ( // Mostrar 'Comprar' si NO es Admin
             <button onClick={handleBuy} className="btn marron">
               Comprar
             </button>
           )}
           <div className="cards-admin-buttons">
             {/* Botones de Admin */}
-            {userRole === "Admin" && (
-              <button
-                className="btn update"
-                onClick={() => navigate(`/updateProduct/${product.id}`)}
-              >
-                ✎
-              </button>
-            )}
+            {userRole === "Admin" ||
+              (userRole === "Employee" && (
+                <button
+                  className="btn update"
+                  onClick={() => navigate(`/updateProduct/${product.id}`)}
+                >
+                  ✎
+                </button>
+              ))}
 
-            {userRole === "Admin" && (
-              <button
-                className="btn btn-secondary"
-                onClick={async () => {
-                  const success = await DisableProduct({
-                    id: product.id,
-                    navigate,
-                  });
-                  // Usamos la prop setDisableProduct que ahora recibimos
-                  setDisableProduct(success);
-                }}
-              >
-                🔒
-              </button>
-            )}
+            {userRole === "Admin" ||
+              (userRole === "Employee" && (
+                <button
+                  className="btn btn-secondary"
+                  onClick={async () => {
+                    const success = await DisableProduct({
+                      id: product.id,
+                      navigate,
+                    });
+                    // Usamos la prop setDisableProduct que ahora recibimos
+                    setDisableProduct(success);
+                  }}
+                >
+                  🔒
+                </button>
+              ))}
           </div>
         </div>
       </div>

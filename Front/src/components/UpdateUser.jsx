@@ -136,7 +136,7 @@ const UpdateUser = () => {
         email: "",
         phoneNumber: "",
       });
-      navigate("/inicio");
+      navigate("");
     } catch (error) {
       console.log(error.message);
       alert("Error: " + error.message);
