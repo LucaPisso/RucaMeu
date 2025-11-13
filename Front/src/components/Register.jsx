@@ -10,7 +10,6 @@ const Register = () => {
     email: "",
     phoneNumber: "",
     password: "",
-    // confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const nameRef = useRef(null);
@@ -18,20 +17,16 @@ const Register = () => {
   const emailRef = useRef(null);
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
-  // const confirmPasswordRef = useRef(null);
   const navigate = useNavigate();
-  const { id } = useParams();
   const refs = {
     lastNameRef,
     nameRef,
     emailRef,
     phoneNumberRef,
     passwordRef,
-    // confirmPasswordRef,
   };
 
   const API_URL = import.meta.env.VITE_API_BASE_URL;
-  //Maneja constantemente los cambios de los inputs
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
@@ -51,17 +46,10 @@ const Register = () => {
     }
 
     try {
-      // const token = localStorage.getItem("RucaMeu-token");
-      // if (!token) {
-      //   navigate("/login");
-      //   throw new Error("Token no encontrado. Inicie sesión primero.");
-      // }
-
       const res = await fetch(`${API_URL}/RegisterClient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -80,7 +68,6 @@ const Register = () => {
         email: "",
         phoneNumber: "",
         password: "",
-        // confirmPassword: "",
       });
       navigate("/login");
     } catch (error) {
@@ -162,20 +149,6 @@ const Register = () => {
           ref={passwordRef}
         />
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
-
-        {/* <label htmlFor="confirmPassword">Repita la contraseña:</label>
-
-        <input
-          className="register-input"
-          type="password"
-          name="confirmPassword"
-          onChange={changeHandler}
-          value={formData.confirmPassword}
-          ref={confirmPasswordRef}
-        />
-        {errors.confirmPassword && (
-          <p style={{ color: "red" }}>{errors.confirmPassword}</p>
-        )} */}
 
         <button type="submit" className="register-button">
           Registrarse
