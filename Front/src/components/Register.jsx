@@ -30,6 +30,7 @@ const Register = () => {
     // confirmPasswordRef,
   };
 
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   //Maneja constantemente los cambios de los inputs
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -56,7 +57,7 @@ const Register = () => {
       //   throw new Error("Token no encontrado. Inicie sesión primero.");
       // }
 
-      const res = await fetch(`https://localhost:7121/RegisterClient`, {
+      const res = await fetch(`${API_URL}/RegisterClient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

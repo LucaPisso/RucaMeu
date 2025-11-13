@@ -1,11 +1,13 @@
-import { useEffect, useState, useCallback } from "react"; // ⬅️ Añadimos useCallback
-import { useNavigate } from "react-router-dom"; // ⬅️ Importamos useNavigate
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import CardItemCart from "../components/CardItemCart";
 
 const CarritoPage = () => {
   const [carrito, setCarrito] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [cartIdUser, setCartIdUser] = useState(0);
+  const [message, setMessage] = useState("");
   const token = localStorage.getItem("RucaMeu-token");
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
@@ -27,13 +29,20 @@ const CarritoPage = () => {
 
       if (!res.ok) throw new Error("Falló al obtener productos");
       const response = await res.json();
+      console.log(response.items);
+
       setCarrito(response.items);
       setTotalPrice(response.totalPrice);
+      if (response.items && response.items.length > 0) {
+        setCartIdUser(response.items[0].cartId);
+      } else {
+        setCartIdUser(0);
+      }
     } catch (err) {
       console.error(err);
       toast.error("Error: " + err.message);
     }
-  }, [token, API_URL, navigate]); // Dependencias para useCallback
+  }, [token, API_URL, navigate]);
 
   const handleRemoveItem = async (productId) => {
     if (!token) return;
@@ -57,7 +66,6 @@ const CarritoPage = () => {
 
       toast.success("🗑️ Producto eliminado del carrito.");
 
-      // 2. Recargar todo el carrito para actualizar la lista y los totales
       fetchCarrito();
     } catch (err) {
       console.error(err);
@@ -67,28 +75,90 @@ const CarritoPage = () => {
 
   useEffect(() => {
     fetchCarrito();
-  }, [fetchCarrito]); // El efecto se ejecuta solo cuando fetchCarrito cambia (que es al inicio)
+  }, [fetchCarrito]);
 
+  const sendQuery = async () => {
+    if (!token) {
+      toast.error("Debes iniciar sesión para enviar una consulta");
+      navigate("/login");
+      return;
+    }
+
+    if (carrito.length === 0) {
+      toast.error("El carrito está vacío");
+      return;
+    }
+
+    if (message.trim() === "") {
+      toast.error("Debes escribir un mensaje");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/CreateQuery`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          CartId: cartIdUser,
+          Message: message,
+        }),
+      });
+
+      if (!response.ok) {
+        let errorText = `Error ${response.status}: Falló la consulta.`;
+        try {
+          const errorData = await response.json();
+          errorText = errorData.message || errorData.title || errorText;
+        } catch (e) {
+          console.error("Error al parsear respuesta de error:", e);
+        }
+        toast.error(`❌ ${errorText}`);
+        throw new Error(errorText);
+      }
+
+      toast.success("✅ Consulta enviada correctamente");
+      setCarrito([]);
+      setTotalPrice(0);
+      setMessage("");
+      setCartIdUser(0);
+      navigate("/products");
+    } catch (error) {
+      console.error("Error inesperado en sendQuery:", error);
+      toast.error(
+        "❌ Ocurrió un error inesperado. Revisa la consola para más detalles."
+      );
+    }
+  };
   return (
     <>
-      <Toaster /> {/* Asegúrate de que Toaster esté aquí */} <h1>Mi carrito</h1>{" "}
+      <Toaster />
+      <h1>Mi carrito</h1>
       <div className="card-container">
-        {/* Mostrar TotalPrice con dos decimales */}{" "}
         {carrito.length > 0 ? (
           carrito.map((item) => (
-            // 💡 PASAMOS LA FUNCIÓN DE RECARGA AL HIJO
             <CardItemCart
               key={item.productDTO.id}
               item={item}
-              onUpdateCart={fetchCarrito} // ⬅️ Nuevo prop
-              onRemove={handleRemoveItem} // ⬅️ Nuevo prop
+              onUpdateCart={fetchCarrito}
+              onRemove={handleRemoveItem}
             />
           ))
         ) : (
           <h1>No hay productos en el carrito.</h1>
-        )}{" "}
-        <h2>Total: ${totalPrice.toFixed(2)}</h2>{" "}
-      </div>{" "}
+        )}
+        <h2>Total: ${totalPrice.toFixed(2)}</h2>
+      </div>
+
+      <textarea
+        rows="4"
+        placeholder="Deja tu mensaje aquí..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button onClick={sendQuery}>Enviar Consulta</button>
     </>
   );
 };
