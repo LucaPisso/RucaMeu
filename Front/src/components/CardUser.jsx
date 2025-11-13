@@ -90,7 +90,7 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
             </button>
           )} */}
 
-          {(userRole === "Admin" || userRole === "Employee") && (
+          {userRole === "Admin" && (
             <button
               className="btn delete"
               onClick={() => {
@@ -101,7 +101,7 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
             </button>
           )}
 
-          {(userRole === "Admin" || userRole === "Employee") && (
+          {userRole === "Admin" && (
             <>
               <select
                 name="role"
