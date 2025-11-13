@@ -358,3 +358,206 @@ body {
   flex-shrink: 0;
   font-size: 1em;
 }
+/* ================================================= */
+/* 💡 ESTILOS GENERALES DEL MODAL                   */
+/* ================================================= */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+.modal-content {
+  background: #fdfdfd; /* Fondo claro */
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  width: 90%;
+  max-width: 650px; /* Tamaño máximo para el formulario */
+  max-height: 90vh;
+  overflow-y: auto; /* Permite desplazamiento si el contenido es grande */
+  position: relative;
+  /* Animación suave de entrada */
+  transform: translateY(-20px);
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  font-weight: 300;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+/* ================================================= */
+/* 💡 ESTILOS PARA EL FORMULARIO (DENTRO DEL MODAL) */
+/* ================================================= */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box; /* Asegura que el padding no cambie el ancho total */
+  font-size: 1rem;
+}
+
+.submit-button {
+  background-color: #62794c; /* Color terroso/cálido */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #414e34;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* ================================================= */
+/* 💡 ESTILOS PARA EL BOTÓN ESTÁTICO INFERIOR        */
+/* ================================================= */
+
+.add-sell-point-button {
+  position: static;
+  display: block;
+  margin: 40px auto;
+
+  /* Diseño Estético (se mantiene igual) */
+  background-color: #678149;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  /* Sombra más sutil ya que no "flota" */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+
+  /* Transiciones suaves para la interacción */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.add-sell-point-button:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25); /* Sombra al pasar el ratón */
+  background-color: #52693d;
+  transform: scale(1.05);
+}
+
+.add-sell-point-button::before {
+  margin-right: 8px;
+  font-size: 1.6rem;
+}
+
+/* ================================================= */
+/* 💡 ESTILOS PARA LA TARJETA Y EL BOTÓN DE ELIMINACIÓN */
+/* ================================================= */
+
+.delete-sell-point-button {
+  /* Posicionamiento en la esquina superior derecha de la tarjeta */
+  position: absolute;
+  top: 10px; /* Separación del borde superior */
+  right: 10px; /* Separación del borde derecho */
+  z-index: 10;
+
+  /* Diseño sutil (Icono de papelera) */
+  background-color: rgba(94, 122, 67, 0.705);
+  color: #3d3c3c;
+  border: none;
+  padding: 5px;
+  border-radius: 6%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+
+  /* Asegura que no tenga estilos de bloque residuales */
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-sell-point-button:hover {
+  /* Alerta sutil: color relacionado con el color de delete que ya tienes (rgb(255, 72, 0)) */
+  background-color: rgba(
+    93,
+    102,
+    59,
+    0.582
+  ); /* Fondo muy claro y semi-transparente */
+  color: #000000; /* Naranja/Rojo de advertencia */
+  transform: scale(1.1);
+}
+.details-column-half {
+  /* CLAVE: Este es el nuevo contenedor de referencia para el botón */
+  position: relative;
+  /* Asegura que tenga altura/padding si el botón sobresale */
+}
