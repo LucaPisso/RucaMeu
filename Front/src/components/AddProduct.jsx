@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import ProductValidations from "./validations/ProductValidations";
@@ -31,6 +31,11 @@ const AddProduct = () => {
 
   const token = localStorage.getItem("RucaMeu-token");
   const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const location = useLocation();
+  const [categories, setCategories] = useState(
+    location.state?.categories || []
+  );
 
   function changeHandler(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -151,15 +156,27 @@ const AddProduct = () => {
 
         <label htmlFor="category">Categoria:</label>
 
-        <input
+        <select
           className="register-input"
-          type="number"
           name="category"
-          placeholder="Categoría"
           onChange={changeHandler}
           value={formData.category}
           ref={categoryRef}
-        />
+        >
+          <option value="" disabled>
+            {categories.length === 0
+              ? "Cargando..."
+              : "Selecciona una categoría"}
+          </option>
+
+          {categories
+            .filter((cat) => cat.id !== 0) // Opcional: Si el ID 0 es 'Todos los Productos', lo filtramos.
+            .map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+        </select>
         {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
 
         <label htmlFor="price">Precio:</label>

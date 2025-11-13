@@ -219,7 +219,7 @@ const UpdateUser = () => {
         />
         {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}{" "}
         <button type="submit" className="register-button" disabled={isLoading}>
-          {isLoading ? "Cargando..." : "Actualizar"}{" "}
+          {isLoading ? "Editando" : "Actualizar"}
         </button>
       </form>
     </div>

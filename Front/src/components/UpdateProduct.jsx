@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -6,6 +6,7 @@ import ProductValidations from "./validations/ProductValidations";
 
 const UpdateProduct = () => {
   const { id } = useParams();
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     Id: id,
     imageUrl: "",
@@ -16,6 +17,7 @@ const UpdateProduct = () => {
     stock: "",
   });
   const [errors, setErrors] = useState({});
+  const location = useLocation();
   const imageUrlRef = useRef(null);
   const nameRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -34,8 +36,33 @@ const UpdateProduct = () => {
 
   const token = localStorage.getItem("RucaMeu-token");
   const API_URL = import.meta.env.VITE_API_BASE_URL;
+
   //Get product
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        // Intentar obtener las categorías desde el estado de navegación (si vienen de ProductsPage)
+        if (location.state?.categories?.length > 0) {
+          setCategories(
+            location.state.categories.filter((cat) => cat.id !== 0)
+          );
+          return;
+        }
+
+        // Si no vienen en el state o el ID 0 está incluido, hacer el fetch
+        const res = await fetch(`${API_URL}/GetAllCategories`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!res.ok) throw new Error("Falló al obtener categorías");
+        const response = await res.json();
+        setCategories(response);
+      } catch (err) {
+        console.error("Error al cargar categorías:", err);
+        toast.error("Error al cargar las categorías.");
+      }
+    };
     const fetchProduct = async () => {
       try {
         if (!token) {
@@ -66,7 +93,7 @@ const UpdateProduct = () => {
           name: data.name || "",
           description: data.description || "",
           price: data.price || "",
-          category: data.categoryDTO.id || "",
+          category: String(data.categoryDTO.id) || "",
           stock: data.stock || "",
         }));
       } catch (error) {
@@ -75,8 +102,9 @@ const UpdateProduct = () => {
       }
     };
 
+    fetchCategories();
     fetchProduct();
-  }, []);
+  }, [id, token, navigate, API_URL, location.state]);
   //
 
   //Maneja constantemente los cambios de los inputs
@@ -204,15 +232,25 @@ const UpdateProduct = () => {
 
         <label htmlFor="category">Categoria:</label>
 
-        <input
+        <select
           className="register-input"
-          type="number"
           name="category"
-          placeholder="Categoría"
           onChange={changeHandler}
-          value={formData.category}
+          value={formData.category} // Usará el ID de la categoría actual
           ref={categoryRef}
-        />
+        >
+          <option value="" disabled>
+            {categories.length === 0
+              ? "Cargando categorías..."
+              : "Selecciona una categoría"}
+          </option>
+
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
         {errors.category && <p style={{ color: "red" }}>{errors.category}</p>}
 
         <label htmlFor="price">Precio:</label>
