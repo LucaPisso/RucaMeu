@@ -107,6 +107,13 @@ const ProductsPage = () => {
                   {cat.name}
                 </li>
               ))}
+              {(userRole === "Admin" || userRole === "Employee") && (
+                <li>
+                  <button onClick={() => navigate("/createCategory")}>
+                    +Añadir Categoria
+                  </button>
+                </li>
+              )}
             </ul>
           ) : (
             <p>Cargando categorías...</p>
