@@ -152,12 +152,12 @@ body {
   gap: 1rem;
 }
 
-.card-container {
+/* .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1rem;
   padding: 1rem;
-}
+} */
 
 /* Footer*/
 
@@ -242,24 +242,24 @@ body {
 /*CardItemCart*/
 /* --- Estilo Base de la Fila del Ítem (Contenedor principal) --- */
 .cart-item-baggy-card {
-  display: flex;
-  align-items: flex-start; /* Alinear arriba */
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  display: flex; /* ⭐ CLAVE: Usa flex para poner la imagen y los detalles uno al lado del otro */
+  align-items: flex-start; /* Alinea los elementos a la parte superior */
   padding: 15px;
-  margin-bottom: 20px;
-  background-color: #fff;
-  width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: white; /* Fondo blanco para destacar del fondo beige */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100%; /* La tarjeta ocupa todo el ancho de la columna */
 }
 
 /* --- Columna 1: Imagen --- */
 .cart-item-image-baggy {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Evita que la imagen se encoja */
   width: 80px;
-  height: 100px; /* Alto de la imagen un poco más grande */
-  margin-right: 20px;
+  height: 80px; /* Tamaño más cuadrado y compacto */
+  margin-right: 15px;
   overflow: hidden;
+  border-radius: 4px;
 }
 
 .cart-item-image-baggy img {
@@ -270,28 +270,37 @@ body {
 
 /* --- Columna 2: Detalles y Acciones --- */
 .cart-item-details-baggy {
-  flex-grow: 1; /* Ocupa el resto del espacio horizontal */
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100px; /* Misma altura que la imagen para alineación */
+  flex-direction: column; /* Apila el nombre, precio y controles verticalmente */
+  flex-grow: 1; /* Permite que los detalles ocupen el espacio restante */
+  min-width: 0; /* Necesario para que el texto largo no desborde */
+  text-align: left; /* Asegura que todo el texto inicie a la izquierda */
 }
 
 /* Fila Superior: Nombre, Precio, Papelera */
 .item-header-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Empuja el botón eliminar a la derecha */
+  align-items: flex-start;
   width: 100%;
+  margin-bottom: 5px;
 }
 
 .product-name-baggy {
-  font-size: 1.1em;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: bold;
   margin: 0;
-  padding: 0;
   color: #333;
-  line-height: 1.3; /* Para el texto multilinea como en el ejemplo */
-  flex-grow: 1; /* Permite que el nombre ocupe mucho espacio */
+  /* Evita que el nombre sea demasiado largo y empuje el botón de eliminar */
+  margin-right: 10px;
+}
+
+.product-unit-price-label {
+  /* Ya es display: block de la modificación anterior */
+  font-size: 1.2rem;
+  color: #5c4d3d;
+  font-weight: 500;
+  margin-bottom: 8px; /* Menor espacio */
 }
 
 .price-delete-group {
@@ -310,13 +319,14 @@ body {
 }
 
 .btn-delete-baggy {
-  background: none;
   border: none;
+  background-color: transparent;
   color: #888;
   cursor: pointer;
-  font-size: 1.1em;
+  font-size: 2em;
   padding: 0;
-  line-height: 1.3;
+  flex-shrink: 0; /* Asegura que el botón no se mueva */
+  transition: color 0.2s;
 }
 
 .btn-delete-baggy:hover {
@@ -326,20 +336,29 @@ body {
 /* Fila Inferior: Controles de Cantidad */
 .quantity-controls-baggy {
   display: flex;
-  border: 1px solid #ccc;
-  border-radius: 0; /* Sin bordes redondeados */
-  overflow: hidden;
-  width: 120px; /* Ancho fijo para los controles */
-  font-size: 0.9em;
+  align-items: center;
+  gap: 0;
+  margin-top: 5px;
+  border: 1px solid #ccc; /* Un único borde para todo el control */
+  border-radius: 4px;
+  overflow: hidden; /* Oculta bordes internos si se superponen */
+  width: min-content;
 }
 
 .quantity-controls-baggy button {
-  background-color: #fff;
+  background-color: #f7f7f7;
   border: none;
   padding: 6px 8px;
   cursor: pointer;
   color: #333;
-  flex-grow: 1;
+  /* ❌ ELIMINAR O ANULAR: flex-grow: 1; */
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 30px; /* ⭐ Darle un ancho fijo para que no crezca */
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .quantity-controls-baggy button:first-child {
@@ -357,6 +376,10 @@ body {
   width: 30px; /* Ancho fijo para el número */
   flex-shrink: 0;
   font-size: 1em;
+  height: 30px; /* Igualar altura de los botones */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* ================================================= */
 /* 💡 ESTILOS GENERALES DEL MODAL                   */
@@ -562,6 +585,52 @@ body {
   /* Asegura que tenga altura/padding si el botón sobresale */
 }
 
+.empty-cart-message {
+  /* CLAVE: Asegura que el mensaje ocupe todo el espacio de la columna */
+  width: 100%;
+  height: 100%;
+  min-height: 250px; /* Asegura un buen tamaño visible */
+
+  /* Centrado perfecto del contenido */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Estética */
+  background-color: #f7f3ed; /* Usa el mismo beige sutil de la query box */
+  border: 1px dashed #d3c4b5; /* Borde discontinuo para indicar un área vacía */
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+}
+
+.empty-cart-message h1 {
+  font-size: 1.8rem;
+  color: #5c4d3d; /* Color marrón oscuro */
+  margin-bottom: 5px;
+}
+
+.empty-cart-message p {
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.browse-products-button {
+  background-color: #8b7969;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.browse-products-button:hover {
+  background-color: #6a5a4a;
 #img-card-product:hover {
   cursor: pointer;
 }
