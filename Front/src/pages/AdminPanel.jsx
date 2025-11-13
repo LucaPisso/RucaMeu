@@ -13,6 +13,7 @@ const AdminPanel = () => {
   const [deleteProduct, setDeleteProduct] = useState(false);
   const [disableProduct, setDisableProduct] = useState(false);
   const [enableProduct, setEnableProduct] = useState(false);
+  const [searchProduct, setSearchProduct] = useState("");
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -20,6 +21,10 @@ const AdminPanel = () => {
 
   const handleButtonView = () => {
     setShowUsers((prevShowUsers) => !prevShowUsers);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchProduct(event.target.value);
   };
 
   const buttonText = showUsers ? "Mostrar productos" : "Mostrar usuarios";
@@ -65,7 +70,13 @@ const AdminPanel = () => {
           throw new Error("Inicia sesión primero");
         }
 
-        const data = await fetch(`${API_URL}/AllProducts`, {
+        let urlProduct = `${API_URL}/AllProducts`;
+
+        if (searchProduct.trim() !== "") {
+          urlProduct = `${API_URL}/GetByName/${searchProduct.trim()}`;
+        }
+
+        const data = await fetch(urlProduct, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -89,11 +100,10 @@ const AdminPanel = () => {
       setDisableProduct(false);
       setEnableProduct(false);
     }
-  }, [showUsers, deleteProduct, disableProduct, enableProduct]);
+  }, [showUsers, deleteProduct, disableProduct, enableProduct, searchProduct]);
 
   return (
     <>
-      <h3>AdminPanel</h3>
       <button onClick={handleButtonView}>{buttonText}</button>
       <Link to="/createEmployee">
         <button>Crear empleado</button>
@@ -101,6 +111,17 @@ const AdminPanel = () => {
       <Link to="/createAdmin">
         <button>Crear administrador</button>
       </Link>
+      {!showUsers && ( // Solo si se están mostrando productos
+        <input
+          type="search"
+          name="searchProduct"
+          id="searchProduct"
+          className="search-input"
+          placeholder="Buscar producto"
+          value={searchProduct}
+          onChange={handleSearchChange}
+        />
+      )}
       <div className="card-container">
         {showUsers ? (
           // MUESTRA USUARIOS

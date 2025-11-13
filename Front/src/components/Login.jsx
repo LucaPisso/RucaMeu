@@ -64,8 +64,7 @@ const Login = () => {
       });
       navigate("/");
     } catch (error) {
-      console.log(error.message); // El error.message ahora contendrá el mensaje de error del servidor o el mensaje que definiste.
-      toast.error("Error: " + error.message);
+      toast.error("Credenciales inválidas.");
     }
   };
 
