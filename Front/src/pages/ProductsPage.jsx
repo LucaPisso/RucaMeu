@@ -132,7 +132,7 @@ const ProductsPage = () => {
             <p>No hay productos disponibles.</p>
           )}
           {(userRole === "Admin" || userRole === "Employee") && (
-            <CardAddProduct />
+            <CardAddProduct categories={categories} />
           )}
         </div>
       </div>

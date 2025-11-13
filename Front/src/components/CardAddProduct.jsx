@@ -1,7 +1,7 @@
 // src/components/CardAddProduct.jsx
 import { useNavigate } from "react-router-dom";
 
-const CardAddProduct = () => {
+const CardAddProduct = ({ categories }) => {
   const navigate = useNavigate();
 
   const AddIconSVG = (
@@ -29,7 +29,9 @@ const CardAddProduct = () => {
     <div
       className="card add-card-placeholder"
       style={{ width: "18rem", cursor: "pointer" }}
-      onClick={() => navigate("/addProduct")}
+      onClick={() =>
+        navigate("/addProduct", { state: { categories: categories } })
+      }
     >
       <div className="card-body add-card-content">
         <div className="add-product-icon-large">

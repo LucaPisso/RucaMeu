@@ -7,6 +7,7 @@ import UserValidations from "./validations/UserValidations";
 
 const UpdateEmployeeAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     id: 0,
     name: "",
@@ -33,6 +34,11 @@ const UpdateEmployeeAdmin = () => {
   const decodedToken = jwtDecode(token);
   const userId = parseInt(decodedToken.sub);
   const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const toggleEditing = () => {
+    setIsEditing(true);
+    toast.success("Modo de edición activado. Puedes modificar tus datos. 📝");
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -176,6 +182,14 @@ const UpdateEmployeeAdmin = () => {
         >
           ← Volver
         </button>
+        <button
+          type="button"
+          onClick={toggleEditing}
+          className="edit-button"
+          disabled={isEditing}
+        >
+          Editar Usuario✏️
+        </button>
         <form onSubmit={submitHandler} action="POST">
           <label htmlFor="name">Nombre:</label>{" "}
           <input
@@ -186,7 +200,7 @@ const UpdateEmployeeAdmin = () => {
             onChange={changeHandler}
             value={formData.name}
             ref={nameRef}
-            disabled={isLoading} // ⬅️ Deshabilitado durante la carga
+            disabled={!isEditing} // ⬅️ Deshabilitado durante la carga
           />
           {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
           <label htmlFor="lastName">Apellido:</label>{" "}
@@ -198,7 +212,7 @@ const UpdateEmployeeAdmin = () => {
             onChange={changeHandler}
             value={formData.lastName}
             ref={lastNameRef}
-            disabled={isLoading} // ⬅️ Deshabilitado durante la carga
+            disabled={!isEditing} // ⬅️ Deshabilitado durante la carga
           />{" "}
           {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
           <label htmlFor="phoneNumber">Número de teléfono:</label>{" "}
@@ -210,7 +224,7 @@ const UpdateEmployeeAdmin = () => {
             onChange={changeHandler}
             value={formData.phoneNumber}
             ref={phoneRef}
-            disabled={isLoading} // ⬅️ Deshabilitado durante la carga
+            disabled={!isEditing} // ⬅️ Deshabilitado durante la carga
           />
           {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
           <label htmlFor="email">Email:</label>{" "}
@@ -222,7 +236,7 @@ const UpdateEmployeeAdmin = () => {
             onChange={changeHandler}
             value={formData.email}
             ref={emailRef}
-            disabled={isLoading} // ⬅️ Deshabilitado durante la carga
+            disabled={!isEditing} // ⬅️ Deshabilitado durante la carga
           />
           {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}{" "}
           <label htmlFor="email">Dirección:</label>{" "}
@@ -233,16 +247,15 @@ const UpdateEmployeeAdmin = () => {
             placeholder="Dirección"
             onChange={changeHandler}
             value={formData.adress}
-            // ref={phoneRef}
-            disabled={isLoading} // ⬅️ Deshabilitado durante la carga
+            disabled={!isEditing} // ⬅️ Deshabilitado durante la carga
           />
           <button
             type="submit"
             className="register-button"
-            disabled={isLoading} // ⬅️ Deshabilitado mientras carga
+            disabled={isLoading}
           >
-            {isLoading ? "Cargando..." : "Actualizar"}{" "}
-          </button>{" "}
+            {isLoading ? "Editando" : "Actualizar"}
+          </button>
         </form>{" "}
       </div>
     </>
