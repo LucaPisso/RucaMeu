@@ -162,10 +162,20 @@ const UpdateEmployeeAdmin = () => {
       toast.error("Error: " + error.message);
     }
   };
+  const handleGoBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       <div className="register-form">
         <h2 className="register-title">Editando usuario</h2>{" "}
+        <button
+          type="button"
+          onClick={handleGoBack}
+          className="btn btn-secondary back-button"
+        >
+          ← Volver
+        </button>
         <form onSubmit={submitHandler} action="POST">
           <label htmlFor="name">Nombre:</label>{" "}
           <input

@@ -209,16 +209,14 @@ const HomePage = () => {
       )}
       <Modal
         isOpen={isModalOpen}
-        onClose={handleCloseModal} // Cierra al hacer clic en el fondo o botón X
+        onClose={handleCloseModal}
         title="Crear Nuevo Punto de Venta"
       >
-        {/* Le pasamos la función de cierre/recarga como prop de éxito al formulario */}
         <CreateSellPointPage onCreationSuccess={handleCloseModal} />
       </Modal>
       <Link to={"/products"} className="home-product-link">
-        {" "}
         Ver Todos Nuestros Productos
-      </Link>{" "}
+      </Link>
     </>
   );
 };
