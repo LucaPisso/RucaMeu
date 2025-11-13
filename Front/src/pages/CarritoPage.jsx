@@ -135,30 +135,54 @@ const CarritoPage = () => {
   return (
     <>
       <Toaster />
-      <h1>Mi carrito</h1>
-      <div className="card-container">
-        {carrito.length > 0 ? (
-          carrito.map((item) => (
-            <CardItemCart
-              key={item.productDTO.id}
-              item={item}
-              onUpdateCart={fetchCarrito}
-              onRemove={handleRemoveItem}
-            />
-          ))
-        ) : (
-          <h1>No hay productos en el carrito.</h1>
-        )}
-        <h2>Total: ${totalPrice.toFixed(2)}</h2>
-      </div>
+      {/* <h1 className="cart-title">Mi carrito</h1>{" "} */}
+      <div className="cart-main-layout">
+        <div className="cart-items-column">
+          <div className="card-container">
+            {carrito.length > 0 ? (
+              carrito.map((item) => (
+                <CardItemCart
+                  key={item.productDTO.id}
+                  item={item}
+                  onUpdateCart={fetchCarrito}
+                  onRemove={handleRemoveItem}
+                />
+              ))
+            ) : (
+              <div className="empty-cart-message">
+                <h1>Tu carrito está vacío.</h1>
+                <p>¡Explora nuestros productos y encuentra tu pieza ideal!</p>
+                <button
+                  onClick={() => navigate("/products")}
+                  className="browse-products-button"
+                >
+                  Ver Productos →
+                </button>
+              </div>
+            )}
+          </div>
 
-      <textarea
-        rows="4"
-        placeholder="Deja tu mensaje aquí..."
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={sendQuery}>Enviar Consulta</button>
+          <h2 className="cart-total">Total: ${totalPrice.toFixed(2)}</h2>
+        </div>
+
+        <div className="cart-query-column">
+          <div className="query-box">
+            <h3 className="query-title">CONSULTAR CARRITO CON RUCAMEU</h3>
+
+            <textarea
+              className="query-textarea"
+              rows="10"
+              placeholder="MENSAJE..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+
+            <button className="query-button" onClick={sendQuery}>
+              Enviar Consulta
+            </button>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
