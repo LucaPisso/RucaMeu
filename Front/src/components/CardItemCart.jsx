@@ -21,7 +21,7 @@ const CardItemCart = ({ item, onUpdateCart, onRemove }) => {
     const endpoint =
       action === "increment" ? "/IncrementItemCart" : "/DecreaseItemCart";
 
-    if (action === "increment" && quantity >= availableStock) {
+    if (action === "increment" && quantity == availableStock) {
       toast.error(`Stock máximo alcanzado (${availableStock}).`);
       return;
     }
@@ -87,12 +87,11 @@ const CardItemCart = ({ item, onUpdateCart, onRemove }) => {
           <span className="quantity-value-baggy">{quantity}</span>
           <button
             onClick={() => modifyQuantity("increment")}
-            disabled={quantity >= availableStock}
+            disabled={quantity == availableStock}
           >
             +
           </button>
         </div>
-        {/* El subtotal ya no se muestra explícitamente debajo del nombre en este diseño. */}
       </div>
          {" "}
     </div>

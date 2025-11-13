@@ -31,8 +31,16 @@ const Card = ({ product, setDisableProduct }) => {
   }
   // Fin de la decodificación
 
-  const increaseQuantity = () =>
-    setQuantity((prevQuantity) => prevQuantity + 1);
+  const increaseQuantity = () => {
+    setQuantity((prevQuantity) => {
+      if (prevQuantity < stock) {
+        return prevQuantity + 1;
+      } else {
+        toast.error(`No hay más stock de ese producto.`);
+        return prevQuantity;
+      }
+    });
+  };
   const decreaseQuantity = () =>
     setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
 
@@ -139,6 +147,7 @@ const Card = ({ product, setDisableProduct }) => {
               <button
                 onClick={increaseQuantity}
                 className="btn btn-sm btn-outline-secondary quantity-btn"
+                disabled={quantity >= stock}
               >
                 +
               </button>
