@@ -5,16 +5,21 @@ import DeleteProduct from "./ProductDelete"; // Se mantiene por si se usa en el 
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import Modal from "./Modal";
 
 const Card = ({ product, setDisableProduct }) => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const token = localStorage.getItem("RucaMeu-token");
   const { id, name, description, price, imgUrl, stock, categoryDTO } = product;
   const categoryName = categoryDTO ? categoryDTO.name : "Sin Categoría";
   const images = import.meta.glob("../assets/products/*.jpg", { eager: true });
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const userRole = localStorage.getItem("user_role");
+
+  const openDetailsModal = () => setIsDetailsModalOpen(true);
+  const closeDetailsModal = () => setIsDetailsModalOpen(false);
 
   let userId = null;
 
@@ -127,7 +132,13 @@ const Card = ({ product, setDisableProduct }) => {
   return (
     <div className="card" style={{ width: "18rem" }}>
       <Toaster />
-      <img src={imgPath} className="card-img-top img-card" alt="imagen" />
+      <img
+        src={imgPath}
+        className="card-img-top img-card"
+        id="img-card-product"
+        alt="imagen"
+        onClick={openDetailsModal}
+      />
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
         <p className="product-category">{categoryName}</p>
@@ -187,6 +198,35 @@ const Card = ({ product, setDisableProduct }) => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isDetailsModalOpen}
+        onClose={closeDetailsModal}
+        title={`Detalles de ${name}`}
+      >
+        <div className="product-details-modal-content">
+          <img
+            src={imgPath}
+            alt={name}
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              marginBottom: "15px",
+              borderRadius: "5px",
+            }}
+          />
+          <p>Categoría: {categoryName}</p>
+          <p>Descripción: {description}</p>
+          <p>Precio:${parseFloat(price).toFixed(2)}</p>
+          <p>Stock Disponible: {stock}</p>
+          <button
+            onClick={closeDetailsModal}
+            className="btn btn-secondary"
+            style={{ marginTop: "15px" }}
+          >
+            Cerrar
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
