@@ -561,3 +561,7 @@ body {
   position: relative;
   /* Asegura que tenga altura/padding si el botón sobresale */
 }
+
+#img-card-product:hover {
+  cursor: pointer;
+}
