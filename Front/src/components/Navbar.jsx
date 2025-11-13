@@ -24,20 +24,26 @@ const NavBar = () => {
           <p>Productos</p>
         </Link>
         {token ? (
-          <Link className="link-navbar" to="/updateUser">
-            <p>Perfil</p>
-          </Link>
+          userRole !== "Client" ? (
+            <Link className="link-navbar" to="/updateEmployeeAdmin">
+              <p>Perfil</p>
+            </Link>
+          ) : (
+            <Link className="link-navbar" to="/updateClient">
+              <p>Perfil</p>
+            </Link>
+          )
         ) : (
           <Link className="link-navbar" to="/register">
             <p>Registrarse</p>
           </Link>
         )}
-        {userRole !== "Admin" && (
+        {userRole === "Client" && (
           <Link className="link-navbar" to="/carrito">
             <p>Carrito</p>
           </Link>
         )}
-        {userRole === "Admin" && (
+        {userRole !== "Client" && (
           <Link className="link-navbar" to="/adminPanel">
             <p>Admin</p>
           </Link>

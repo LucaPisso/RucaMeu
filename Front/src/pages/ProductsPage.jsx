@@ -48,7 +48,8 @@ const ProductsPage = () => {
         ) : (
           <p>No hay productos disponibles.</p>
         )}
-        {userRole === "Admin" && <CardAddProduct />}
+        {userRole === "Admin" ||
+          (userRole === "Employee" && <CardAddProduct />)}
       </div>
     </>
   );
