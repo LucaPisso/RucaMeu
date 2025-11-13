@@ -18,6 +18,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { Routes, Route } from "react-router-dom";
 import UpdateEmployeeAdmin from "./components/UpdateEmployeeAdmin";
+import CreateAdmin from "./components/CreateAdmin";
+import CreateEmployee from "./components/CreateEmployee";
 
 function App() {
   return (
@@ -42,6 +44,11 @@ function App() {
             path="/updateEmployeeAdmin"
             element={<UpdateEmployeeAdmin />}
           />
+        </Route>
+
+        <Route element={<Protected allowedRoles={["Admin"]} />}>
+          <Route path="/createEmployee" element={<CreateEmployee />} />
+          <Route path="/createAdmin" element={<CreateAdmin />} />
         </Route>
 
         <Route element={<Protected />}>

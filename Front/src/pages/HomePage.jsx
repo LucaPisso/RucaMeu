@@ -199,14 +199,15 @@ const HomePage = () => {
         )}
       </section>
       {/* 💡 BOTÓN PARA ABRIR EL MODAL */}
-      {(userRole === "Admin" || userRole === "Employee") && (
-        <button
-          className="add-sell-point-button"
-          onClick={() => setIsModalOpen(true)}
-        >
-          📍 Agregar Punto de Venta
-        </button>
-      )}
+      {userRole === "Admin" ||
+        (userRole === "Employee" && (
+          <button
+            className="add-sell-point-button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            📍 Agregar Punto de Venta
+          </button>
+        ))}
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal} // Cierra al hacer clic en el fondo o botón X
