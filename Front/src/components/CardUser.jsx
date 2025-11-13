@@ -11,6 +11,8 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const token = localStorage.getItem("RucaMeu-token");
   const userRole = localStorage.getItem("user_role");
+  const userId = parseInt(localStorage.getItem("user_id"));
+  console.log(userId);
 
   const isAdressRequired =
     selectedRole === "Admin" || selectedRole === "Employee";
@@ -67,8 +69,16 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
       setRoleChange(true); // Esto activará el useEffect en AdminPanel
       toast.success("Rol actualizado correctamente.");
     } catch (error) {
+      if (
+        changeRolDTO.Id === 1 ||
+        changeRolDTO.Id === 2 ||
+        changeRolDTO.Id === 3
+      ) {
+        toast.error("Los superAdmins no se pueden modificar");
+      } else {
+        toast.error("Error al cambiar el rol");
+      }
       console.error("Error al cambiar el rol:", error.message);
-      toast.error("Error al cambiar el rol");
     }
   };
 

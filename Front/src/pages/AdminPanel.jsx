@@ -1,5 +1,5 @@
 import { use, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CardUser from "../components/CardUser";
 import toast, { Toaster } from "react-hot-toast";
 import CardAdmin from "../components/CardAdmin";
@@ -41,7 +41,10 @@ const AdminPanel = () => {
           },
         });
 
-        if (!res.ok) throw new Error("Falló al obtener productos");
+        if (!res.ok) {
+          toast.error("Falló al obtener usuarios");
+          return;
+        }
 
         const response = await res.json();
         setUsers(response);
@@ -51,7 +54,7 @@ const AdminPanel = () => {
     };
     fetchUsers();
     setRoleChange(false);
-    setDeleteUser(false);
+    setDeleteUser(true);
   }, [deleteUser, roleChange]);
 
   useEffect(() => {
@@ -92,6 +95,12 @@ const AdminPanel = () => {
     <>
       <h3>AdminPanel</h3>
       <button onClick={handleButtonView}>{buttonText}</button>
+      <Link to="/createEmployee">
+        <button>Crear empleado</button>
+      </Link>
+      <Link to="/createAdmin">
+        <button>Crear administrador</button>
+      </Link>
       <div className="card-container">
         {showUsers ? (
           // MUESTRA USUARIOS
