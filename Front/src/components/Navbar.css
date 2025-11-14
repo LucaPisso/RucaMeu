@@ -14,7 +14,7 @@
   /* Asegura que el logo tenga el color del texto blanco, como en la imagen */
   color: white;
   font-size: 70px;
-  font-family: "Times New Roman", serif; /* Usamos una fuente clásica por defecto */
+  font-family: "Special Elite", serif; /* Usamos una fuente clásica por defecto */
 }
 /* Estilo del texto del logo dentro del div (para mantener el color blanco) */
 .logo div {

@@ -7,6 +7,9 @@ const DeleteUser = async ({ id, navigate }) => {
   if (!confirm("¿Estás seguro de que desea eliminar este usuario?")) {
     return false;
   }
+
+  let data = null;
+
   try {
     if (!token) {
       navigate("/login");
@@ -20,17 +23,40 @@ const DeleteUser = async ({ id, navigate }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(
-        errorData.message || "Error desconocido al eliminar usuario"
-      );
+
+    try {
+      data = await res.json();
+    } catch (e) {
+      // Intencionalmente vacío
     }
+
+    if (!res.ok) {
+      const errorMessage =
+        data && data.message
+          ? data.message
+          : "Error desconocido al eliminar usuario";
+
+      if (data && (data.id === 1 || data.id === 2 || data.id === 3)) {
+        toast.error("Los superAdmins no se pueden eliminar");
+        return false;
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    if (data && (data.id === 1 || data.id === 2 || data.id === 3)) {
+      toast.error("Los superAdmins no se pueden eliminar");
+      return false;
+    }
+
     toast.success("Usuario eliminado correctamente");
+    console.log(res);
+
     navigate("/adminPanel");
   } catch (error) {
-    console.log(error.message);
-    toast.error("Error: " + error.message);
+    const displayMessage =
+      error.message || "No puedes eliminar un SuperAdmin o error general";
+    toast.error(displayMessage);
   }
   return true;
 };

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import "./CardUser.css";
 
 const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
   const navigate = useNavigate();
@@ -83,26 +84,24 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
   };
 
   return (
-    <div className="card" style={{ width: "18rem" }}>
-      <div className="card-body">
-        <h5 className="card-title">{user.fullName}</h5>
-        <p className="card-text">{user.role}</p>
-        <p className="card-text">{user.phoneNumber}</p>
-        <div className="cards-admin-buttons">
-          {/* {user?.role === "admin" && (
-            <button
-              className="btn update"
-              onClick={() => {
-                navigate(`/updateUser/${user.id}`);
-              }}
-            >
-              ✎
-            </button>
-          )} */}
+    // Reemplazado 'card' por 'admin-card-base' y el style inline
+    <div className="admin-card-base" style={{ width: "18rem" }}>
+      {/* Reemplazado 'card-body' por 'admin-card-body' */}
+      <div className="admin-card-body">
+        {/* Reemplazado 'card-title' por 'admin-card-title' */}
+        <h5 className="admin-card-title">{user.fullName}</h5>
+        {/* Reemplazado 'card-text' por 'admin-card-role' */}
+        <p className="admin-card-role">{user.role}</p>
+        {/* Reemplazado 'card-text' por 'admin-card-phone' */}
+        <p className="admin-card-phone">{user.phoneNumber}</p>
 
+        {/* Contenedor de botones (ya era personalizado) */}
+        <div className="cards-admin-buttons">
+          {/* Botón de Eliminar */}
           {userRole === "Admin" && (
+            // Reemplazado 'btn delete' por 'admin-btn-delete'
             <button
-              className="btn delete"
+              className="admin-btn admin-btn-delete"
               onClick={() => {
                 setDeleteUser(DeleteUser({ id: user.id, navigate }));
               }}
@@ -111,13 +110,15 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
             </button>
           )}
 
+          {/* Controles de Cambio de Rol */}
           {userRole === "Admin" && (
             <>
+              {/* SELECT para cambiar rol */}
               <select
                 name="role"
-                // id={`role-select-${user.id}`}
                 onChange={handleSelectChange}
-                // value={selectedRole}
+                // Agregado clase personalizada al select
+                className="admin-role-select"
               >
                 <option value="" selected disabled>
                   Cambiar rol
@@ -127,17 +128,23 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
                 <option value="Client">Cliente</option>
               </select>
 
+              {/* Input de Dirección y Botón de Confirmar (condicionales) */}
               {isAdressRequired && (
                 <>
+                  {/* INPUT de Dirección (form-control mt-2) */}
                   <input
                     type="text"
                     placeholder="Nueva Dirección (requerido)"
                     value={newAdress}
                     onChange={(e) => setNewAdress(e.target.value)}
-                    className="form-control mt-2"
+                    // Reemplazado 'form-control mt-2' por 'admin-input-address'
+                    className="admin-input-address"
                   />
+
+                  {/* Botón de Confirmar Rol (btn btn-success mt-2) */}
                   <button
-                    className="btn btn-success mt-2"
+                    // Reemplazado 'btn btn-success mt-2' por 'admin-btn-confirm'
+                    className="admin-btn admin-btn-confirm"
                     onClick={handleRoleChange}
                     disabled={user.role === selectedRole}
                   >
@@ -145,10 +152,13 @@ const CardUser = ({ user, setDeleteUser, setRoleChange }) => {
                   </button>
                 </>
               )}
+
+              {/* Botón de Cambiar Rol simple (btn btn-primary mt-2) */}
               {(!isAdressRequired || selectedRole === "Client") &&
                 user.role !== selectedRole && (
                   <button
-                    className="btn btn-primary mt-2"
+                    // Reemplazado 'btn btn-primary mt-2' por 'admin-btn-change-role'
+                    className="admin-btn admin-btn-change-role"
                     onClick={handleRoleChange}
                   >
                     Cambiar Rol

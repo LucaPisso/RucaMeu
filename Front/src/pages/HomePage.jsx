@@ -127,6 +127,8 @@ const HomePage = () => {
       <br />
       <br />
       <br />
+      <br />
+      <br />
       <section id="sell-point-section" className="sell-point-section">
         <div className="sell-point-bg-decor">
           <svg

@@ -1,0 +1,140 @@
+/* =======================================
+   1. TARJETA BASE Y CONTENIDO
+   ======================================= */
+/* Contenedor principal de la tarjeta */
+.admin-card-base {
+  /* Fondo que simula el tono crema/beige de la imagen */
+  background-color: #fffaf5 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  /* Usamos el width en línea (18rem), no lo redefinimos aquí */
+  padding: 1rem; /* Padding interno */
+  transition: transform 0.2s;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box; /* Asegura que el padding no afecte el width total */
+}
+
+.admin-card-base:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cuerpo de la tarjeta */
+.admin-card-body {
+  /* Asegura que el contenido ocupe el espacio */
+  width: 100%;
+}
+
+/* Nombre del usuario */
+.admin-card-title {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #3d3d3d;
+  margin-bottom: 5px;
+}
+
+/* Rol del usuario */
+.admin-card-role {
+  font-size: 0.95em;
+  color: #79a88c; /* Verde Menta para el rol */
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Teléfono */
+.admin-card-phone {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 20px; /* Espacio antes de los controles */
+}
+
+/* =======================================
+   2. CONTROLES DE ADMINISTRACIÓN
+   ======================================= */
+/* Contenedor de todos los botones y select/input */
+.cards-admin-buttons {
+  display: flex; /* Alinea los elementos en una fila */
+  flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea */
+  gap: 8px; /* Espacio entre los controles */
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Estilo Base para Todos los Botones de Admin */
+.admin-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Botón de Eliminar (🗑) */
+.admin-btn-delete {
+  background-color: #ff7a3d; /* Naranja/Rojo de advertencia */
+  color: white;
+  line-height: 1; /* Para centrar el emoji */
+  font-size: 16px;
+}
+.admin-btn-delete:hover {
+  background-color: #e66a33;
+}
+
+/* SELECT para cambiar rol */
+.admin-role-select {
+  width: 100%; /* Ocupa el 100% del contenedor cards-admin-buttons, ajustado abajo */
+  max-width: 140px; /* Ancho máximo para que se vea bien */
+  padding: 7px 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #333;
+}
+
+/* INPUT de Dirección (requerido) */
+.admin-input-address {
+  /* Ocupa una línea completa */
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #ffffff;
+  margin-top: 8px; /* Espacio para separar del select/botones */
+}
+
+/* Botón de Confirmar Rol */
+.admin-btn-confirm {
+  background-color: #79a88c; /* Verde Menta */
+  color: white;
+  /* Para alinearse debajo del input address */
+  margin-top: 8px;
+}
+.admin-btn-confirm:hover {
+  background-color: #639178;
+}
+
+/* Botón de Cambiar Rol simple (sin dirección requerida) */
+.admin-btn-change-role {
+  background-color: #d1b897; /* Beige/Marrón de acento */
+  color: #3d3d3d;
+  /* Para alinearse debajo del select/input */
+  margin-top: 8px;
+}
+.admin-btn-change-role:hover {
+  background-color: #c0a789;
+}
+
+/* Estilo para el estado disabled (ej: si el rol es el mismo) */
+.admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

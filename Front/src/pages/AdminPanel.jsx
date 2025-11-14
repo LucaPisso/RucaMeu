@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CardUser from "../components/CardUser";
 import toast, { Toaster } from "react-hot-toast";
 import CardAdmin from "../components/CardAdmin";
+import "./AdminPanel.css";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -104,25 +105,46 @@ const AdminPanel = () => {
 
   return (
     <>
-      <button onClick={handleButtonView}>{buttonText}</button>
-      <Link to="/createEmployee">
-        <button>Crear empleado</button>
-      </Link>
-      <Link to="/createAdmin">
-        <button>Crear administrador</button>
-      </Link>
-      {!showUsers && ( // Solo si se están mostrando productos
-        <input
-          type="search"
-          name="searchProduct"
-          id="searchProduct"
-          className="search-input"
-          placeholder="Buscar producto"
-          value={searchProduct}
-          onChange={handleSearchChange}
-        />
-      )}
-      <div className="card-container">
+      {/* Contenedor principal para los controles de administración */}
+      <div className="admin-controls-wrapper">
+        {/* Botón de alternar vista */}
+        <button
+          onClick={handleButtonView}
+          className="admin-btn admin-btn-toggle"
+        >
+          {buttonText}
+        </button>
+
+        {/* Enlace y botón para crear empleado */}
+        <Link to="/createEmployee">
+          <button className="admin-btn admin-btn-create admin-btn-employee">
+            Crear empleado
+          </button>
+        </Link>
+
+        {/* Enlace y botón para crear administrador */}
+        <Link to="/createAdmin">
+          <button className="admin-btn admin-btn-create admin-btn-admin">
+            Crear administrador
+          </button>
+        </Link>
+
+        {/* Campo de búsqueda, solo visible si NO se muestran usuarios */}
+        {!showUsers && (
+          <input
+            type="search"
+            name="searchProduct"
+            id="searchProduct"
+            className="admin-search-input"
+            placeholder="Buscar producto"
+            value={searchProduct}
+            onChange={handleSearchChange}
+          />
+        )}
+      </div>{" "}
+      {/* Cierre de admin-controls-wrapper */}
+      {/* Contenedor de la lista de tarjetas (Usuarios o Productos) */}
+      <div className="admin-card-list-container">
         {showUsers ? (
           // MUESTRA USUARIOS
           users.length > 0 ? (
@@ -132,10 +154,11 @@ const AdminPanel = () => {
                 user={u}
                 setDeleteUser={setDeleteUser}
                 setRoleChange={setRoleChange}
+                // Si CardUser es un <div> principal, puedes añadir: cardClassName="admin-user-card"
               />
             ))
           ) : (
-            <p>No existen usuarios</p>
+            <p className="admin-message-empty">No existen usuarios</p>
           )
         ) : // MUESTRA PRODUCTOS
         products.length > 0 ? (
@@ -146,10 +169,11 @@ const AdminPanel = () => {
               setDeleteProduct={setDeleteProduct}
               setDisableProduct={setDisableProduct}
               setEnableProduct={setEnableProduct}
+              // Si CardAdmin es un <div> principal, puedes añadir: cardClassName="admin-product-card"
             />
           ))
         ) : (
-          <p>No existen productos</p>
+          <p className="admin-message-empty">No existen productos</p>
         )}
       </div>
     </>
