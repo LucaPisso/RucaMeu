@@ -4,14 +4,19 @@
   ==========================================
 */
 :root {
-  --color-fondo-filtros: #f5eee8; /* Fondo claro de la barra lateral */
+  --color-fondo-filtros: #ffffff; /* Fondo claro de la barra lateral */
   --color-texto-principal: #000000;
-  --color-texto-categoria: #3e3e3e;
-  --color-borde-secciones: #c0b2a7;
-  --color-separador-linea: #e0d9d3;
-  --color-header-fondo: #889977; /* Fondo verde oscuro del header (asumiendo que viene de otro componente) */
+  --color-texto-categoria: #746060;
+  --color-borde-secciones: #0c0b0b;
+  --color-separador-linea: #8d8b89;
+  --color-header-fondo: #82966c; /* Fondo verde oscuro del header (asumiendo que viene de otro componente) */
 }
-
+.card-container-cart {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
 /*
   ==========================================
   Estructura Principal (Contenedor de Empuje)
@@ -74,6 +79,7 @@
   transition: color 0.2s;
   display: flex;
   align-items: center;
+  margin-left: 10px;
 }
 
 .category-list li:hover {
@@ -103,7 +109,7 @@
   padding: 0 5px;
 }
 .category-list li button:hover {
-  color: #c00;
+  color: rgb(43, 89, 173);
 }
 
 /*

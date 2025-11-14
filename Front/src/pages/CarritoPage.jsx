@@ -139,7 +139,7 @@ const CarritoPage = () => {
       {/* <h1 className="cart-title">Mi carrito</h1>{" "} */}
       <div className="cart-main-layout">
         <div className="cart-items-column">
-          <div className="card-container">
+          <div className="card-container-cart">
             {carrito.length > 0 ? (
               carrito.map((item) => (
                 <CardItemCart
