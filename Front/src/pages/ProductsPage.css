@@ -10,10 +10,10 @@
 }
 
 .card-container {
-  flex-grow: 1; /* Ocupa el espacio restante */
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Espacio entre las tarjetas de producto */
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
 }
 
 /*
@@ -86,4 +86,99 @@
   border-radius: 5px;
   width: 300px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Contenedor principal para el layout de 2 columnas */
+.cart-main-layout {
+  display: flex;
+  gap: 50px; /* Espacio entre las dos columnas */
+  width: 85%;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+/* Columna de la izquierda (Lista de ítems) */
+.cart-items-column {
+  flex-basis: 60%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Columna de la derecha (Formulario de consulta) */
+.cart-query-column {
+  flex-basis: 40%; /* Ocupa el 40% restante */
+  flex-shrink: 0;
+}
+
+/* Estilo de la caja de consulta (Fondo beige redondeado) */
+.query-box {
+  background-color: #f7f3ed; /* Color beige/crema sutil */
+  border: 1px solid #d3c4b5;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ocupa toda la altura de la columna */
+  min-height: 400px; /* Altura mínima para que la caja se vea bien */
+}
+
+.query-title {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #5c4d3d; /* Tono marrón oscuro */
+  margin-bottom: 20px;
+}
+
+.query-textarea {
+  width: 100%;
+  flex-grow: 1; /* Hace que el textarea ocupe el espacio disponible */
+  padding: 15px;
+  border: 1px solid #d3c4b5;
+  border-radius: 8px;
+  resize: none; /* Evita que el usuario cambie el tamaño manualmente */
+  margin-bottom: 15px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.query-textarea::placeholder {
+  color: #9a8c88; /* Color tenue para el placeholder "MENSAJE..." */
+  font-weight: 500;
+}
+
+.query-button {
+  background-color: #8b7969; /* Tono de verde/marrón similar al encabezado */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.query-button:hover {
+  background-color: #6a5a4a;
+}
+
+.cart-title {
+  width: 85%;
+  max-width: 1200px;
+  margin: 20px auto 0;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.cart-total {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #5c4d3d;
 }
