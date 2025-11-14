@@ -1,0 +1,153 @@
+/*
+  ==========================================
+  Colores de Referencia (Aproximados de la Imagen)
+  ==========================================
+*/
+:root {
+  --color-fondo-filtros: #f5eee8; /* Fondo claro de la barra lateral */
+  --color-texto-principal: #000000;
+  --color-texto-categoria: #3e3e3e;
+  --color-borde-secciones: #c0b2a7;
+  --color-separador-linea: #e0d9d3;
+  --color-header-fondo: #889977; /* Fondo verde oscuro del header (asumiendo que viene de otro componente) */
+}
+
+/*
+  ==========================================
+  Estructura Principal (Contenedor de Empuje)
+  ==========================================
+*/
+/* Clase que envuelve el buscador y las tarjetas, empujándolas a la derecha */
+.main-content-wrapper {
+  /* CLAVE: Empuja el contenido 250px a la derecha para liberar espacio para el sidebar fijo */
+  margin-left: 250px;
+  /* El contenido dentro de aquí fluirá normalmente */
+  width: auto;
+}
+
+/*
+  ==========================================
+  Barra de Filtros (Filters Sidebar) - FIJA
+  ==========================================
+*/
+
+.filters-sidebar {
+  width: 250px; /* Ancho fijo */
+  background-color: var(--color-fondo-filtros);
+  padding: 20px;
+  border-right: 1px solid var(--color-borde-secciones);
+
+  /* CLAVES para la posición FIJA: */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh; /* Altura de la ventana */
+  overflow-y: auto; /* Scroll interno si la lista es larga */
+
+  /* CLAVE: Espacio para la navbar (Asumimos 130px de altura de Navbar + margen) */
+  padding-top: 130px;
+
+  z-index: 10; /* Asegura que esté por encima del contenido desplazable */
+}
+
+.filters-sidebar h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--color-texto-principal);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--color-separador-linea);
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-texto-categoria);
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.category-list li:hover {
+  color: var(--color-texto-principal);
+}
+
+/* Estilo para los ítems de categoría (simulando los cuadrados negros de la imagen) */
+.category-list li::before {
+  content: "■";
+  font-size: 0.6rem;
+  margin-right: 10px;
+  color: var(--color-texto-principal);
+}
+
+.category-list li.active-category {
+  font-weight: bold;
+  color: var(--color-texto-principal);
+}
+
+.category-list li button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-texto-categoria);
+  font-size: 0.9rem;
+  padding: 0 5px;
+}
+.category-list li button:hover {
+  color: #c00;
+}
+
+/*
+  ==========================================
+  Área de Productos y Buscador
+  ==========================================
+*/
+
+.page-header-wrapper {
+  /* Contenedor del buscador */
+  display: flex;
+  justify-content: flex-end; /* Alinea el buscador a la derecha */
+  padding: 20px 40px 10px 0;
+  max-width: none; /* No hay límite de ancho aquí */
+  margin: 0;
+  position: relative;
+}
+
+.search-input {
+  /* Estilo del campo de búsqueda */
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+}
+
+/* Posicionamiento de la lupa */
+.page-header-wrapper::after {
+  content: "🔎";
+  position: absolute;
+  right: 50px;
+  top: 25px;
+  color: #888;
+  pointer-events: none;
+}
+
+.card-container {
+  /* Área donde se muestran los productos */
+  flex-grow: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(280px, 1fr) /* Tamaño de tarjeta ajustado */
+  );
+  gap: 20px; /* Espacio entre las tarjetas */
+}

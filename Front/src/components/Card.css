@@ -1,0 +1,184 @@
+/*
+  ==========================================
+  Variables de Color
+  ==========================================
+*/
+:root {
+  /* Fondo blanco para las tarjetas (como en la imagen original) */
+  --color-fondo-tarjeta: #ffffff;
+  --color-borde-tarjeta: #e0d9d3;
+  --color-texto-nombre: #222222;
+  --color-texto-precio: #000000;
+  --color-boton-carrito: #889977; /* Color verde/terroso del botón */
+}
+
+/*
+  ==========================================
+  Contenedor Principal de la Tarjeta (.card)
+  ==========================================
+*/
+
+.card {
+  width: 100% !important;
+  border: 1px solid var(--color-borde-tarjeta);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra estática y sutil */
+  background-color: var(--color-fondo-tarjeta);
+
+  /* CLAVE DE SEGURIDAD: Eliminamos transiciones y transformaciones en hover */
+  transition: none;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Solo cambiamos la sombra en hover de forma discreta, sin transformaciones */
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/*
+  ==========================================
+  Imagen del Producto
+  ==========================================
+*/
+
+.img-card {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-borde-tarjeta);
+}
+
+/*
+  ==========================================
+  Cuerpo de la Tarjeta (.card-body)
+  ==========================================
+*/
+
+.card-body {
+  padding: 15px 10px;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--color-texto-nombre);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.card-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-texto-precio);
+  margin-top: 10px;
+  margin-bottom: 15px;
+  white-space: nowrap;
+}
+
+/*
+  ==========================================
+  Botones y Controles de Cantidad
+  ==========================================
+*/
+
+.cards-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Estilo del botón principal de compra/carrito */
+.btn.marron {
+  background-color: var(--color-boton-carrito);
+  color: white;
+  border: 1px solid var(--color-boton-carrito);
+  padding: 14px 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 90%;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.btn.marron:hover {
+  background-color: #6a775f;
+  border-color: #6a775f;
+}
+
+/* Controles de Cantidad */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+/* ... (el resto de estilos de quantity-controls, admin-buttons, etc. se mantienen igual) ... */
+.quantity-btn {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: #eee;
+}
+
+.quantity-display {
+  padding: 0 15px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--color-texto-nombre);
+}
+
+.cards-admin-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cards-admin-buttons .btn {
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn.update {
+  background-color: #f0ad4e;
+  color: white;
+  border: 1px solid #eea236;
+}
+.btn.update:hover {
+  background-color: #ec971f;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #545b62;
+}
+.btn-secondary:hover {
+  background-color: #5a6268;
+}

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import CardAddProduct from "../components/CardAddProduct";
-import "./ProductsPage.css";
+import "./ProductPage.css";
 import Modal from "../components/Modal";
 import UpdateCategory from "../components/UpdateCategory";
 
@@ -95,59 +95,64 @@ const ProductsPage = () => {
 
   return (
     <>
-      <div className="page-header-wrapper">
-        <input
-          type="search"
-          name="searchProduct"
-          id="searchProduct"
-          className="search-input"
-          placeholder="Buscar Producto"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      </div>
-      <div className="main-container">
-        <div className="filters-sidebar">
-          <h2>FILTROS</h2>
-          {categories.length > 0 ? (
-            <ul className="category-list">
-              {categories.map((cat) => (
-                <li
-                  key={cat.id}
-                  onClick={() => handleCategoryChange(cat.id)}
-                  className={
-                    cat.id === selectedCategory ? "active-category" : ""
-                  }
-                >
-                  {cat.name}
+      {/* 1. SIDEBAR FIJO (Debe estar al principio y fuera del main-container si queremos empujar el contenido) */}
+      {/* Mantenemos el main-container solo para envolver la sidebar y el card-container como en tu original, pero aplicaremos el margin-left al contenedor de tarjetas. */}
 
-                  {cat.id !== 0 && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // Evita que se dispare el handleCategoryChange de la <li>
-                        setIsModalOpen(true);
-                        handleEditCategory(cat.id);
-                      }}
-                    >
-                      ✎
-                    </button>
-                  )}
-                </li>
-              ))}
+      <div className="filters-sidebar">
+        <h2>FILTROS</h2>
+        {categories.length > 0 ? (
+          <ul className="category-list">
+            {categories.map((cat) => (
+              <li
+                key={cat.id}
+                onClick={() => handleCategoryChange(cat.id)}
+                className={cat.id === selectedCategory ? "active-category" : ""}
+              >
+                {cat.name}
 
-              {(userRole === "Admin" || userRole === "Employee") && (
-                <li>
-                  <button onClick={() => navigate("/createCategory")}>
-                    +Añadir Categoria
+                {cat.id !== 0 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsModalOpen(true);
+                      handleEditCategory(cat.id);
+                    }}
+                  >
+                    ✎
                   </button>
-                </li>
-              )}
-            </ul>
-          ) : (
-            <p>Cargando categorías...</p>
-          )}
+                )}
+              </li>
+            ))}
+
+            {(userRole === "Admin" || userRole === "Employee") && (
+              <li>
+                <button onClick={() => navigate("/createCategory")}>
+                  +Añadir Categoria
+                </button>
+              </li>
+            )}
+          </ul>
+        ) : (
+          <p>Cargando categorías...</p>
+        )}
+      </div>
+
+      {/* 2. CONTENEDOR PRINCIPAL DEL CONTENIDO DESPLAZABLE (Buscador y Productos) */}
+      <div className="main-content-wrapper">
+        {/* BUSCADOR */}
+        <div className="page-header-wrapper">
+          <input
+            type="search"
+            name="searchProduct"
+            id="searchProduct"
+            className="search-input"
+            placeholder="Buscar Producto"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
         </div>
 
+        {/* CONTENEDOR DE PRODUCTOS */}
         <div className="card-container">
           {products.length > 0 ? (
             products.map((p) => (
@@ -167,6 +172,7 @@ const ProductsPage = () => {
         </div>
       </div>
 
+      {/* MODAL */}
       {isModalOpen && (
         <Modal
           isOpen={isModalOpen}

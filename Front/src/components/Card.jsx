@@ -1,4 +1,3 @@
-// src/components/Card.jsx
 import { useNavigate } from "react-router-dom";
 import DisableProduct from "./DisableProduct";
 import DeleteProduct from "./ProductDelete"; // Se mantiene por si se usa en el futuro, aunque no se usa en el código visible.
@@ -137,14 +136,18 @@ const Card = ({ product, setDisableProduct }) => {
         className="card-img-top img-card"
         id="img-card-product"
         alt="imagen"
-        onClick={openDetailsModal}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          openDetailsModal();
+        }}
       />
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
         <p className="product-category">{categoryName}</p>
         <p className="card-text">${product.price}</p>
         <div className="cards-buttons">
-          {/* Controles de cantidad */}
           {userRole === "Client" && (
             <div className="quantity-controls">
               <button

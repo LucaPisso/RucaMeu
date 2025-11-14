@@ -87,12 +87,6 @@ body {
   -webkit-text-fill-color: #000 !important;
 }
 
-/* Card */
-.img-card {
-  height: 250px;
-  width: 286px;
-}
-
 /* botones en genereal (clase de bootstrap sobrescrita, los !important son por las dudas no se sobrescriba)*/
 
 .marron {
@@ -150,13 +144,6 @@ body {
   display: flex;
   justify-content: end;
   gap: 1rem;
-}
-
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-  gap: 1rem;
-  padding: 1rem;
 }
 
 /* Footer*/

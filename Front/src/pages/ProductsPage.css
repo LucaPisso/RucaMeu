@@ -9,28 +9,6 @@
   margin: 0 auto; /* Centra el contenedor principal */
 }
 
-/*
- * 2. Sidebar de Filtros
- */
-.filters-sidebar {
-  width: 15%; /* Ancho fijo para el menú de filtros */
-  flex-shrink: 0; /* Evita que el sidebar se encoja */
-  border: 2px black solid;
-  padding: 20px;
-  margin-left: -20px;
-  background-color: white;
-}
-
-.filters-sidebar h2 {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/*
- * 3. Contenedor de Productos
- */
 .card-container {
   flex-grow: 1; /* Ocupa el espacio restante */
   display: flex;
