@@ -3,87 +3,75 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #8c8e6d; /* Color de fondo según la imagen */
+  background-color: #8c8e6d;
   padding: 0.5rem 2rem;
   font-family: "Segoe UI", sans-serif;
-  flex-wrap: wrap;
   z-index: 1000;
 }
 
 /* Logo */
 .logo {
-  height: auto;
-  max-height: 100px;
-  width: auto;
-  font-size: 70px;
-  font-family: "Special Elite";
+  /* Asegura que el logo tenga el color del texto blanco, como en la imagen */
   color: white;
+  font-size: 70px;
+  font-family: "Times New Roman", serif; /* Usamos una fuente clásica por defecto */
+}
+/* Estilo del texto del logo dentro del div (para mantener el color blanco) */
+.logo div {
+  color: white;
+  /* Ajuste de tamaño, si es necesario, para que no fuerce el navbar */
+  height: auto !important;
+  width: auto !important;
 }
 
 /* Contenedor del menú */
 .menu {
   display: flex;
-  gap: 2rem;
+  align-items: center; /* Alinea verticalmente los enlaces y el botón de logout */
+  gap: 1.5rem; /* Espaciado entre los elementos del menú */
 }
 
 /* Enlaces */
 .link-navbar {
   text-decoration: none;
-  color: black;
+  color: rgb(0, 0, 0); /* ⭐ CLAVE: Cambiado de negro a blanco para contraste */
   text-transform: uppercase;
-  font-size: 1.3rem;
+  font-size: 1.5rem; /* Hacemos el texto un poco más pequeño */
   font-weight: 400;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px; /* Reducimos el espaciado para que se vea más limpio */
   transition: color 0.2s ease;
 }
 
+/* El texto dentro del enlace */
 .link-navbar p {
   margin: 0;
-  padding: 10px;
-  font-weight: 400;
+  padding: 10px 5px; /* Reducimos el padding */
+  font-weight: inherit; /* Hereda el font-weight de .link-navbar */
 }
 
 .link-navbar:hover p {
-  font-weight: 700;
-  color: #000000;
+  color: #000000; /* Sutilmente más brillante o mantén el blanco */
+  text-decoration: underline;
 }
 
-/* Activo (puedes aplicarlo dinámicamente con React Router) */
-.link-navbar.active p {
-  font-weight: bold;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .menu {
-    flex-direction: column;
-    width: 100%;
-    margin-top: 1rem;
-    gap: 1rem;
-  }
-
-  .logo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .logo img {
-    max-height: 50px;
-  }
-}
-
+/* Botón de Cerrar Sesión */
 .logout-button {
   background: none;
   border: none;
-  color: rgb(157, 25, 25);
+  text-align: left; /* Alinea el texto a la izquierda dentro del botón */
+
+  /* Estilo visual */
+  color: #c82333; /* Rojo para indicar una acción de "salida" */
+  font-size: 0.9rem; /* Hacemos la fuente pequeña */
+  line-height: 1.2; /* Para que el 'Cerrar' y 'sesión' se vean bien apilados */
+  padding: 0;
+  margin-left: 1rem; /* ⭐ Separación extra del último enlace */
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
 .logout-button:hover {
   text-decoration: underline;
+  color: #a01d2a;
 }

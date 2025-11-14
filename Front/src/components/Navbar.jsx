@@ -1,7 +1,7 @@
 import "./Navbar.css";
-import imagen1 from "../assets/products/fanal-gris.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import Logout from "./Logout";
+import LogoutIcon from "./icons/LogOutIcon";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -53,8 +53,8 @@ const NavBar = () => {
             onClick={() => Logout({ navigate })}
             className="logout-button"
           >
-            Cerrar <br />
-            sesión ↩
+            <LogoutIcon className="logout-icon" width="35px" height="35px" />
+            {/* <span className="logout-text">Cerrar sesión</span> */}
           </button>
         )}
       </div>

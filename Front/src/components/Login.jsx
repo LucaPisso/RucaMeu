@@ -63,6 +63,7 @@ const Login = () => {
         email: "",
       });
       navigate("/");
+      toast.success("Bienvenido 😊!");
     } catch (error) {
       toast.error("Credenciales inválidas.");
     }
