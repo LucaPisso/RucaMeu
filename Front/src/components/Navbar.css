@@ -7,6 +7,7 @@
   padding: 0.5rem 2rem;
   font-family: "Segoe UI", sans-serif;
   flex-wrap: wrap;
+  z-index: 1000;
 }
 
 /* Logo */
