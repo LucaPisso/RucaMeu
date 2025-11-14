@@ -108,9 +108,8 @@ const Card = ({ product, setDisableProduct }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(
-          data.message || "Error al agregar el producto al carrito."
-        );
+        toast.error("Error al agregar el producto al carrito.");
+        return;
       }
 
       toast.success(
@@ -118,7 +117,7 @@ const Card = ({ product, setDisableProduct }) => {
       );
       setQuantity(1); // Restablecer la cantidad a 1 después de la compra
     } catch (err) {
-      toast.error(`❌ Error en la compra: ${err.message}`);
+      toast.error(`No hay stock suficiente`);
       console.error(err);
     }
   };

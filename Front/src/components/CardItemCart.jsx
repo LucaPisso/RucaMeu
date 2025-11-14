@@ -49,7 +49,7 @@ const CardItemCart = ({ item, onUpdateCart, onRemove }) => {
       toast.success(`Cantidad de ${product.name} actualizada.`);
     } catch (err) {
       console.error(err);
-      toast.error("❌ " + err.message);
+      toast.error("No hay stock suficiente");
       onUpdateCart();
     }
   };
