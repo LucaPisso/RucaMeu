@@ -110,17 +110,18 @@ const ProductsPage = () => {
               >
                 {cat.name}
 
-                {cat.id !== 0 && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsModalOpen(true);
-                      handleEditCategory(cat.id);
-                    }}
-                  >
-                    ✎
-                  </button>
-                )}
+                {cat.id !== 0 &&
+                  (userRole === "Admin" || userRole === "Employee") && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsModalOpen(true);
+                        handleEditCategory(cat.id);
+                      }}
+                    >
+                      ✎
+                    </button>
+                  )}
               </li>
             ))}
 

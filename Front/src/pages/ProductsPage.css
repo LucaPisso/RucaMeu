@@ -141,8 +141,7 @@
   padding: 25px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   display: flex;
-  flex-direction: column;
-  height: 100%; /* Ocupa toda la altura de la columna */
+  flex-direction: column; /* Ocupa toda la altura de la columna */
   min-height: 400px; /* Altura mínima para que la caja se vea bien */
 }
 
