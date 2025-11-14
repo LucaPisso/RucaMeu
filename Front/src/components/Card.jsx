@@ -143,27 +143,17 @@ const Card = ({ product, setDisableProduct }) => {
         }}
       />
       <div className="card-body">
-        <h5 className="card-title">{product.name}</h5>
+        <h5 className="product-name-baggy">{product.name}</h5>
         <p className="product-category">{categoryName}</p>
-        <p className="card-text">${product.price}</p>
+        <p className="product-unit-price-label">${product.price}</p>
         <div className="cards-buttons">
           {userRole === "Client" && (
-            <div className="quantity-controls">
-              <button
-                onClick={decreaseQuantity}
-                className="btn btn-sm btn-outline-secondary quantity-btn"
-                disabled={quantity === 1}
-              >
-                -
+            <div className="quantity-controls-baggy">
+              <button onClick={decreaseQuantity} disabled={quantity === 1}>
+                −
               </button>
-              <span className="quantity-display">{quantity}</span>
-              <button
-                onClick={increaseQuantity}
-                className="btn btn-sm btn-outline-secondary quantity-btn"
-                disabled={quantity >= stock}
-              >
-                +
-              </button>
+              <span className="quantity-value-baggy">{quantity}</span>
+              <button onClick={increaseQuantity}>+</button>
             </div>
           )}
           {userRole === "Client" && ( // Mostrar 'Comprar' si NO es Admin

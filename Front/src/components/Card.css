@@ -19,8 +19,9 @@
 */
 
 .card {
-  width: 100% !important;
-  border: 1px solid var(--color-borde-tarjeta);
+  width: 90% !important;
+  height: 100%;
+  border: 2px solid var(--color-borde-tarjeta);
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra estática y sutil */
@@ -36,7 +37,8 @@
 
 /* Solo cambiamos la sombra en hover de forma discreta, sin transformaciones */
 .card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 14px 8px rgba(0, 0, 0, 0.15);
+  scale: 1.05;
 }
 
 /*
@@ -62,7 +64,7 @@
 .card-body {
   padding: 15px 10px;
   text-align: center;
-  flex-grow: 1;
+  flex-grow: 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
