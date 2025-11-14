@@ -215,7 +215,7 @@ const HomePage = () => {
         <CreateSellPointPage onCreationSuccess={handleCloseModal} />
       </Modal>
       <Link to={"/products"} className="home-product-link">
-        Ver Todos Nuestros Productos
+        <p>Ver Todos Nuestros Productos</p>
       </Link>
     </>
   );

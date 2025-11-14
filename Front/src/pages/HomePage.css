@@ -271,4 +271,14 @@ a {
   margin-right: 0;
 }
 
+/* Estilo para el enlace principal a Productos */
+.home-product-link {
+  color: #6b4b35;
+  text-decoration: none; /* Sin subrayado por defecto */
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  text-align: center;
+}
+
 /* 🛑 MEDIA QUERY ELIMINADA: Ya no se apilará. */
