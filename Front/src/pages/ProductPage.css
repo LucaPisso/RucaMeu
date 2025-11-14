@@ -157,3 +157,46 @@
   );
   gap: 20px; /* Espacio entre las tarjetas */
 }
+
+.no-products-message {
+  /* Ocupa todo el ancho disponible del grid/flex y lo centra */
+  /* Usamos grid-column para que ocupe todo el ancho del contenedor */
+  grid-column: 1 / -1;
+
+  /* Centrado del contenido */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px 20px;
+
+  /* Diseño visual */
+  background-color: var(--color-fondo-filtros); /* Fondo blanco */
+  border: 2px dashed var(--color-separador-linea); /* Borde discontinuo elegante */
+  border-radius: 8px;
+  margin: 40px 20px; /* Margen para separarlo del buscador y los bordes */
+
+  /* Asegura que no se estire demasiado si hay mucho espacio */
+  width: calc(100% - 40px);
+  box-sizing: border-box;
+
+  color: var(--color-texto-categoria);
+}
+
+.no-products-message .no-products-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: var(--color-separador-linea);
+}
+
+.no-products-message p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.no-products-message .sub-message {
+  font-size: 0.95rem;
+  color: #a39c93;
+}

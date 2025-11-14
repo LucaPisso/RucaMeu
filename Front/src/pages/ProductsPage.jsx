@@ -164,7 +164,17 @@ const ProductsPage = () => {
               />
             ))
           ) : (
-            <p>No hay productos disponibles.</p>
+            <div className="no-products-message">
+              <span className="no-products-icon">📦</span>
+
+              <p>
+                No se encontraron productos en esta categoría o con ese término
+                de búsqueda.
+              </p>
+              <p className="sub-message">
+                Intenta seleccionar otro filtro o busca un término diferente.
+              </p>
+            </div>
           )}
 
           {(userRole === "Admin" || userRole === "Employee") && (
