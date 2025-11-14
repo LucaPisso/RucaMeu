@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import CardItemCart from "../components/CardItemCart";
+import "./ProductsPage.css";
 
 const CarritoPage = () => {
   const [carrito, setCarrito] = useState([]);
