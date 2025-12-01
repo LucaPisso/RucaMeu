@@ -72,9 +72,7 @@ const HomePage = () => {
       }
 
       // Si es exitoso
-      toast.success(
-        `❌ Punto de Venta '${sellPointAdress}' eliminado con éxito.`
-      );
+      toast.success(`Punto de Venta '${sellPointAdress}' eliminado con éxito.`);
 
       // 💡 Recargar la lista para que el punto eliminado desaparezca
       fetchSellPoints();
