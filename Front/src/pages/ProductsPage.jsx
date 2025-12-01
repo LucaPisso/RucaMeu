@@ -6,6 +6,7 @@ import CardAddProduct from "../components/CardAddProduct";
 import "./ProductPage.css";
 import Modal from "../components/Modal";
 import UpdateCategory from "../components/UpdateCategory";
+import DeleteCategory from "../components/DeleteCategory";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -53,6 +54,23 @@ const ProductsPage = () => {
     setIsModalOpen(true); // Abre el modal
   };
 
+  const handleDeleteCategory = async (categoryId) => {
+    // 1. Llamamos a tu función pasando el objeto con id y navigate
+    const success = await DeleteCategory({ id: categoryId, navigate });
+
+    // 2. Si devolvió true, significa que se borró correctamente
+    if (success) {
+      // Recargamos la lista de categorías para que desaparezca la que borramos
+      fetchCategories();
+
+      // Si la categoría que borramos era la que estaba seleccionada, volvemos a "Todos"
+      if (selectedCategory === categoryId) {
+        setSelectedCategory(0);
+        setSearchTerm("");
+      }
+    }
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     fetchCategories();
@@ -95,9 +113,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      {/* 1. SIDEBAR FIJO (Debe estar al principio y fuera del main-container si queremos empujar el contenido) */}
-      {/* Mantenemos el main-container solo para envolver la sidebar y el card-container como en tu original, pero aplicaremos el margin-left al contenedor de tarjetas. */}
-
+      {/* 1. SIDEBAR FIJO */}
       <div className="filters-sidebar">
         <h2>FILTROS</h2>
         {categories.length > 0 ? (
@@ -108,23 +124,41 @@ const ProductsPage = () => {
                 onClick={() => handleCategoryChange(cat.id)}
                 className={cat.id === selectedCategory ? "active-category" : ""}
               >
-                {cat.name}
+                {/* Nombre de la categoría */}
+                <span>{cat.name}</span>
 
+                {/* Botones de acción (Solo Admin/Employee y no en "Todos") */}
                 {cat.id !== 0 &&
                   (userRole === "Admin" || userRole === "Employee") && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsModalOpen(true);
-                        handleEditCategory(cat.id);
-                      }}
-                    >
-                      ✎
-                    </button>
+                    <div style={{ display: "flex", gap: "5px" }}>
+                      {/* Botón EDITAR */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsModalOpen(true);
+                          handleEditCategory(cat.id);
+                        }}
+                        title="Editar categoría"
+                      >
+                        ✎
+                      </button>
+                      {!cat.hasProducts && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteCategory(cat.id);
+                          }}
+                          title="Eliminar categoría vacía"
+                        >
+                          🗑
+                        </button>
+                      )}
+                    </div>
                   )}
               </li>
             ))}
 
+            {/* Botón Añadir Categoría */}
             {(userRole === "Admin" || userRole === "Employee") && (
               <li>
                 <button onClick={() => navigate("/createCategory")}>
@@ -138,7 +172,7 @@ const ProductsPage = () => {
         )}
       </div>
 
-      {/* 2. CONTENEDOR PRINCIPAL DEL CONTENIDO DESPLAZABLE (Buscador y Productos) */}
+      {/* 2. CONTENEDOR PRINCIPAL */}
       <div className="main-content-wrapper">
         {/* BUSCADOR */}
         <div className="page-header-wrapper">
@@ -153,7 +187,7 @@ const ProductsPage = () => {
           />
         </div>
 
-        {/* CONTENEDOR DE PRODUCTOS */}
+        {/* LISTA DE PRODUCTOS */}
         <div className="card-container">
           {products.length > 0 ? (
             products.map((p) => (
@@ -166,7 +200,6 @@ const ProductsPage = () => {
           ) : (
             <div className="no-products-message">
               <span className="no-products-icon">📦</span>
-
               <p>
                 No se encontraron productos en esta categoría o con ese término
                 de búsqueda.
