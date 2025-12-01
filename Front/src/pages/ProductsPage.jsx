@@ -80,30 +80,31 @@ const ProductsPage = () => {
     fetchCategories();
   }, [API_URL]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let urlres = `${API_URL}/AllEnableProducts`;
+  const fetchProducts = async () => {
+    try {
+      let urlres = `${API_URL}/AllEnableProducts`;
 
-        if (searchTerm.trim() !== "") {
-          urlres = `${API_URL}/GetByNameEnable/${searchTerm.trim()}`;
-        } else if (selectedCategory !== 0) {
-          urlres = `${API_URL}/AllEnableProductByCategory/${selectedCategory}`;
-        }
-
-        const res = await fetch(urlres, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-
-        if (!res.ok) throw new Error("Falló al obtener productos");
-        const response = await res.json();
-        setProducts(response);
-        console.log(response);
-      } catch (err) {
-        console.error(err);
+      if (searchTerm.trim() !== "") {
+        urlres = `${API_URL}/GetByNameEnable/${searchTerm.trim()}`;
+      } else if (selectedCategory !== 0) {
+        urlres = `${API_URL}/AllEnableProductByCategory/${selectedCategory}`;
       }
-    };
+
+      const res = await fetch(urlres, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!res.ok) throw new Error("Falló al obtener productos");
+      const response = await res.json();
+      setProducts(response);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    fetchProducts();
     if (API_URL) {
       fetchProducts();
     }
@@ -226,6 +227,7 @@ const ProductsPage = () => {
           <UpdateCategory
             onCreationSuccess={() => {
               handleCloseModal();
+              fetchProducts();
             }}
             categoryId={editingCategoryId}
           />

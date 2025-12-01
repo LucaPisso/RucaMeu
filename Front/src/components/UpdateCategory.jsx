@@ -62,7 +62,7 @@ const UpdateCategory = ({ categoryId, onCreationSuccess }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    if (!confirm("¿Estás seguro de que desea actualizar este usuario?")) {
+    if (!confirm("¿Estás seguro de que desea actualizar esta categoria?")) {
       return;
     }
 
