@@ -86,7 +86,6 @@ const CreateSellPointPage = () => {
 
   return (
     <div className="create-sell-point-page container">
-      <Toaster />
       <h1>Nuevo Punto de Venta</h1>
       <p>
         Ingresa los detalles del nuevo punto de venta para mostrarlo en el sitio

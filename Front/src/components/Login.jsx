@@ -62,7 +62,7 @@ const Login = () => {
         password: "",
         email: "",
       });
-      navigate("/");
+      window.location.href = "/"; // Recarga toda la app para actualizar el estado de autenticación
       toast.success("Bienvenido 😊!");
     } catch (error) {
       toast.error("Credenciales inválidas.");
