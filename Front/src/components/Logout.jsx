@@ -7,7 +7,7 @@ const Logout = ({ navigate }) => {
 
   toast.success("Sesión cerrada correctamente");
 
-  navigate("/");
+  window.location.href = "/";
 };
 
 export default Logout;
